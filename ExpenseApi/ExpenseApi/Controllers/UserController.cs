@@ -17,12 +17,10 @@ namespace ExpenseApi.Controllers
     public class UserController : ControllerBase
     {
         private readonly IUserService _userService;
-        private readonly string _userId;
 
         public UserController(IUserService service)
         {
             _userService = service;
-            _userId = AuthenticatedUserHelper.GetUserId(HttpContext);
         }
 
         /// <summary>

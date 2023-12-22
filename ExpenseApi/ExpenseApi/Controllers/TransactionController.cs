@@ -16,12 +16,10 @@ namespace ExpenseApi.Controllers
     public class TransactionController : ControllerBase
     {
         private readonly ITransactionService _transactionService;
-        private readonly string _userId;
 
         public TransactionController(ITransactionService transactionService)
         {
             _transactionService = transactionService;
-            _userId = AuthenticatedUserHelper.GetUserId(HttpContext);
         }
 
         /// <summary>
@@ -32,7 +30,7 @@ namespace ExpenseApi.Controllers
         [HttpGet]
         public async Task<IActionResult> Get()
         {
-            var results = await _transactionService.GetAllAsync(_userId);
+            var results = await _transactionService.GetAllAsync(AuthenticatedUserHelper.GetUserId(HttpContext));
             return Ok(results);
         }
 
@@ -45,7 +43,7 @@ namespace ExpenseApi.Controllers
         [HttpGet("{id}")]
         public async Task<IActionResult> Get(string id)
         {
-            var result = await _transactionService.GetByIdAsync(_userId, id);
+            var result = await _transactionService.GetByIdAsync(AuthenticatedUserHelper.GetUserId(HttpContext), id);
             if (!result.IsValid)
                 return BadRequest(result);
             if (result.Data == null)
@@ -69,7 +67,7 @@ namespace ExpenseApi.Controllers
                 Description = request.Description,
                 IsMonthlyRecurrence = request.IsMonthlyRecurrence,
                 IsPaid = request.IsPaid,
-                UserId = ObjectId.Parse(request.UserId),
+                UserId = ObjectId.Parse(AuthenticatedUserHelper.GetUserId(HttpContext)),
                 TransactionType = request.TransactionType,
                 Category = new TransactionCategory() { 
                     Id = ObjectId.Parse(request.Category.Id),
@@ -101,7 +99,7 @@ namespace ExpenseApi.Controllers
                 Description = request.Description,
                 IsMonthlyRecurrence = request.IsMonthlyRecurrence,
                 IsPaid = request.IsPaid,
-                UserId = ObjectId.Parse(request.UserId),
+                UserId = ObjectId.Parse(AuthenticatedUserHelper.GetUserId(HttpContext)),
                 Category = new TransactionCategory()
                 {
                     Id = ObjectId.Parse(request.Category.Id),
@@ -126,7 +124,7 @@ namespace ExpenseApi.Controllers
         [HttpDelete("{id}")]
         public async Task<IActionResult> Delete(string id)
         {
-            var result = await _transactionService.GetByIdAsync(_userId, id);
+            var result = await _transactionService.GetByIdAsync(AuthenticatedUserHelper.GetUserId(HttpContext), id);
 
             if (!result.IsValid)
                 return BadRequest(result);
@@ -134,7 +132,7 @@ namespace ExpenseApi.Controllers
             if (result.Data == null)
                 return NotFound(result);
             
-            await _transactionService.DeleteAsync(_userId, id);
+            await _transactionService.DeleteAsync(AuthenticatedUserHelper.GetUserId(HttpContext), id);
 
             return NoContent();
         }
