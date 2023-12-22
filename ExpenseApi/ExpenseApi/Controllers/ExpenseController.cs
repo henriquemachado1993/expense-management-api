@@ -25,7 +25,7 @@ namespace ExpenseApi.Controllers
         /// </summary>
         /// <returns></returns>
         [HttpGet]
-        public async Task<ActionResult<List<Expense>>> Get()
+        public async Task<IActionResult> Get()
         {
             var results = await _expenseService.GetAllAsync();
             return Ok(results);
@@ -37,14 +37,13 @@ namespace ExpenseApi.Controllers
         /// <param name="id"></param>
         /// <returns></returns>
         [HttpGet("{id}")]
-        public async Task<ActionResult<Expense>> Get(string id)
+        public async Task<IActionResult> Get(string id)
         {
             var result = await _expenseService.GetByIdAsync(id);
-
-            if (result == null)
-            {
-                return NotFound();
-            }
+            if (!result.IsValid)
+                return BadRequest(result);
+            if (result.Data == null)
+                return NotFound(result);
 
             return Ok(result);
         }
@@ -55,10 +54,10 @@ namespace ExpenseApi.Controllers
         /// <param name="request"></param>
         /// <returns></returns>
         [HttpPost]
-        public async Task<ActionResult> Post([FromBody] ExpenseRequestModel request)
+        public async Task<IActionResult> Post([FromBody] ExpenseRequestModel request)
         {
             // TODO: colocar automapper.
-            await _expenseService.CreateAsync(new Expense()
+            var result = await _expenseService.CreateAsync(new Expense()
             {
                 Description = request.Description,
                 IsMonthlyRecurrence = request.IsMonthlyRecurrence,
@@ -73,7 +72,10 @@ namespace ExpenseApi.Controllers
                 ExpenseDate = request.ExpenseDate
             });
 
-            return CreatedAtAction(nameof(Get), new { id = request.Id }, request);
+            if (!result.IsValid)
+                BadRequest(result);
+            
+            return Ok(result);
         }
 
         /// <summary>
@@ -82,15 +84,17 @@ namespace ExpenseApi.Controllers
         /// <param name="request"></param>
         /// <returns></returns>
         [HttpPut]
-        public async Task<ActionResult> Put([FromBody] ExpenseRequestModel request)
+        public async Task<IActionResult> Put([FromBody] ExpenseRequestModel request)
         {
-            if (await _expenseService.GetByIdAsync(request.Id) == null)
-            {
-                return NotFound();
-            }
+            var expenseResult = await _expenseService.GetByIdAsync(request.Id);
+            if (!expenseResult.IsValid)
+                return BadRequest(expenseResult);
+            
+            if (expenseResult.Data == null)
+                return NotFound(expenseResult);
 
             // TODO: colocar automapper.
-            return Ok(await _expenseService.UpdateAsync(new Expense()
+            var result = await _expenseService.UpdateAsync(new Expense()
             {
                 Description = request.Description,
                 IsMonthlyRecurrence = request.IsMonthlyRecurrence,
@@ -104,7 +108,12 @@ namespace ExpenseApi.Controllers
                 },
                 Amount = request.Amount,
                 ExpenseDate = request.ExpenseDate
-            }));
+            });
+
+            if (!result.IsValid)
+                BadRequest(result);
+
+            return Ok(result);
         }
 
         /// <summary>
@@ -113,15 +122,16 @@ namespace ExpenseApi.Controllers
         /// <param name="id"></param>
         /// <returns></returns>
         [HttpDelete("{id}")]
-        public async Task<ActionResult> Delete(string id)
+        public async Task<IActionResult> Delete(string id)
         {
             var result = await _expenseService.GetByIdAsync(id);
 
-            if (result == null)
-            {
-                return NotFound();
-            }
-
+            if (!result.IsValid)
+                return BadRequest(result);
+            
+            if (result.Data == null)
+                return NotFound(result);
+            
             await _expenseService.DeleteAsync(id);
 
             return NoContent();

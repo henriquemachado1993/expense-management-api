@@ -9,6 +9,7 @@ using System.Linq;
 using System.Security.Claims;
 using System.Text;
 using System.Threading.Tasks;
+using ExpenseApi.Domain.ValueObjects;
 
 namespace ExpenseApi.Service.Service
 {
@@ -25,18 +26,18 @@ namespace ExpenseApi.Service.Service
             _configuration = configuration;
         }
 
-        public async Task<User> AuthenticateAsync(string email, string password)
+        public async Task<ServiceResult<User>> AuthenticateAsync(string email, string password)
         {
             var result = await _userService.FindAsync(x => x.Email.ToLower() == email.ToLower());
-            var user = result?.FirstOrDefault();
+            var user = result.Data?.FirstOrDefault();
 
             if (user != null && _passwordHasher.VerifyPassword(user.Password, password))
             {
                 user.JwtToken = GenerateJwtToken(user);
                 await _userService.UpdateAsync(user, false);
-                return user;
+                return ServiceResult<User>.CreateValidResult(user);
             }
-            return null;
+            return ServiceResult<User>.CreateInvalidResult("Não foi possível se autenticar.");
         }
 
         public string GenerateJwtToken(User user)

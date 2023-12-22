@@ -28,13 +28,13 @@ namespace ExpenseApi.Controllers
         [HttpPost("login")]
         public async Task<IActionResult> Login([FromBody] LoginModel model)
         {
-            var user = await _authService.AuthenticateAsync(model.Email, model.Password);
+            var result = await _authService.AuthenticateAsync(model.Email, model.Password);
 
-            if (user == null)
-                return Unauthorized();
+            if (!result.IsValid)
+                return Unauthorized(result);
 
             // Pode retornar o token JWT ou outras informações do usuário
-            return Ok(new { Token = user.JwtToken });
+            return Ok(new { Token = result.Data.JwtToken });
         }
     }
 }

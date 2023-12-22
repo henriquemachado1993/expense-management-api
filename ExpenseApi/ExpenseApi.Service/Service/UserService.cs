@@ -7,6 +7,7 @@ using System.Linq;
 using System.Linq.Expressions;
 using System.Text;
 using System.Threading.Tasks;
+using ExpenseApi.Domain.ValueObjects;
 
 namespace ExpenseApi.Service.Service
 {
@@ -21,18 +22,18 @@ namespace ExpenseApi.Service.Service
             _passwordHasher = passwordHasher;
         }
 
-        public async Task<User> CreateAsync(User user)
+        public async Task<ServiceResult<User>> CreateAsync(User user)
         {
             user.Id = ObjectId.GenerateNewId();
             user.Password = _passwordHasher.HashPassword(user.Password);
-            return await _repository.CreateAsync(user);
+            return ServiceResult<User>.CreateValidResult(await _repository.CreateAsync(user));
         }
-        public async Task<User> UpdateAsync(User user, bool isUpdatePassword = true)
+        public async Task<ServiceResult<User>> UpdateAsync(User user, bool isUpdatePassword = true)
         {
             if(isUpdatePassword)
                 user.Password = _passwordHasher.HashPassword(user.Password);
 
-            return await _repository.UpdateAsync(user);
+            return ServiceResult<User>.CreateValidResult(await _repository.UpdateAsync(user));
         }
 
         public async Task DeleteAsync(string id)
@@ -40,19 +41,19 @@ namespace ExpenseApi.Service.Service
             await _repository.DeleteAsync(new ObjectId(id));
         }
 
-        public async Task<List<User>> FindAsync(Expression<Func<User, bool>> filterExpression)
+        public async Task<ServiceResult<List<User>>> FindAsync(Expression<Func<User, bool>> filterExpression)
         {
-            return await _repository.FindAsync(filterExpression);
+            return ServiceResult<List<User>>.CreateValidResult(await _repository.FindAsync(filterExpression));
         }
 
-        public async Task<List<User>> GetAllAsync()
+        public async Task<ServiceResult<List<User>>> GetAllAsync()
         {
-            return await _repository.FindAsync(_ => true);
+            return ServiceResult<List<User>>.CreateValidResult(await _repository.FindAsync(_ => true));
         }
 
-        public async Task<User> GetByIdAsync(string id)
+        public async Task<ServiceResult<User>> GetByIdAsync(string id)
         {
-            return await _repository.GetByIdAsync(new ObjectId(id));
+            return ServiceResult<User>.CreateValidResult(await _repository.GetByIdAsync(new ObjectId(id)));
         }
 
         

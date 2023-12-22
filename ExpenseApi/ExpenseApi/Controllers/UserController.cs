@@ -4,6 +4,7 @@ using MongoDB.Bson;
 using ExpenseApi.Domain.Entities;
 using ExpenseApi.Domain.Interfaces;
 using ExpenseApi.Models;
+using ExpenseApi.Domain.ValueObjects;
 
 namespace ExpenseApi.Controllers
 {
@@ -27,9 +28,13 @@ namespace ExpenseApi.Controllers
         /// <returns></returns>
         [Authorize("Bearer")]
         [HttpGet]
-        public async Task<ActionResult<List<User>>> Get()
+        public async Task<IActionResult> Get()
         {
             var result = await _userService.GetAllAsync();
+
+            if(!result.IsValid)
+                return BadRequest(result);
+
             return Ok(result);
         }
 
@@ -40,14 +45,13 @@ namespace ExpenseApi.Controllers
         /// <returns></returns>
         [Authorize("Bearer")]
         [HttpGet("{id}")]
-        public async Task<ActionResult<User>> Get(string id)
+        public async Task<IActionResult> Get(string id)
         {
             var result = await _userService.GetByIdAsync(id);
-
-            if (result == null)
-            {
-                return NotFound();
-            }
+            if (!result.IsValid)
+                return BadRequest(result);
+            if (result.Data == null)
+                return NotFound(result);
 
             return Ok(result);
         }
@@ -59,15 +63,14 @@ namespace ExpenseApi.Controllers
         /// <returns></returns>
         [Authorize("Bearer")]
         [HttpGet("get-by-name/{name}")]
-        public async Task<ActionResult<List<User>>> GetByName(string name)
+        public async Task<IActionResult> GetByName(string name)
         {
             var result = await _userService.FindAsync(x => x.Name.Contains(name));
-
-            if (result == null)
-            {
+            if (!result.IsValid)
+                return BadRequest(result);
+            if (result.Data == null)
                 return NotFound();
-            }
-
+            
             return Ok(result);
         }
 
@@ -77,10 +80,10 @@ namespace ExpenseApi.Controllers
         /// <param name="user"></param>
         /// <returns></returns>
         [HttpPost]
-        public async Task<ActionResult> Post([FromBody] UserRequestModel user)
+        public async Task<IActionResult> Post([FromBody] UserRequestModel user)
         {
             // TODO: colocar automapper.
-            await _userService.CreateAsync(new User()
+            var result  = await _userService.CreateAsync(new User()
             {
                 Name = user.Name,
                 Email = user.Email,
@@ -93,7 +96,13 @@ namespace ExpenseApi.Controllers
                     ZipCode = user.Address.ZipCode
                 }
             });
-            return CreatedAtAction(nameof(Get), new { id = user.Id }, user);
+
+            if (!result.IsValid)
+            {
+                return BadRequest(result);
+            }
+
+            return Ok(result);
         }
 
         /// <summary>
@@ -103,15 +112,16 @@ namespace ExpenseApi.Controllers
         /// <returns></returns>
         [Authorize("Bearer")]
         [HttpPut]
-        public async Task<ActionResult> Put([FromBody] UserRequestModel user)
+        public async Task<IActionResult> Put([FromBody] UserRequestModel user)
         {
-            if (await _userService.GetByIdAsync(user.Id) == null)
-            {
-                return NotFound();
-            }
+            var userResult = await _userService.GetByIdAsync(user.Id);
+            if (!userResult.IsValid)
+                return BadRequest(userResult);
+            if (userResult == null)
+                return NotFound(userResult);
 
             // TODO: colocar automapper.
-            return Ok(await _userService.UpdateAsync(new User()
+            var result = await _userService.UpdateAsync(new User()
             {
                 Id = ObjectId.Parse(user.Id),
                 Name = user.Name,
@@ -124,7 +134,12 @@ namespace ExpenseApi.Controllers
                     Street = user.Address.Street,
                     ZipCode = user.Address.ZipCode
                 }
-            }));
+            });
+
+            if (!result.IsValid)
+                return BadRequest(result);
+
+            return Ok(result);
         }
 
         /// <summary>
@@ -134,14 +149,15 @@ namespace ExpenseApi.Controllers
         /// <returns></returns>
         [Authorize("Bearer")]
         [HttpDelete("{id}")]
-        public async Task<ActionResult> Delete(string id)
+        public async Task<IActionResult> Delete(string id)
         {
-            var produto = await _userService.GetByIdAsync(id);
+            var result = await _userService.GetByIdAsync(id);
 
-            if (produto == null)
-            {
-                return NotFound();
-            }
+            if(!result.IsValid)
+                return BadRequest(result);
+
+            if (result.Data == null)
+                return NotFound(result);
 
             await _userService.DeleteAsync(id);
 

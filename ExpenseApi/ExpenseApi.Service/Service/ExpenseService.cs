@@ -1,6 +1,7 @@
 ﻿using MongoDB.Bson;
 using ExpenseApi.Domain.Entities;
 using ExpenseApi.Domain.Interfaces;
+using ExpenseApi.Domain.ValueObjects;
 
 namespace ExpenseApi.Service
 {
@@ -14,15 +15,15 @@ namespace ExpenseApi.Service
             _repository = repository;
         }
 
-        public async Task<Expense> CreateAsync(Expense product)
+        public async Task<ServiceResult<Expense>> CreateAsync(Expense product)
         {
             product.Id = ObjectId.GenerateNewId();
-            return await _repository.CreateAsync(product);
+            return ServiceResult<Expense>.CreateValidResult(await _repository.CreateAsync(product));
         }
 
-        public async Task<Expense> UpdateAsync(Expense product)
+        public async Task<ServiceResult<Expense>> UpdateAsync(Expense product)
         {
-            return await _repository.UpdateAsync(product);
+            return ServiceResult<Expense>.CreateValidResult(await _repository.UpdateAsync(product));
         }
 
         public async Task DeleteAsync(string id)
@@ -30,14 +31,14 @@ namespace ExpenseApi.Service
             await _repository.DeleteAsync(new ObjectId(id));
         }
 
-        public async Task<List<Expense>> GetAllAsync()
+        public async Task<ServiceResult<List<Expense>>> GetAllAsync()
         {
-            return await _repository.FindAsync(_ => true);
+            return ServiceResult<List<Expense>>.CreateValidResult(await _repository.FindAsync(_ => true));
         }
 
-        public async Task<Expense> GetByIdAsync(string id)
+        public async Task<ServiceResult<Expense>> GetByIdAsync(string id)
         {
-            return await _repository.GetByIdAsync(new ObjectId(id));
+            return ServiceResult<Expense>.CreateValidResult(await _repository.GetByIdAsync(new ObjectId(id)));
         }
     }
 }

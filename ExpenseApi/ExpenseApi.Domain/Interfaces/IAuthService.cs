@@ -1,4 +1,5 @@
 ﻿using ExpenseApi.Domain.Entities;
+using ExpenseApi.Domain.ValueObjects;
 using System;
 using System.Collections.Generic;
 using System.Linq;
@@ -9,6 +10,6 @@ namespace ExpenseApi.Domain.Interfaces
 {
     public interface IAuthService
     {
-        Task<User> AuthenticateAsync(string email, string password);
+        Task<ServiceResult<User>> AuthenticateAsync(string email, string password);
     }
 }

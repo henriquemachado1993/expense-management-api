@@ -6,6 +6,7 @@ using ExpenseApi.Domain.Entities.Audit;
 using ExpenseApi.Infra.Context;
 using System;
 using System.Threading.Tasks;
+using ExpenseApi.Domain.ValueObjects;
 
 namespace ExpenseApi.Infra.Middlewares
 {
@@ -53,12 +54,7 @@ namespace ExpenseApi.Infra.Middlewares
             context.Response.ContentType = "application/json";
             context.Response.StatusCode = 500; // Internal Server Error
 
-            var response = new
-            {
-                StatusCode = context.Response.StatusCode,
-                Message = "Ocorreu um erro interno no servidor.",
-                DetailedMessage = message
-            };
+            var response = ServiceResult<object>.CreateInvalidResult(message);
 
             // Serializa a resposta em JSON
             var jsonResponse = JsonConvert.SerializeObject(response);
