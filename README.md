@@ -12,12 +12,6 @@ MongoDB Driver: Utiliza o driver oficial do MongoDB para .NET (MongoDB.Driver) p
 - **Controle de Contas Bancárias:**
 - **Estatísticas Simplificadas com Gráficos:**
 
-## Estrutura do Projeto
-* MongoDBContext: Configura a conexão com o MongoDB e fornece acesso às coleções.
-* Categoria e Produto: Classes de modelo para representar dados no MongoDB.
-* ProdutoService: Serviço para operações CRUD em produtos.
-* Program: Um exemplo simples de como usar o MongoDBContext e o ProdutoService.
-
 ## Pré-requisitos
 .NET Core 6 SDK
 Docker e Docker-Compose
