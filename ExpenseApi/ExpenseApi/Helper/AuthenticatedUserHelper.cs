@@ -11,6 +11,11 @@ namespace ExpenseApi.Helper
 
         public static string GetUserId(HttpContext httpContext)
         {
+            return httpContext.User.FindFirst(ClaimTypes.NameIdentifier)?.Value;
+        }
+
+        public static string GetUserName(HttpContext httpContext)
+        {
             return httpContext.User.FindFirst(ClaimTypes.Name)?.Value;
         }
 
