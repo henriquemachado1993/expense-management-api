@@ -1,4 +1,5 @@
 ﻿using ExpenseApi.Domain.Enums;
+using System.Net;
 
 namespace ExpenseApi.Domain.ValueObjects
 {
@@ -14,17 +15,19 @@ namespace ExpenseApi.Domain.ValueObjects
             Messages = new List<MessageResult>();
         }
 
-        public ServiceResult(T data)
+        public ServiceResult(T data, HttpStatusCode statusCode = HttpStatusCode.OK)
         {
             Data = data;
             Messages = new List<MessageResult>();
+            StatusCode = statusCode;
         }
 
         #endregion
 
         public T Data { get; set; }
         public List<MessageResult> Messages { get; set; }
-        
+        public HttpStatusCode StatusCode { get; set; } = HttpStatusCode.OK;
+
         public bool IsValid
         {
             get
@@ -45,53 +48,64 @@ namespace ExpenseApi.Domain.ValueObjects
             return new ServiceResult<T>(default);
         }
 
-        public static ServiceResult<T> CreateInvalidResult(string message)
+        public static ServiceResult<T> CreateInvalidResult(string message, HttpStatusCode statusCode = HttpStatusCode.BadRequest)
         {
-            var result = new ServiceResult<T>(default);
+            var result = new ServiceResult<T>(default, statusCode);
             result.Messages = AddError(message);
-
+            result.StatusCode = statusCode;
             return result;
         }
 
-        public static ServiceResult<T> CreateInvalidResult(T model, string message)
+        public static ServiceResult<T> CreateInvalidResult(T model, string message, HttpStatusCode statusCode = HttpStatusCode.BadRequest)
         {
             var result = new ServiceResult<T>();
             result.Data = model;
             result.Messages = AddError(message);
+            result.StatusCode = statusCode;
 
             return result;
         }
 
-        public static ServiceResult<T> CreateInvalidResult(List<MessageResult> message)
+        public static ServiceResult<T> CreateInvalidResult(List<MessageResult> message, HttpStatusCode statusCode = HttpStatusCode.BadRequest)
         {
             var bo = new ServiceResult<T>
             {
-                Messages = message
+                Messages = message,
+                StatusCode = statusCode
             };
             return bo;
         }
 
-        public static ServiceResult<T> CreateInvalidResult(T model, string message, Exception exception = null)
+        public static ServiceResult<T> CreateInvalidResult(T model, string message, Exception exception = null, HttpStatusCode statusCode = HttpStatusCode.BadRequest)
         {
             var result = new ServiceResult<T>();
             result.Data = model;
             result.Messages = AddError(message, exception);
-
+            result.StatusCode = statusCode;
             return result;
         }
 
-        public static ServiceResult<T> CreateInvalidResult(Exception exception = null)
+        public static ServiceResult<T> CreateInvalidResult(Exception exception = null, HttpStatusCode statusCode = HttpStatusCode.BadRequest)
         {
             var result = new ServiceResult<T>();
             result.Messages = AddError(exception);
-
+            result.StatusCode = statusCode;
             return result;
         }
 
-        public static ServiceResult<T> CreateInvalidResult(IEnumerable<string> errors)
+        public static ServiceResult<T> CreateInvalidResult(Exception exception = null, string message = "Ocorreu um erro.", HttpStatusCode statusCode = HttpStatusCode.BadRequest)
+        {
+            var result = new ServiceResult<T>();
+            result.Messages = AddError(message, exception);
+            result.StatusCode = statusCode;
+            return result;
+        }
+
+        public static ServiceResult<T> CreateInvalidResult(IEnumerable<string> errors, HttpStatusCode statusCode = HttpStatusCode.BadRequest)
         {
             var result = new ServiceResult<T>();
             result.Messages = AddError(errors);
+            result.StatusCode = statusCode;
             return result;
         }
 

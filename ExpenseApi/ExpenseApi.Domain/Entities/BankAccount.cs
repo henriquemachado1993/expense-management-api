@@ -20,6 +20,18 @@ namespace ExpenseApi.Domain.Entities
         /// Valores possíveis "Corrente", "Conta salário"
         /// </summary>
         public string Type { get; set; }
-        public decimal AccountValue { get; set; }
+        public decimal AccountValue { get; private set; }
+
+        public bool IsMain { get; set; }
+
+        public void Deposit(decimal amount)
+        {
+            AccountValue += amount;
+        }
+
+        public void WithDraw(decimal amount)
+        {
+            AccountValue -= amount;
+        }
     }
 }

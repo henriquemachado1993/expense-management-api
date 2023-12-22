@@ -3,6 +3,8 @@ using MongoDB.Bson;
 using ExpenseApi.Domain.Entities;
 using ExpenseApi.Domain.Interfaces;
 using ExpenseApi.Models;
+using Microsoft.AspNetCore.Authorization;
+using ExpenseApi.Helper;
 
 namespace ExpenseApi.Controllers
 {
@@ -11,35 +13,39 @@ namespace ExpenseApi.Controllers
     /// </summary>
     [ApiController]
     [Route("[controller]")]
-    public class ExpenseController : ControllerBase
+    public class TransactionController : ControllerBase
     {
-        private readonly IExpenseService _expenseService;
+        private readonly ITransactionService _transactionService;
+        private readonly string _userId;
 
-        public ExpenseController(IExpenseService expenseService)
+        public TransactionController(ITransactionService transactionService)
         {
-            _expenseService = expenseService;
+            _transactionService = transactionService;
+            _userId = AuthenticatedUserHelper.GetUserId(HttpContext);
         }
 
         /// <summary>
-        /// Recupera todas as depesas cadastradas
+        /// Recupera todas as transações cadastradas
         /// </summary>
         /// <returns></returns>
+        [Authorize("Bearer")]
         [HttpGet]
         public async Task<IActionResult> Get()
         {
-            var results = await _expenseService.GetAllAsync();
+            var results = await _transactionService.GetAllAsync(_userId);
             return Ok(results);
         }
 
         /// <summary>
-        /// Recupera uma despesa por Id
+        /// Recupera uma transação por Id
         /// </summary>
         /// <param name="id"></param>
         /// <returns></returns>
+        [Authorize("Bearer")]
         [HttpGet("{id}")]
         public async Task<IActionResult> Get(string id)
         {
-            var result = await _expenseService.GetByIdAsync(id);
+            var result = await _transactionService.GetByIdAsync(_userId, id);
             if (!result.IsValid)
                 return BadRequest(result);
             if (result.Data == null)
@@ -49,21 +55,23 @@ namespace ExpenseApi.Controllers
         }
 
         /// <summary>
-        /// Cadatra uma nova despesa
+        /// Cadatra uma nova transação
         /// </summary>
         /// <param name="request"></param>
         /// <returns></returns>
+        [Authorize("Bearer")]
         [HttpPost]
-        public async Task<IActionResult> Post([FromBody] ExpenseRequestModel request)
+        public async Task<IActionResult> Post([FromBody] TransactionRequestModel request)
         {
             // TODO: colocar automapper.
-            var result = await _expenseService.CreateAsync(new Expense()
+            var result = await _transactionService.CreateAsync(new Transaction()
             {
                 Description = request.Description,
                 IsMonthlyRecurrence = request.IsMonthlyRecurrence,
                 IsPaid = request.IsPaid,
                 UserId = ObjectId.Parse(request.UserId),
-                Category = new ExpenseCategory() { 
+                TransactionType = request.TransactionType,
+                Category = new TransactionCategory() { 
                     Id = ObjectId.Parse(request.Category.Id),
                     Description = request.Category.Description,
                     Icon = request.Category.Icon
@@ -79,34 +87,27 @@ namespace ExpenseApi.Controllers
         }
 
         /// <summary>
-        /// Alterar uma despesa
+        /// Alterar uma transação
         /// </summary>
         /// <param name="request"></param>
         /// <returns></returns>
+        [Authorize("Bearer")]
         [HttpPut]
-        public async Task<IActionResult> Put([FromBody] ExpenseRequestModel request)
+        public async Task<IActionResult> Put([FromBody] TransactionRequestModel request)
         {
-            var expenseResult = await _expenseService.GetByIdAsync(request.Id);
-            if (!expenseResult.IsValid)
-                return BadRequest(expenseResult);
-            
-            if (expenseResult.Data == null)
-                return NotFound(expenseResult);
-
             // TODO: colocar automapper.
-            var result = await _expenseService.UpdateAsync(new Expense()
+            var result = await _transactionService.UpdateAsync(new Transaction()
             {
                 Description = request.Description,
                 IsMonthlyRecurrence = request.IsMonthlyRecurrence,
                 IsPaid = request.IsPaid,
                 UserId = ObjectId.Parse(request.UserId),
-                Category = new ExpenseCategory()
+                Category = new TransactionCategory()
                 {
                     Id = ObjectId.Parse(request.Category.Id),
                     Description = request.Category.Description,
                     Icon = request.Category.Icon
                 },
-                Amount = request.Amount,
                 ExpenseDate = request.ExpenseDate
             });
 
@@ -117,14 +118,15 @@ namespace ExpenseApi.Controllers
         }
 
         /// <summary>
-        /// Deleta uma despesa por Id
+        /// Deleta uma transação por Id
         /// </summary>
         /// <param name="id"></param>
         /// <returns></returns>
+        [Authorize("Bearer")]
         [HttpDelete("{id}")]
         public async Task<IActionResult> Delete(string id)
         {
-            var result = await _expenseService.GetByIdAsync(id);
+            var result = await _transactionService.GetByIdAsync(_userId, id);
 
             if (!result.IsValid)
                 return BadRequest(result);
@@ -132,7 +134,7 @@ namespace ExpenseApi.Controllers
             if (result.Data == null)
                 return NotFound(result);
             
-            await _expenseService.DeleteAsync(id);
+            await _transactionService.DeleteAsync(_userId, id);
 
             return NoContent();
         }

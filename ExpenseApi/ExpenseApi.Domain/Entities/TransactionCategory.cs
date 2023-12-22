@@ -4,7 +4,7 @@ using ExpenseApi.Domain.Interfaces;
 
 namespace ExpenseApi.Domain.Entities
 {
-    public class ExpenseCategory : IBaseEntity
+    public class TransactionCategory : IBaseEntity
     {
         [BsonId]
         public ObjectId Id { get; set; }

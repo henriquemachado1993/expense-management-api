@@ -25,8 +25,8 @@ namespace ExpenseApi.Infra.Dependencies
             svcCollection.AddScoped(typeof(IBaseRepository<>), typeof(BaseRepository<>));
 
             // Services
-            svcCollection.AddScoped<IExpenseService, ExpenseService>();
-            svcCollection.AddScoped<IBankAccountService, BankAccountServiceService>();
+            svcCollection.AddScoped<ITransactionService, TransactionService>();
+            svcCollection.AddScoped<IBankAccountService, BankAccountService>();
             svcCollection.AddScoped<IUserService, UserService>();
 
             // Auth

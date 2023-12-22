@@ -5,6 +5,7 @@ using ExpenseApi.Domain.Entities;
 using ExpenseApi.Domain.Interfaces;
 using ExpenseApi.Models;
 using ExpenseApi.Domain.ValueObjects;
+using ExpenseApi.Helper;
 
 namespace ExpenseApi.Controllers
 {
@@ -16,10 +17,12 @@ namespace ExpenseApi.Controllers
     public class UserController : ControllerBase
     {
         private readonly IUserService _userService;
+        private readonly string _userId;
 
         public UserController(IUserService service)
         {
             _userService = service;
+            _userId = AuthenticatedUserHelper.GetUserId(HttpContext);
         }
 
         /// <summary>
