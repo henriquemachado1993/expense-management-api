@@ -16,6 +16,7 @@ namespace ExpenseApi.Domain.Interfaces
         public Task<ServiceResult<List<User>>> FindAsync(Expression<Func<User, bool>> filterExpression);
         public Task<ServiceResult<User>> CreateAsync(User user);
         public Task<ServiceResult<User>> UpdateAsync(User user, bool isUpdatePassword = true);
+        public Task<ServiceResult<User>> UpdatePasswordAsync(string userId, string oldPassword, string newPassword);
         public Task DeleteAsync(string id);
     }
 }

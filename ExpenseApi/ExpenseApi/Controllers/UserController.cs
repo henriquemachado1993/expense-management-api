@@ -144,6 +144,23 @@ namespace ExpenseApi.Controllers
         }
 
         /// <summary>
+        /// Altera um senha somente se estiver logado
+        /// </summary>
+        /// <param name="user"></param>
+        /// <returns></returns>
+        [Authorize("Bearer")]
+        [HttpPut("update-password")]
+        public async Task<IActionResult> UpdatePassword([FromBody] UpdatePasswordRequestModel request)
+        {
+            var result = await _userService.UpdatePasswordAsync(request.UserId, request.OldPassword, request.NewPassword);
+
+            if (!result.IsValid)
+                return BadRequest(result);
+
+            return Ok(result);
+        }
+
+        /// <summary>
         /// Deleta um usuário por Id
         /// </summary>
         /// <param name="id"></param>

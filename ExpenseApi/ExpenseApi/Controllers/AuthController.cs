@@ -31,7 +31,7 @@ namespace ExpenseApi.Controllers
             var result = await _authService.AuthenticateAsync(model.Email, model.Password);
 
             if (!result.IsValid)
-                return Unauthorized(result);
+                return Unauthorized(new { Token = result.Data.JwtToken });
 
             // Pode retornar o token JWT ou outras informações do usuário
             return Ok(new { Token = result.Data.JwtToken });

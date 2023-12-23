@@ -19,6 +19,8 @@ namespace ExpenseApi.Domain.Entities
         public string Password { get; set; }
         public string JwtToken { get; set; }
         public Address Address { get; set; }
+
+        public void ClearPassword() { Password = string.Empty; }
     }
 
     public class Address
