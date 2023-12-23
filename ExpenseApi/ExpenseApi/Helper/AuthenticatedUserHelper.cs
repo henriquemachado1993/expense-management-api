@@ -9,9 +9,9 @@ namespace ExpenseApi.Helper
             return httpContext.User.Identity?.IsAuthenticated ?? false;
         }
 
-        public static string GetUserId(HttpContext httpContext)
+        public static Guid GetUserId(HttpContext httpContext)
         {
-            return httpContext.User.FindFirst(ClaimTypes.NameIdentifier)?.Value;
+            return Guid.Parse(httpContext.User.FindFirst(ClaimTypes.NameIdentifier)?.Value);
         }
 
         public static string GetUserName(HttpContext httpContext)

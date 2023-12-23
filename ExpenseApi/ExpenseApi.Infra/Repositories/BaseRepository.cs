@@ -27,7 +27,7 @@ namespace ExpenseApi.Infra.Repositories
             return result;
         }
 
-        public async Task<T> GetByIdAsync(ObjectId id)
+        public async Task<T> GetByIdAsync(Guid id)
         {
             Expression<Func<T, bool>> filterExpression = entity => ((IBaseEntity)entity).Id == id;
             var result = await _collection.Find(filterExpression).FirstOrDefaultAsync();
@@ -66,13 +66,13 @@ namespace ExpenseApi.Infra.Repositories
         public async Task<T> UpdateAsync(T entity)
         {
             // Assumindo que a entidade tem um campo chamado "Id"
-            var id = (ObjectId)entity.GetType().GetProperty("Id").GetValue(entity, null);
+            var id = (Guid)entity.GetType().GetProperty("Id").GetValue(entity, null);
             await _collection.ReplaceOneAsync(Builders<T>.Filter.Eq("_id", id), entity);
 
             return entity;
         }
 
-        public async Task DeleteAsync(ObjectId id)
+        public async Task DeleteAsync(Guid id)
         {
             await _collection.DeleteOneAsync(Builders<T>.Filter.Eq("_id", id));
         }

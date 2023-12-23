@@ -11,12 +11,12 @@ namespace ExpenseApi.Domain.Interfaces
 {
     public interface IBankAccountService
     {
-         Task<ServiceResult<BankAccount>> GetByIdAsync(string userId, string id);
+         Task<ServiceResult<BankAccount>> GetByIdAsync(Guid userId, Guid id);
          Task<ServiceResult<BankAccount>> CreateAsync(BankAccount bank);
          Task<ServiceResult<BankAccount>> UpdateAsync(BankAccount bank);
-         Task<ServiceResult<List<BankAccount>>> GetAllAsync(string userId);
-         Task<ServiceResult<bool>> DepositAsync(string userId, string id, decimal amount);
-         Task<ServiceResult<bool>> WithDrawAsync(string userId, string id, decimal amount);
-         Task<ServiceResult<bool>> DeleteAsync(string userId, string id);
+         Task<ServiceResult<List<BankAccount>>> GetAllAsync(Guid userId);
+         Task<ServiceResult<bool>> DepositAsync(Guid userId, Guid id, decimal amount);
+         Task<ServiceResult<bool>> WithDrawAsync(Guid userId, Guid id, decimal amount);
+         Task<ServiceResult<bool>> DeleteAsync(Guid userId, Guid id);
     }
 }

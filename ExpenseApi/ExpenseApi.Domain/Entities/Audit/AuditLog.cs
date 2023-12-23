@@ -11,7 +11,7 @@ namespace ExpenseApi.Domain.Entities.Audit
 {
     public class AuditLog : IBaseEntity
     {
-        public ObjectId Id { get; set; }
+        public Guid Id { get; set; }
         /// <summary>
         /// Possiveis valores "error", "information", "warning", "success"
         /// </summary>

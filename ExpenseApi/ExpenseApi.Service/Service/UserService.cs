@@ -29,7 +29,7 @@ namespace ExpenseApi.Service.Service
             if (userExists != null)
                 return ServiceResult<User>.CreateInvalidResult($"Já existe um usuário cadastrado com este email: {user.Email}");
 
-            user.Id = ObjectId.GenerateNewId();
+            user.Id = Guid.NewGuid();
             user.Password = _passwordHasher.HashPassword(user.Password);
 
             var entity = await _repository.CreateAsync(user);
@@ -51,9 +51,9 @@ namespace ExpenseApi.Service.Service
             return ServiceResult<User>.CreateValidResult(result);
         }
 
-        public async Task<ServiceResult<User>> UpdatePasswordAsync(string userId, string oldPassword, string newPassword)
+        public async Task<ServiceResult<User>> UpdatePasswordAsync(Guid userId, string oldPassword, string newPassword)
         {
-            var entity = await _repository.GetByIdAsync(new ObjectId(userId));
+            var entity = await _repository.GetByIdAsync(userId);
             if (entity == null)
                 return ServiceResult<User>.CreateInvalidResult("Registro não encontrado.");
 
@@ -69,14 +69,14 @@ namespace ExpenseApi.Service.Service
             return ServiceResult<User>.CreateValidResult(result);
         }
 
-        public async Task<ServiceResult<bool>> DeleteAsync(string id)
+        public async Task<ServiceResult<bool>> DeleteAsync(Guid id)
         {
-            var entity = await _repository.GetByIdAsync(ObjectId.Parse(id));
+            var entity = await _repository.GetByIdAsync(id);
 
             if (entity == null)
                 return ServiceResult<bool>.CreateInvalidResult("Registro não encontrado.");
 
-            await _repository.DeleteAsync(new ObjectId(id));
+            await _repository.DeleteAsync(id);
             return ServiceResult<bool>.CreateValidResult(true);
         }
 
@@ -100,9 +100,9 @@ namespace ExpenseApi.Service.Service
             return ServiceResult<List<User>>.CreateValidResult(result);
         }
 
-        public async Task<ServiceResult<User>> GetByIdAsync(string id, bool clearPassword = true)
+        public async Task<ServiceResult<User>> GetByIdAsync(Guid id, bool clearPassword = true)
         {
-            var entity = await _repository.GetByIdAsync(new ObjectId(id));
+            var entity = await _repository.GetByIdAsync(id);
             if (entity == null)
                 return ServiceResult<User>.CreateInvalidResult("Registro não encontrado.");
 

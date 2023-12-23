@@ -24,7 +24,7 @@ namespace ExpenseApi.Service
 
         public async Task<ServiceResult<Transaction>> CreateAsync(Transaction transaction)
         {
-            transaction.Id = ObjectId.GenerateNewId();
+            transaction.Id = Guid.NewGuid();
 
             var tranResult = await _repository.CreateAsync(transaction);
 
@@ -32,7 +32,7 @@ namespace ExpenseApi.Service
             if (tranResult != null && tranResult.TransactionType == TransactionType.Income.ToString())
             {
                 var transactionManager = new TransactionManager();
-                var commandDesposit = new BankAccountDepositCommand(_serviceProvider.GetRequiredService<IBankAccountService>(), tranResult.UserId.ToString(), tranResult.Amount);
+                var commandDesposit = new BankAccountDepositCommand(_serviceProvider.GetRequiredService<IBankAccountService>(), tranResult.UserId, tranResult.Amount);
                
                 try
                 {
@@ -66,18 +66,18 @@ namespace ExpenseApi.Service
             return ServiceResult<Transaction>.CreateValidResult(resultUpdate);
         }
 
-        public async Task<ServiceResult<bool>> DeleteAsync(string userId, string id)
+        public async Task<ServiceResult<bool>> DeleteAsync(Guid userId, Guid id)
         {
-            var entity = (await _repository.FindAsync(x => x.UserId == new ObjectId(userId) && x.Id == new ObjectId(id)))?.FirstOrDefault();
+            var entity = (await _repository.FindAsync(x => x.UserId == userId && x.Id == id))?.FirstOrDefault();
 
             if (entity != null)
             {
                 var transactionManager = new TransactionManager();
-                var command = new BankAccountWithDrawCommand(_serviceProvider.GetRequiredService<IBankAccountService>(), entity.UserId.ToString(), entity.Amount);
+                var command = new BankAccountWithDrawCommand(_serviceProvider.GetRequiredService<IBankAccountService>(), entity.UserId, entity.Amount);
 
                 try
                 {
-                    await _repository.DeleteAsync(new ObjectId(id));
+                    await _repository.DeleteAsync(id);
 
                     // Se for uma entrada, nós debitamos de alguma conta.
                     if (entity.TransactionType == TransactionType.Income.ToString())
@@ -97,9 +97,9 @@ namespace ExpenseApi.Service
             }
         }
 
-        public async Task<ServiceResult<List<Transaction>>> GetAllAsync(string userId)
+        public async Task<ServiceResult<List<Transaction>>> GetAllAsync(Guid userId)
         {
-            return ServiceResult<List<Transaction>>.CreateValidResult(await _repository.FindAsync(x => x.UserId == new ObjectId(userId)));
+            return ServiceResult<List<Transaction>>.CreateValidResult(await _repository.FindAsync(x => x.UserId == userId));
         }
 
         public async Task<PagingResult<List<Transaction>>> GetPagedAsync(QueryCriteria<Transaction> queryCriteria)
@@ -107,9 +107,9 @@ namespace ExpenseApi.Service
             return await _repository.FindPagedAsync(queryCriteria);
         }
 
-        public async Task<ServiceResult<Transaction>> GetByIdAsync(string userId, string id)
+        public async Task<ServiceResult<Transaction>> GetByIdAsync(Guid userId, Guid id)
         {
-            var result = await _repository.FindAsync(x => x.UserId == new ObjectId(userId) && x.Id == new ObjectId(id));
+            var result = await _repository.FindAsync(x => x.UserId == userId && x.Id == id);
             var entity = result?.FirstOrDefault();
             if(entity == null)
                 return ServiceResult<Transaction>.CreateInvalidResult("Registro não encontrado.");

@@ -41,7 +41,7 @@ namespace ExpenseApi.Controllers
         /// <returns></returns>
         [Authorize("Bearer")]
         [HttpGet("{id}")]
-        public async Task<IActionResult> Get(string id)
+        public async Task<IActionResult> Get(Guid id)
         {
             return ResponseHelper.Handle(await _userService.GetByIdAsync(id));
         }
@@ -96,7 +96,7 @@ namespace ExpenseApi.Controllers
             // TODO: colocar automapper.
             var result = await _userService.UpdateAsync(new User()
             {
-                Id = ObjectId.Parse(user.Id),
+                Id = user.Id ?? Guid.Empty,
                 Name = user.Name,
                 BirthDate = user.BirthDate,
                 Password = user.Password,
@@ -131,7 +131,7 @@ namespace ExpenseApi.Controllers
         /// <returns></returns>
         [Authorize("Bearer")]
         [HttpDelete("{id}")]
-        public async Task<IActionResult> Delete(string id)
+        public async Task<IActionResult> Delete(Guid id)
         {
             return ResponseHelper.Handle(await _userService.DeleteAsync(id));
         }

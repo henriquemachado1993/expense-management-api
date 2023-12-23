@@ -42,7 +42,7 @@ namespace ExpenseApi.Controllers
         /// <returns></returns>
         [Authorize("Bearer")]
         [HttpGet("{id}")]
-        public async Task<IActionResult> Get(string id)
+        public async Task<IActionResult> Get(Guid id)
         {
             var result = await _categoryService.GetByIdAsync(id);
             return ResponseHelper.Handle(result);
@@ -80,7 +80,7 @@ namespace ExpenseApi.Controllers
             // TODO: colocar automapper.
             var result = await _categoryService.UpdateAsync(new TransactionCategory()
             {
-                Id = ObjectId.Parse(request.Id),
+                Id = request.Id ?? Guid.Empty,
                 Name = request.Name,
                 Description = request.Description,
                 Icon = request.Icon
@@ -95,7 +95,7 @@ namespace ExpenseApi.Controllers
         /// <returns></returns>
         [Authorize("Bearer")]
         [HttpDelete("{id}")]
-        public async Task<IActionResult> Delete(string id)
+        public async Task<IActionResult> Delete(Guid id)
         {
             var result = await _categoryService.DeleteAsync(id);
             return ResponseHelper.Handle(result);

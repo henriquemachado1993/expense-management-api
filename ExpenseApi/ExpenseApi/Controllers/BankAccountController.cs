@@ -44,7 +44,7 @@ namespace ExpenseApi.Controllers
         /// <returns></returns>
         [Authorize("Bearer")]
         [HttpGet("{id}")]
-        public async Task<IActionResult> Get(string id)
+        public async Task<IActionResult> Get(Guid id)
         {
             var result = await _bankService.GetByIdAsync(AuthenticatedUserHelper.GetUserId(HttpContext), id);
             return ResponseHelper.Handle(result);
@@ -65,7 +65,7 @@ namespace ExpenseApi.Controllers
                 Name = request.Name,
                 IsMain = request.IsMain,
                 Type = request.Type,
-                UserId = ObjectId.Parse(AuthenticatedUserHelper.GetUserId(HttpContext))
+                UserId = AuthenticatedUserHelper.GetUserId(HttpContext)
             };
             entity.Deposit(request.AccountValue);
 
@@ -86,11 +86,11 @@ namespace ExpenseApi.Controllers
             // TODO: colocar automapper.
             var entity = new BankAccount()
             {
-                Id = ObjectId.Parse(request.Id),
+                Id = request.Id ?? Guid.Empty,
                 Name = request.Name,
                 IsMain = request.IsMain,
                 Type = request.Type,
-                UserId = ObjectId.Parse(AuthenticatedUserHelper.GetUserId(HttpContext))
+                UserId = AuthenticatedUserHelper.GetUserId(HttpContext)
             };
 
             var result = await _bankService.UpdateAsync(entity);
@@ -105,7 +105,7 @@ namespace ExpenseApi.Controllers
         /// <returns></returns>
         [Authorize("Bearer")]
         [HttpDelete("{id}")]
-        public async Task<IActionResult> Delete(string id)
+        public async Task<IActionResult> Delete(Guid id)
         {
             var result = await _bankService.DeleteAsync(AuthenticatedUserHelper.GetUserId(HttpContext), id);
             return ResponseHelper.Handle(result);

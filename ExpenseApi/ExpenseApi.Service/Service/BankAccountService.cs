@@ -20,9 +20,9 @@ namespace ExpenseApi.Service.Service
             _repository = repository;
         }
 
-        public async Task<ServiceResult<BankAccount>> GetByIdAsync(string userId, string id)
+        public async Task<ServiceResult<BankAccount>> GetByIdAsync(Guid userId, Guid id)
         {
-            var result = await _repository.FindAsync(x => x.UserId == new ObjectId(userId) && x.Id == new ObjectId(id));
+            var result = await _repository.FindAsync(x => x.UserId == userId && x.Id == id);
             var entity = result?.FirstOrDefault();
             if (entity == null)
                 return ServiceResult<BankAccount>.CreateInvalidResult("Registro não encontrado.");
@@ -30,14 +30,14 @@ namespace ExpenseApi.Service.Service
             return ServiceResult<BankAccount>.CreateValidResult(entity);
         }
 
-        public async Task<ServiceResult<List<BankAccount>>> GetAllAsync(string userId)
+        public async Task<ServiceResult<List<BankAccount>>> GetAllAsync(Guid userId)
         {
-            return ServiceResult<List<BankAccount>>.CreateValidResult(await _repository.FindAsync(x => x.UserId == new ObjectId(userId)));
+            return ServiceResult<List<BankAccount>>.CreateValidResult(await _repository.FindAsync(x => x.UserId == userId));
         }
 
         public async Task<ServiceResult<BankAccount>> CreateAsync(BankAccount bank)
         {
-            bank.Id = ObjectId.GenerateNewId();
+            bank.Id = Guid.NewGuid();
             return ServiceResult<BankAccount>.CreateValidResult(await _repository.CreateAsync(bank));
         }
 
@@ -57,9 +57,9 @@ namespace ExpenseApi.Service.Service
             return ServiceResult<BankAccount>.CreateValidResult(await _repository.UpdateAsync(entity));
         }
 
-        public async Task<ServiceResult<bool>> WithDrawAsync(string userId, string id, decimal amount)
+        public async Task<ServiceResult<bool>> WithDrawAsync(Guid userId, Guid id, decimal amount)
         {
-            var result = await _repository.FindAsync(x => x.UserId == new ObjectId(userId) && x.Id == new ObjectId(id));
+            var result = await _repository.FindAsync(x => x.UserId == userId && x.Id == id);
             var entity = result?.FirstOrDefault();
 
             if (entity == null)
@@ -72,9 +72,9 @@ namespace ExpenseApi.Service.Service
             return ServiceResult<bool>.CreateValidResult(true);
         }
 
-        public async Task<ServiceResult<bool>> DepositAsync(string userId, string id, decimal amount)
+        public async Task<ServiceResult<bool>> DepositAsync(Guid userId, Guid id, decimal amount)
         {
-            var result = await _repository.FindAsync(x => x.UserId == new ObjectId(userId) && x.Id == new ObjectId(id));
+            var result = await _repository.FindAsync(x => x.UserId == userId && x.Id == id);
             var entity = result?.FirstOrDefault();
             if (entity == null)
                 return ServiceResult<bool>.CreateInvalidResult($"Não foi possível incluir o valor {amount}"); // TODO: formatar o valor.
@@ -86,9 +86,9 @@ namespace ExpenseApi.Service.Service
             return ServiceResult<bool>.CreateValidResult(true);
         }
 
-        public async Task<ServiceResult<bool>> DeleteAsync(string userId, string id)
+        public async Task<ServiceResult<bool>> DeleteAsync(Guid userId, Guid id)
         {
-            var result = await _repository.FindAsync(x => x.UserId == new ObjectId(userId) && x.Id == new ObjectId(id));
+            var result = await _repository.FindAsync(x => x.UserId == userId && x.Id == id);
             var entity = result?.FirstOrDefault();
             if (entity == null)
                 return ServiceResult<bool>.CreateInvalidResult($"Não foi possível excluir conta");

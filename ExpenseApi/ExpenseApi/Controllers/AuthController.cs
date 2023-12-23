@@ -32,9 +32,6 @@ namespace ExpenseApi.Controllers
         {
             var result = await _authService.AuthenticateAsync(model.Email, model.Password);
 
-            if (result.IsValid)
-                return ResponseHelper.Handle(ServiceResult<string>.CreateValidResult(result.Data.JwtToken));
-
             return ResponseHelper.Handle(result);
         }
     }

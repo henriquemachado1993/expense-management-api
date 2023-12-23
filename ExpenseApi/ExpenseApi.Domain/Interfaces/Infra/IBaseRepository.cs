@@ -22,7 +22,7 @@ namespace ExpenseApi.Domain.Interfaces
         /// </summary>
         /// <param name="id"></param>
         /// <returns></returns>
-        Task<T> GetByIdAsync(ObjectId id);
+        Task<T> GetByIdAsync(Guid id);
         /// <summary>
         /// Obtém filtrado.
         /// </summary>
@@ -52,6 +52,6 @@ namespace ExpenseApi.Domain.Interfaces
         /// </summary>
         /// <param name="id"></param>
         /// <returns></returns>
-        Task DeleteAsync(ObjectId id);
+        Task DeleteAsync(Guid id);
     }
 }

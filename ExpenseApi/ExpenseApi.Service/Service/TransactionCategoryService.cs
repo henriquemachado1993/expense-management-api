@@ -26,7 +26,7 @@ namespace ExpenseApi.Service.Service
 
         public async Task<ServiceResult<TransactionCategory>> CreateAsync(TransactionCategory category)
         {
-            category.Id = ObjectId.GenerateNewId();
+            category.Id = Guid.NewGuid();
 
             var tranResult = await _repository.CreateAsync(category);
 
@@ -48,13 +48,13 @@ namespace ExpenseApi.Service.Service
             return ServiceResult<TransactionCategory>.CreateValidResult(resultUpdate);
         }
 
-        public async Task<ServiceResult<bool>> DeleteAsync(string id)
+        public async Task<ServiceResult<bool>> DeleteAsync(Guid id)
         {
-            var entity = await _repository.GetByIdAsync(ObjectId.Parse(id));
+            var entity = await _repository.GetByIdAsync(id);
 
             if (entity != null)
             {
-                await _repository.DeleteAsync(new ObjectId(id));
+                await _repository.DeleteAsync(id);
 
                 return ServiceResult<bool>.CreateValidResult(true);
             }
@@ -69,9 +69,9 @@ namespace ExpenseApi.Service.Service
             return ServiceResult<List<TransactionCategory>>.CreateValidResult(await _repository.FindAsync(_ => true));
         }
 
-        public async Task<ServiceResult<TransactionCategory>> GetByIdAsync(string id)
+        public async Task<ServiceResult<TransactionCategory>> GetByIdAsync(Guid id)
         {
-            var entity = await _repository.GetByIdAsync(ObjectId.Parse(id));
+            var entity = await _repository.GetByIdAsync(id);
             if (entity == null)
                 return ServiceResult<TransactionCategory>.CreateInvalidResult("Registro não encontrado.");
 

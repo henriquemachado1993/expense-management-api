@@ -13,9 +13,9 @@ namespace ExpenseApi.Service.Commands
     {
         private readonly IBankAccountService _service;
         private readonly decimal _amount;
-        private readonly string _userId;
+        private readonly Guid _userId;
 
-        public BankAccountDepositCommand(IBankAccountService service, string userId, decimal amount)
+        public BankAccountDepositCommand(IBankAccountService service, Guid userId, decimal amount)
         {
             _service = service;
             _amount = amount;
@@ -31,7 +31,7 @@ namespace ExpenseApi.Service.Commands
                 bankAccount = bankAccounts.Data.FirstOrDefault();
             if (bankAccount != null)
             {
-                await _service.DepositAsync(_userId, bankAccount.Id.ToString(), _amount);
+                await _service.DepositAsync(_userId, bankAccount.Id, _amount);
             }
         }
 
@@ -44,7 +44,7 @@ namespace ExpenseApi.Service.Commands
                 bankAccount = bankAccounts.Data.FirstOrDefault(x => !x.IsMain);
             if (bankAccount != null)
             {
-                await _service.WithDrawAsync(_userId, bankAccount.Id.ToString(), _amount);
+                await _service.WithDrawAsync(_userId, bankAccount.Id, _amount);
             }
         }
     }

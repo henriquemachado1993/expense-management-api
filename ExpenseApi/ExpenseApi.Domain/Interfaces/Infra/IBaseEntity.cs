@@ -9,6 +9,6 @@ namespace ExpenseApi.Domain.Interfaces
 {
     public interface IBaseEntity
     {
-        ObjectId Id { get; set; }
+        Guid Id { get; set; }
     }
 }

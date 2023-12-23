@@ -6,8 +6,7 @@ namespace ExpenseApi.Domain.Entities
 {
     public class TransactionCategory : IBaseEntity
     {
-        [BsonId]
-        public ObjectId Id { get; set; }
+        public Guid Id { get; set; }
         public string Name { get; set; }
         public string Description { get; set; }
         /// <summary>

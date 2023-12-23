@@ -11,11 +11,13 @@ using ExpenseApi.Infra.Repositories;
 using ExpenseApi.Service;
 using System.Reflection;
 using System.Text;
+using MongoDB.Bson;
 
 var builder = WebApplication.CreateBuilder(args);
 
 // Config access mongoDB
 var mongoDBConfig = builder.Configuration.GetSection("MongoDBSettings").Get<MongoDBConfig>();
+BsonDefaults.GuidRepresentation = GuidRepresentation.Standard;
 builder.Services.AddSingleton(mongoDBConfig);
 
 // DependencyInjection

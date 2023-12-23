@@ -39,7 +39,7 @@ namespace ExpenseApi.Infra.Middlewares
         {
             var auditLog = new AuditLog()
             {
-                Id = ObjectId.GenerateNewId(),
+                Id = Guid.NewGuid(),
                 Message = ex.Message,
                 Type = "error"
             };

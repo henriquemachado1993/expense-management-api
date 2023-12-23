@@ -11,8 +11,7 @@ namespace ExpenseApi.Domain.Entities
 {
     public class User : IBaseEntity
     {
-        [BsonId]
-        public ObjectId Id { get; set; }
+        public Guid Id { get; set; }
         public string Name { get; set; }
         public string Email { get; set; }
         public DateTime? BirthDate { get; set; }

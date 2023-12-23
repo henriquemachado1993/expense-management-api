@@ -45,9 +45,10 @@ namespace ExpenseApi.Controllers
         [HttpPost("get-paged")]
         public async Task<IActionResult> GetPaged(FilterTransactionRequestModel requestQueryCriteria)
         {
+            var userId = AuthenticatedUserHelper.GetUserId(HttpContext);
             var queryCriteria = new QueryCriteria<Transaction>()
             {
-                Expression = x => true,
+                Expression = x => x.UserId == userId,
                 Limit = requestQueryCriteria.Limit,
                 Offset = requestQueryCriteria.Offset
             };
@@ -68,7 +69,7 @@ namespace ExpenseApi.Controllers
         /// <returns></returns>
         [Authorize("Bearer")]
         [HttpGet("{id}")]
-        public async Task<IActionResult> Get(string id)
+        public async Task<IActionResult> Get(Guid id)
         {
             var result = await _transactionService.GetByIdAsync(AuthenticatedUserHelper.GetUserId(HttpContext), id);
             return ResponseHelper.Handle(result);
@@ -89,11 +90,11 @@ namespace ExpenseApi.Controllers
                 Description = request.Description,
                 IsMonthlyRecurrence = request.IsMonthlyRecurrence,
                 IsPaid = request.IsPaid,
-                UserId = ObjectId.Parse(AuthenticatedUserHelper.GetUserId(HttpContext)),
+                UserId = AuthenticatedUserHelper.GetUserId(HttpContext),
                 TransactionType = request.TransactionType,
                 Category = new TransactionCategory()
                 {
-                    Id = ObjectId.Parse(request.Category.Id),
+                    Id = request.Category.Id,
                     Description = request.Category.Description,
                     Icon = request.Category.Icon
                 },
@@ -116,14 +117,14 @@ namespace ExpenseApi.Controllers
             // TODO: colocar automapper.
             var result = await _transactionService.UpdateAsync(new Transaction()
             {
-                Id = ObjectId.Parse(request.Id),
+                Id = request.Id ?? Guid.Empty,
                 Description = request.Description,
                 IsMonthlyRecurrence = request.IsMonthlyRecurrence,
                 IsPaid = request.IsPaid,
-                UserId = ObjectId.Parse(AuthenticatedUserHelper.GetUserId(HttpContext)),
+                UserId = AuthenticatedUserHelper.GetUserId(HttpContext),
                 Category = new TransactionCategory()
                 {
-                    Id = ObjectId.Parse(request.Category.Id),
+                    Id = request.Category.Id,
                     Description = request.Category.Description,
                     Icon = request.Category.Icon
                 },
@@ -140,7 +141,7 @@ namespace ExpenseApi.Controllers
         /// <returns></returns>
         [Authorize("Bearer")]
         [HttpDelete("{id}")]
-        public async Task<IActionResult> Delete(string id)
+        public async Task<IActionResult> Delete(Guid id)
         {
             var result = await _transactionService.DeleteAsync(AuthenticatedUserHelper.GetUserId(HttpContext), id);
             return ResponseHelper.Handle(result);
