@@ -1,9 +1,11 @@
 ﻿using ExpenseApi.Domain.Entities;
+using ExpenseApi.Domain.Extensions;
 using ExpenseApi.Domain.Interfaces;
 using ExpenseApi.Domain.ValueObjects;
 using MongoDB.Bson;
 using System;
 using System.Collections.Generic;
+using System.Globalization;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
@@ -63,8 +65,7 @@ namespace ExpenseApi.Service.Service
             var entity = result?.FirstOrDefault();
 
             if (entity == null)
-                return ServiceResult<bool>.CreateInvalidResult($"Não foi possível debitar o valor {amount}"); // TODO: formatar o valor.
-
+                return ServiceResult<bool>.CreateInvalidResult($"Não foi possível debitar o valor: {amount.ConvertToBrazilianReal()}");
             entity.WithDraw(amount);
 
             await _repository.UpdateAsync(entity);
@@ -77,7 +78,7 @@ namespace ExpenseApi.Service.Service
             var result = await _repository.FindAsync(x => x.UserId == userId && x.Id == id);
             var entity = result?.FirstOrDefault();
             if (entity == null)
-                return ServiceResult<bool>.CreateInvalidResult($"Não foi possível incluir o valor {amount}"); // TODO: formatar o valor.
+                return ServiceResult<bool>.CreateInvalidResult($"Não foi possível incluir o valor: {amount.ConvertToBrazilianReal()}");
 
             entity.Deposit(amount);
 

@@ -10,12 +10,12 @@ namespace ExpenseApi.Domain.Enums
     public enum TypeBankAccount
     {
         [Display(Name = "Conta corrente")]
-        CurrentAccount = 1,
+        CurrentAccount,
         [Display(Name = "Conta salário")]
-        SalaryAccount = 2,
+        SalaryAccount,
         [Display(Name = "Conta poupança")]
-        SavingsAccount = 3, 
+        SavingsAccount, 
         [Display(Name = "Conta de Investimentos")]
-        InvestimentsAccount = 4,
+        InvestimentsAccount,
     }
 }
