@@ -93,7 +93,7 @@
 						],
 						"body": {
 							"mode": "raw",
-							"raw": "{\r\n  \"id\": \"string\",\r\n  \"userId\": \"string\",\r\n  \"description\": \"Venda placa de video pro kay cara de toba\",\r\n  \"amount\": 2000,\r\n  \"isPaid\": true,\r\n  \"isMonthlyRecurrence\": true,\r\n  \"expenseDate\": \"2023-12-23T02:04:20.565Z\",\r\n  \"transactionType\": \"Income\",\r\n  \"category\": {\r\n    \"id\": \"65863c0a387904c76f0c8a85\",\r\n    \"name\": \"Venda\",\r\n    \"description\": \"Venda\",\r\n    \"icon\": \"pc\"\r\n  }\r\n}"
+							"raw": "{\r\n  \"description\": \"Venda computador\",\r\n  \"amount\": 2000,\r\n  \"isPaid\": true,\r\n  \"isMonthlyRecurrence\": true,\r\n  \"expenseDate\": \"2023-12-23T02:04:20.565Z\",\r\n  \"transactionType\": \"Income\",\r\n  \"category\": {\r\n    \"id\": \"65863c0a387904c76f0c8a85\",\r\n    \"name\": \"Venda\",\r\n    \"description\": \"Venda\",\r\n    \"icon\": \"pc\"\r\n  }\r\n}"
 						},
 						"url": {
 							"raw": "{{baseurl}}/transaction",
@@ -135,7 +135,7 @@
 						],
 						"body": {
 							"mode": "raw",
-							"raw": "{\r\n  \"id\": \"65864105583309ab30ac41e3\",\r\n  \"userId\": \"string\",\r\n  \"description\": \"Venda placa de video pro kay cara de tob grabde\",\r\n  \"amount\": 2000,\r\n  \"isPaid\": true,\r\n  \"isMonthlyRecurrence\": true,\r\n  \"expenseDate\": \"2023-12-23T02:04:20.565Z\",\r\n  \"transactionType\": \"Income\",\r\n  \"category\": {\r\n    \"id\": \"65863c0a387904c76f0c8a85\",\r\n    \"name\": \"Venda\",\r\n    \"description\": \"Venda\",\r\n    \"icon\": \"pc\"\r\n  }\r\n}"
+							"raw": "{\r\n  \"id\": \"65864105583309ab30ac41e3\",\r\n  \"description\": \"Venda computador\",\r\n  \"amount\": 2000,\r\n  \"isPaid\": true,\r\n  \"isMonthlyRecurrence\": true,\r\n  \"expenseDate\": \"2023-12-23T02:04:20.565Z\",\r\n  \"transactionType\": \"Income\",\r\n  \"category\": {\r\n    \"id\": \"65863c0a387904c76f0c8a85\",\r\n    \"name\": \"Venda\",\r\n    \"description\": \"Venda\",\r\n    \"icon\": \"pc\"\r\n  }\r\n}"
 						},
 						"url": {
 							"raw": "{{baseurl}}/transaction",
@@ -191,7 +191,7 @@
 			]
 		},
 		{
-			"name": "Category",
+			"name": "TransactionCategory",
 			"item": [
 				{
 					"name": "GetAll",
@@ -209,12 +209,12 @@
 						"method": "GET",
 						"header": [],
 						"url": {
-							"raw": "{{baseurl}}/category",
+							"raw": "{{baseurl}}/transactioncategory",
 							"host": [
 								"{{baseurl}}"
 							],
 							"path": [
-								"category"
+								"transactioncategory"
 							]
 						}
 					},
@@ -236,13 +236,13 @@
 						"method": "GET",
 						"header": [],
 						"url": {
-							"raw": "{{baseurl}}/category/6586409c583309ab30ac41e2",
+							"raw": "{{baseurl}}/transactioncategory/65864b7a7f43df8a039b5732",
 							"host": [
 								"{{baseurl}}"
 							],
 							"path": [
-								"category",
-								"6586409c583309ab30ac41e2"
+								"transactioncategory",
+								"65864b7a7f43df8a039b5732"
 							]
 						}
 					},
@@ -276,15 +276,15 @@
 						],
 						"body": {
 							"mode": "raw",
-							"raw": "{\r\n  \"id\": \"string\",\r\n  \"name\": \"PC Gamer\",\r\n  \"description\": \"PC Gamer\",\r\n  \"icon\": \"PC\"\r\n}"
+							"raw": "{\r\n  \"name\": \"PC Gamer\",\r\n  \"description\": \"PC Gamer\",\r\n  \"icon\": \"PC\"\r\n}"
 						},
 						"url": {
-							"raw": "{{baseurl}}/category",
+							"raw": "{{baseurl}}/transactioncategory",
 							"host": [
 								"{{baseurl}}"
 							],
 							"path": [
-								"category"
+								"transactioncategory"
 							]
 						}
 					},
@@ -321,12 +321,12 @@
 							"raw": "{\r\n  \"id\": \"65864b7a7f43df8a039b5732\",\r\n  \"name\": \"PC Gamer Teste\",\r\n  \"description\": \"PC Gamer Teste\",\r\n  \"icon\": \"PC\"\r\n}"
 						},
 						"url": {
-							"raw": "{{baseurl}}/category",
+							"raw": "{{baseurl}}/transactioncategory",
 							"host": [
 								"{{baseurl}}"
 							],
 							"path": [
-								"category"
+								"transactioncategory"
 							]
 						}
 					},
@@ -359,13 +359,13 @@
 							}
 						],
 						"url": {
-							"raw": "{{baseurl}}/category/65864105583309ab30ac41e3",
+							"raw": "{{baseurl}}/transactioncategory/65864b7a7f43df8a039b5732",
 							"host": [
 								"{{baseurl}}"
 							],
 							"path": [
-								"category",
-								"65864105583309ab30ac41e3"
+								"transactioncategory",
+								"65864b7a7f43df8a039b5732"
 							]
 						}
 					},
@@ -488,7 +488,7 @@
 						],
 						"body": {
 							"mode": "raw",
-							"raw": "{\r\n    \"id\": \"12345\",\r\n    \"email\": \"henrique@gmail.com\",\r\n    \"password\": \"optimus1993\",\r\n    \"name\": \"Henrique machado dos Santos\",\r\n    \"birthDate\": \"1993-04-28T01:07:01.313Z\",\r\n    \"address\": {\r\n        \"street\": \"Asa Sul\",\r\n        \"city\": \"Brasília\",\r\n        \"zipCode\": \"4234234234234\"\r\n    }\r\n}"
+							"raw": "{\r\n    \"email\": \"admin@gmail.com\",\r\n    \"password\": \"12345\",\r\n    \"name\": \"Admin\",\r\n    \"birthDate\": \"1943-07-08T01:07:01.313Z\",\r\n    \"address\": {\r\n        \"street\": \"Asa Sul\",\r\n        \"city\": \"Brasília\",\r\n        \"zipCode\": \"4234234234234\"\r\n    }\r\n}"
 						},
 						"url": {
 							"raw": "{{baseurl}}/user",
@@ -530,7 +530,7 @@
 						],
 						"body": {
 							"mode": "raw",
-							"raw": "{\r\n    \"id\": \"5f1c3e240ac0922384ac0a2b\",\r\n    \"email\": \"admin@gmail.com\",\r\n    \"password\": \"hellow\",\r\n    \"name\": \"admin teste alteração\",\r\n    \"address\": {\r\n        \"street\": \"Rua louro\",\r\n        \"city\": \"Brasília\",\r\n        \"zipCode\": \"4234234234234\"\r\n    }\r\n}"
+							"raw": "{\r\n    \"id\": \"5f1c3e240ac0922384ac0a2b\",\r\n    \"name\": \"admin teste alteração\",\r\n    \"address\": {\r\n        \"street\": \"Rua louro\",\r\n        \"city\": \"Brasília\",\r\n        \"zipCode\": \"4234234234234\"\r\n    }\r\n}"
 						},
 						"url": {
 							"raw": "{{baseurl}}/user",
@@ -539,6 +539,49 @@
 							],
 							"path": [
 								"user"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "UpdatePassword",
+					"protocolProfileBehavior": {
+						"disabledSystemHeaders": {
+							"content-type": true
+						}
+					},
+					"request": {
+						"auth": {
+							"type": "bearer",
+							"bearer": [
+								{
+									"key": "token",
+									"value": "{{bearer}}",
+									"type": "string"
+								}
+							]
+						},
+						"method": "PUT",
+						"header": [
+							{
+								"key": "Content-Type",
+								"value": "application/json",
+								"type": "text"
+							}
+						],
+						"body": {
+							"mode": "raw",
+							"raw": "{\r\n  \"oldPassword\": \"12345\",\r\n  \"newPassword\": \"54321\"\r\n}"
+						},
+						"url": {
+							"raw": "{{baseurl}}/user/update-password",
+							"host": [
+								"{{baseurl}}"
+							],
+							"path": [
+								"user",
+								"update-password"
 							]
 						}
 					},
@@ -595,7 +638,7 @@
 						"header": [],
 						"body": {
 							"mode": "raw",
-							"raw": "{\r\n    \"email\" : \"henrique@gmail.com\",\r\n    \"password\" : \"optimus1993\"\r\n}",
+							"raw": "{\r\n    \"email\": \"admin@gmail.com\",\r\n    \"password\": \"12345\"\r\n}",
 							"options": {
 								"raw": {
 									"language": "json"
@@ -703,7 +746,7 @@
 						],
 						"body": {
 							"mode": "raw",
-							"raw": "{\r\n  \"id\": \"string\",\r\n  \"userId\": \"string\",\r\n  \"name\": \"Banco do brasil\",\r\n  \"type\": \"Conta Corrente\",\r\n  \"accountValue\": 5000,\r\n  \"isMain\": true\r\n}"
+							"raw": "{\r\n  \"name\": \"Banco do brasil\",\r\n  \"type\": \"Conta Corrente\",\r\n  \"accountValue\": 5000,\r\n  \"isMain\": true\r\n}"
 						},
 						"url": {
 							"raw": "{{baseurl}}/bankaccount",
