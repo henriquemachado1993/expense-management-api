@@ -26,6 +26,7 @@ namespace ExpenseApi.Infra.Dependencies
 
             // Services
             svcCollection.AddScoped<ITransactionService, TransactionService>();
+            svcCollection.AddScoped<ITransactionCategoryService, TransactionCategoryService>();
             svcCollection.AddScoped<IBankAccountService, BankAccountService>();
             svcCollection.AddScoped<IUserService, UserService>();
 
