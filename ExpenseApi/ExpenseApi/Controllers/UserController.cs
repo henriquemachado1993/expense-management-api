@@ -157,9 +157,6 @@ namespace ExpenseApi.Controllers
             if(!result.IsValid)
                 return BadRequest(result);
 
-            if (result.Data == null)
-                return NotFound(result);
-
             await _userService.DeleteAsync(id);
 
             return NoContent();

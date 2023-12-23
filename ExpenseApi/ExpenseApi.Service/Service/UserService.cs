@@ -53,7 +53,11 @@ namespace ExpenseApi.Service.Service
 
         public async Task<ServiceResult<User>> GetByIdAsync(string id)
         {
-            return ServiceResult<User>.CreateValidResult(await _repository.GetByIdAsync(new ObjectId(id)));
+            var entity = await _repository.GetByIdAsync(new ObjectId(id));
+            if (entity == null)
+                return ServiceResult<User>.CreateInvalidResult("Registro não encontrado.");
+
+            return ServiceResult<User>.CreateValidResult();
         }
 
         

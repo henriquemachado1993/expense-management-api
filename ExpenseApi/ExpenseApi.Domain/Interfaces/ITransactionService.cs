@@ -9,6 +9,6 @@ namespace ExpenseApi.Domain.Interfaces
         public Task<ServiceResult<Transaction>> GetByIdAsync(string userId, string id);
         public Task<ServiceResult<Transaction>> CreateAsync(Transaction transaction);
         public Task<ServiceResult<Transaction>> UpdateAsync(Transaction transaction);
-        public Task DeleteAsync(string userId, string id);
+        public Task<ServiceResult<bool>> DeleteAsync(string userId, string id);
     }
 }

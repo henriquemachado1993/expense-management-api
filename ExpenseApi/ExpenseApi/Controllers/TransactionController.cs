@@ -46,9 +46,7 @@ namespace ExpenseApi.Controllers
             var result = await _transactionService.GetByIdAsync(AuthenticatedUserHelper.GetUserId(HttpContext), id);
             if (!result.IsValid)
                 return BadRequest(result);
-            if (result.Data == null)
-                return NotFound(result);
-
+            
             return Ok(result);
         }
 
@@ -96,6 +94,7 @@ namespace ExpenseApi.Controllers
             // TODO: colocar automapper.
             var result = await _transactionService.UpdateAsync(new Transaction()
             {
+                Id = ObjectId.Parse(request.Id),
                 Description = request.Description,
                 IsMonthlyRecurrence = request.IsMonthlyRecurrence,
                 IsPaid = request.IsPaid,
@@ -124,17 +123,10 @@ namespace ExpenseApi.Controllers
         [HttpDelete("{id}")]
         public async Task<IActionResult> Delete(string id)
         {
-            var result = await _transactionService.GetByIdAsync(AuthenticatedUserHelper.GetUserId(HttpContext), id);
-
-            if (!result.IsValid)
+            var result = await _transactionService.DeleteAsync(AuthenticatedUserHelper.GetUserId(HttpContext), id);
+            if(!result.IsValid)
                 return BadRequest(result);
-            
-            if (result.Data == null)
-                return NotFound(result);
-            
-            await _transactionService.DeleteAsync(AuthenticatedUserHelper.GetUserId(HttpContext), id);
-
-            return NoContent();
+            return Ok(result);
         }
     }
 }

@@ -6,6 +6,7 @@ using ExpenseApi.Service.Commands;
 using ExpenseApi.Service.Commands.Manager;
 using ExpenseApi.Domain.Enums;
 using Microsoft.Extensions.DependencyInjection;
+using System.Net.Http;
 
 namespace ExpenseApi.Service
 {
@@ -53,12 +54,19 @@ namespace ExpenseApi.Service
             if(entity == null)
                 return ServiceResult<Transaction>.CreateInvalidResult("Registro não encontrado.");
 
-            var resultUpdate = await _repository.UpdateAsync(transaction);
+            entity.Description = transaction.Description;
+            entity.IsMonthlyRecurrence = transaction.IsMonthlyRecurrence;
+            entity.IsPaid = transaction.IsPaid;
+            entity.UserId = transaction.UserId;
+            entity.Category = transaction.Category;
+            entity.ExpenseDate = transaction.ExpenseDate;
+
+            var resultUpdate = await _repository.UpdateAsync(entity);
 
             return ServiceResult<Transaction>.CreateValidResult(resultUpdate);
         }
 
-        public async Task DeleteAsync(string userId, string id)
+        public async Task<ServiceResult<bool>> DeleteAsync(string userId, string id)
         {
             var entity = (await _repository.FindAsync(x => x.UserId == new ObjectId(userId) && x.Id == new ObjectId(id)))?.FirstOrDefault();
 
@@ -78,7 +86,14 @@ namespace ExpenseApi.Service
                 catch
                 {
                     await transactionManager.UndoLastCommand();
+                    return ServiceResult<bool>.CreateInvalidResult("Não foi possível debitar o valor de alguma conta.");
                 }
+
+                return ServiceResult<bool>.CreateValidResult(true);
+            }
+            else
+            {
+                return ServiceResult<bool>.CreateInvalidResult("Registro não encontrado.");
             }
         }
 

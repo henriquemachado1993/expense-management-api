@@ -15,8 +15,8 @@ namespace ExpenseApi.Domain.Interfaces
          Task<ServiceResult<BankAccount>> CreateAsync(BankAccount bank);
          Task<ServiceResult<BankAccount>> UpdateAsync(BankAccount bank);
          Task<ServiceResult<List<BankAccount>>> GetAllAsync(string userId);
-         Task<ServiceResult<bool>> DepositAsync(string id, decimal amount);
-         Task<ServiceResult<bool>> WithDrawAsync(string id, decimal amount);
+         Task<ServiceResult<bool>> DepositAsync(string userId, string id, decimal amount);
+         Task<ServiceResult<bool>> WithDrawAsync(string userId, string id, decimal amount);
          Task<ServiceResult<bool>> DeleteAsync(string userId, string id);
     }
 }

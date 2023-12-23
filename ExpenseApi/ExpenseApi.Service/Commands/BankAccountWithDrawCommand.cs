@@ -31,7 +31,7 @@ namespace ExpenseApi.Service.Commands
                 bankAccount = bankAccounts.Data.FirstOrDefault(x => !x.IsMain);
             if(bankAccount != null)
             {
-                await _service.WithDrawAsync(bankAccount.Id.ToString(), _amount);
+                await _service.WithDrawAsync(_userId, bankAccount.Id.ToString(), _amount);
             }
         }
 
@@ -44,7 +44,7 @@ namespace ExpenseApi.Service.Commands
                 bankAccount = bankAccounts.Data.FirstOrDefault();
             if (bankAccount != null)
             {
-                await _service.DepositAsync(bankAccount.Id.ToString(), _amount);
+                await _service.DepositAsync(_userId, bankAccount.Id.ToString(), _amount);
             }
         }
     }
