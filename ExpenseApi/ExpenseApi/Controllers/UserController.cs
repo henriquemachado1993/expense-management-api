@@ -31,12 +31,7 @@ namespace ExpenseApi.Controllers
         [HttpGet]
         public async Task<IActionResult> Get()
         {
-            var result = await _userService.GetAllAsync();
-
-            if(!result.IsValid)
-                return BadRequest(result);
-
-            return Ok(result);
+            return ResponseHelper.Handle(await _userService.GetAllAsync());
         }
 
         /// <summary>
@@ -48,13 +43,7 @@ namespace ExpenseApi.Controllers
         [HttpGet("{id}")]
         public async Task<IActionResult> Get(string id)
         {
-            var result = await _userService.GetByIdAsync(id);
-            if (!result.IsValid)
-                return BadRequest(result);
-            if (result.Data == null)
-                return NotFound(result);
-
-            return Ok(result);
+            return ResponseHelper.Handle(await _userService.GetByIdAsync(id));
         }
 
         /// <summary>
@@ -66,13 +55,7 @@ namespace ExpenseApi.Controllers
         [HttpGet("get-by-name/{name}")]
         public async Task<IActionResult> GetByName(string name)
         {
-            var result = await _userService.FindAsync(x => x.Name.Contains(name));
-            if (!result.IsValid)
-                return BadRequest(result);
-            if (result.Data == null)
-                return NotFound();
-            
-            return Ok(result);
+            return ResponseHelper.Handle(await _userService.FindAsync(x => x.Name.Contains(name)));
         }
 
         /// <summary>
@@ -81,10 +64,10 @@ namespace ExpenseApi.Controllers
         /// <param name="user"></param>
         /// <returns></returns>
         [HttpPost]
-        public async Task<IActionResult> Post([FromBody] UserRequestModel user)
+        public async Task<IActionResult> Post(UserRequestModel user)
         {
             // TODO: colocar automapper.
-            var result  = await _userService.CreateAsync(new User()
+            var result = await _userService.CreateAsync(new User()
             {
                 Name = user.Name,
                 Email = user.Email,
@@ -98,12 +81,7 @@ namespace ExpenseApi.Controllers
                 }
             });
 
-            if (!result.IsValid)
-            {
-                return BadRequest(result);
-            }
-
-            return Ok(result);
+            return ResponseHelper.Handle(result);
         }
 
         /// <summary>
@@ -115,18 +93,11 @@ namespace ExpenseApi.Controllers
         [HttpPut]
         public async Task<IActionResult> Put([FromBody] UserRequestModel user)
         {
-            var userResult = await _userService.GetByIdAsync(user.Id);
-            if (!userResult.IsValid)
-                return BadRequest(userResult);
-            if (userResult == null)
-                return NotFound(userResult);
-
             // TODO: colocar automapper.
             var result = await _userService.UpdateAsync(new User()
             {
                 Id = ObjectId.Parse(user.Id),
                 Name = user.Name,
-                Email = user.Email,
                 BirthDate = user.BirthDate,
                 Password = user.Password,
                 Address = new Address()
@@ -137,10 +108,7 @@ namespace ExpenseApi.Controllers
                 }
             });
 
-            if (!result.IsValid)
-                return BadRequest(result);
-
-            return Ok(result);
+            return ResponseHelper.Handle(result);
         }
 
         /// <summary>
@@ -153,11 +121,7 @@ namespace ExpenseApi.Controllers
         public async Task<IActionResult> UpdatePassword([FromBody] UpdatePasswordRequestModel request)
         {
             var result = await _userService.UpdatePasswordAsync(request.UserId, request.OldPassword, request.NewPassword);
-
-            if (!result.IsValid)
-                return BadRequest(result);
-
-            return Ok(result);
+            return ResponseHelper.Handle(result);
         }
 
         /// <summary>
@@ -169,14 +133,7 @@ namespace ExpenseApi.Controllers
         [HttpDelete("{id}")]
         public async Task<IActionResult> Delete(string id)
         {
-            var result = await _userService.GetByIdAsync(id);
-
-            if(!result.IsValid)
-                return BadRequest(result);
-
-            await _userService.DeleteAsync(id);
-
-            return NoContent();
+            return ResponseHelper.Handle(await _userService.DeleteAsync(id));
         }
     }
 }

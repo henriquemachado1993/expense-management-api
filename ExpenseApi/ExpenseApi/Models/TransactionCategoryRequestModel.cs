@@ -5,9 +5,9 @@ namespace ExpenseApi.Models
 {
     public class TransactionCategoryRequestModel
     {
-        public string Id { get; set; }
+        public string? Id { get; set; }
         public string Name { get; set; }
-        public string Description { get; set; }
+        public string? Description { get; set; }
         /// <summary>
         /// Icone da categoria
         /// </summary>

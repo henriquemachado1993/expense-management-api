@@ -34,7 +34,7 @@ namespace ExpenseApi.Controllers
         public async Task<IActionResult> Get()
         {
             var results = await _bankService.GetAllAsync(AuthenticatedUserHelper.GetUserId(HttpContext));
-            return Ok(results);
+            return ResponseHelper.Handle(results);
         }
 
         /// <summary>
@@ -47,9 +47,7 @@ namespace ExpenseApi.Controllers
         public async Task<IActionResult> Get(string id)
         {
             var result = await _bankService.GetByIdAsync(AuthenticatedUserHelper.GetUserId(HttpContext), id);
-            if (!result.IsValid)
-                return BadRequest(result);
-            return Ok(result);
+            return ResponseHelper.Handle(result);
         }
 
         /// <summary>
@@ -73,10 +71,7 @@ namespace ExpenseApi.Controllers
 
             var result = await _bankService.CreateAsync(entity);
 
-            if (!result.IsValid)
-                BadRequest(result);
-
-            return Ok(result);
+            return ResponseHelper.Handle(result);
         }
 
         /// <summary>
@@ -100,10 +95,7 @@ namespace ExpenseApi.Controllers
 
             var result = await _bankService.UpdateAsync(entity);
 
-            if (!result.IsValid)
-                return BadRequest(result);
-
-            return Ok(result);
+            return ResponseHelper.Handle(result);
         }
 
         /// <summary>
@@ -116,10 +108,7 @@ namespace ExpenseApi.Controllers
         public async Task<IActionResult> Delete(string id)
         {
             var result = await _bankService.DeleteAsync(AuthenticatedUserHelper.GetUserId(HttpContext), id);
-            if (!result.IsValid)
-                return BadRequest(result);
-
-            return Ok(result);
+            return ResponseHelper.Handle(result);
         }
 
         /// <summary>
@@ -132,10 +121,7 @@ namespace ExpenseApi.Controllers
         public async Task<IActionResult> Deposit([FromBody] BankAccountBalanceRequestModel request)
         {
             var result = await _bankService.DepositAsync(AuthenticatedUserHelper.GetUserId(HttpContext), request.Id, request.Amount);
-            if (!result.IsValid)
-                return BadRequest(result);
-
-            return Ok(result);
+            return ResponseHelper.Handle(result);
         }
 
         /// <summary>
@@ -148,10 +134,7 @@ namespace ExpenseApi.Controllers
         public async Task<IActionResult> WithDraw([FromBody] BankAccountBalanceRequestModel request)
         {
             var result = await _bankService.WithDrawAsync(AuthenticatedUserHelper.GetUserId(HttpContext), request.Id, request.Amount);
-            if (!result.IsValid)
-                return BadRequest(result);
-
-            return Ok(result);
+            return ResponseHelper.Handle(result);
         }
     }
 }

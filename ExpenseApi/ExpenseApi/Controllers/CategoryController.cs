@@ -32,7 +32,7 @@ namespace ExpenseApi.Controllers
         public async Task<IActionResult> Get()
         {
             var results = await _categoryService.GetAllAsync();
-            return Ok(results);
+            return ResponseHelper.Handle(results);
         }
 
         /// <summary>
@@ -45,10 +45,7 @@ namespace ExpenseApi.Controllers
         public async Task<IActionResult> Get(string id)
         {
             var result = await _categoryService.GetByIdAsync(id);
-            if (!result.IsValid)
-                return BadRequest(result);
-            
-            return Ok(result);
+            return ResponseHelper.Handle(result);
         }
 
         /// <summary>
@@ -68,10 +65,7 @@ namespace ExpenseApi.Controllers
                 Icon = request.Icon
             });
 
-            if (!result.IsValid)
-                BadRequest(result);
-
-            return Ok(result);
+            return ResponseHelper.Handle(result);
         }
 
         /// <summary>
@@ -91,11 +85,7 @@ namespace ExpenseApi.Controllers
                 Description = request.Description,
                 Icon = request.Icon
             });
-
-            if (!result.IsValid)
-                BadRequest(result);
-
-            return Ok(result);
+            return ResponseHelper.Handle(result);
         }
 
         /// <summary>
@@ -108,9 +98,7 @@ namespace ExpenseApi.Controllers
         public async Task<IActionResult> Delete(string id)
         {
             var result = await _categoryService.DeleteAsync(id);
-            if (!result.IsValid)
-                return BadRequest(result);
-            return Ok(result);
+            return ResponseHelper.Handle(result);
         }
     }
 }

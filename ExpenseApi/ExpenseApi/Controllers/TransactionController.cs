@@ -5,6 +5,7 @@ using ExpenseApi.Domain.Interfaces;
 using ExpenseApi.Models;
 using Microsoft.AspNetCore.Authorization;
 using ExpenseApi.Helper;
+using Microsoft.AspNetCore.Http;
 
 namespace ExpenseApi.Controllers
 {
@@ -31,7 +32,7 @@ namespace ExpenseApi.Controllers
         public async Task<IActionResult> Get()
         {
             var results = await _transactionService.GetAllAsync(AuthenticatedUserHelper.GetUserId(HttpContext));
-            return Ok(results);
+            return ResponseHelper.Handle(results);
         }
 
         /// <summary>
@@ -44,10 +45,7 @@ namespace ExpenseApi.Controllers
         public async Task<IActionResult> Get(string id)
         {
             var result = await _transactionService.GetByIdAsync(AuthenticatedUserHelper.GetUserId(HttpContext), id);
-            if (!result.IsValid)
-                return BadRequest(result);
-            
-            return Ok(result);
+            return ResponseHelper.Handle(result);
         }
 
         /// <summary>
@@ -67,7 +65,8 @@ namespace ExpenseApi.Controllers
                 IsPaid = request.IsPaid,
                 UserId = ObjectId.Parse(AuthenticatedUserHelper.GetUserId(HttpContext)),
                 TransactionType = request.TransactionType,
-                Category = new TransactionCategory() { 
+                Category = new TransactionCategory()
+                {
                     Id = ObjectId.Parse(request.Category.Id),
                     Description = request.Category.Description,
                     Icon = request.Category.Icon
@@ -76,10 +75,7 @@ namespace ExpenseApi.Controllers
                 ExpenseDate = request.ExpenseDate
             });
 
-            if (!result.IsValid)
-                BadRequest(result);
-            
-            return Ok(result);
+            return ResponseHelper.Handle(result);
         }
 
         /// <summary>
@@ -108,10 +104,7 @@ namespace ExpenseApi.Controllers
                 ExpenseDate = request.ExpenseDate
             });
 
-            if (!result.IsValid)
-                BadRequest(result);
-
-            return Ok(result);
+            return ResponseHelper.Handle(result);
         }
 
         /// <summary>
@@ -124,9 +117,7 @@ namespace ExpenseApi.Controllers
         public async Task<IActionResult> Delete(string id)
         {
             var result = await _transactionService.DeleteAsync(AuthenticatedUserHelper.GetUserId(HttpContext), id);
-            if(!result.IsValid)
-                return BadRequest(result);
-            return Ok(result);
+            return ResponseHelper.Handle(result);
         }
     }
 }

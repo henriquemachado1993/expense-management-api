@@ -3,6 +3,8 @@ using MongoDB.Bson;
 using ExpenseApi.Domain.Entities;
 using ExpenseApi.Domain.Interfaces;
 using ExpenseApi.Models;
+using ExpenseApi.Domain.ValueObjects;
+using ExpenseApi.Helper;
 
 namespace ExpenseApi.Controllers
 {
@@ -30,11 +32,10 @@ namespace ExpenseApi.Controllers
         {
             var result = await _authService.AuthenticateAsync(model.Email, model.Password);
 
-            if (!result.IsValid)
-                return Unauthorized(new { Token = result.Data.JwtToken });
+            if (result.IsValid)
+                return ResponseHelper.Handle(ServiceResult<string>.CreateValidResult(result.Data.JwtToken));
 
-            // Pode retornar o token JWT ou outras informações do usuário
-            return Ok(new { Token = result.Data.JwtToken });
+            return ResponseHelper.Handle(result);
         }
     }
 }
