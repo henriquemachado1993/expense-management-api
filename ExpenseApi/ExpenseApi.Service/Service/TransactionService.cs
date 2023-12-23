@@ -102,6 +102,11 @@ namespace ExpenseApi.Service
             return ServiceResult<List<Transaction>>.CreateValidResult(await _repository.FindAsync(x => x.UserId == new ObjectId(userId)));
         }
 
+        public async Task<PagingResult<List<Transaction>>> GetPagedAsync(QueryCriteria<Transaction> queryCriteria)
+        {
+            return await _repository.FindPagedAsync(queryCriteria);
+        }
+
         public async Task<ServiceResult<Transaction>> GetByIdAsync(string userId, string id)
         {
             var result = await _repository.FindAsync(x => x.UserId == new ObjectId(userId) && x.Id == new ObjectId(id));

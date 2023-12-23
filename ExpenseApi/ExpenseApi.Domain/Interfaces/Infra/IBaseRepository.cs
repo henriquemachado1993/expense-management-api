@@ -1,4 +1,5 @@
-﻿using MongoDB.Bson;
+﻿using ExpenseApi.Domain.ValueObjects;
+using MongoDB.Bson;
 using System;
 using System.Collections.Generic;
 using System.Linq;
@@ -28,6 +29,12 @@ namespace ExpenseApi.Domain.Interfaces
         /// <param name="filterExpression"></param>
         /// <returns></returns>
         Task<List<T>> FindAsync(Expression<Func<T, bool>> filterExpression);
+        /// <summary>
+        /// Obtém filtrado e paginado.
+        /// </summary>
+        /// <param name="filterExpression"></param>
+        /// <returns></returns>
+        Task<PagingResult<List<T>>> FindPagedAsync(QueryCriteria<T> queryCriteria);
         /// <summary>
         /// Cria um novo registro.
         /// </summary>

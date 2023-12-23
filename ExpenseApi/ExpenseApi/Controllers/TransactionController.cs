@@ -6,6 +6,8 @@ using ExpenseApi.Models;
 using Microsoft.AspNetCore.Authorization;
 using ExpenseApi.Helper;
 using Microsoft.AspNetCore.Http;
+using ExpenseApi.Domain.ValueObjects;
+using ExpenseApi.Domain.Extensions;
 
 namespace ExpenseApi.Controllers
 {
@@ -33,6 +35,30 @@ namespace ExpenseApi.Controllers
         {
             var results = await _transactionService.GetAllAsync(AuthenticatedUserHelper.GetUserId(HttpContext));
             return ResponseHelper.Handle(results);
+        }
+
+        /// <summary>
+        /// Recupera todas as transações cadastradas
+        /// </summary>
+        /// <returns></returns>
+        [Authorize("Bearer")]
+        [HttpPost("get-paged")]
+        public async Task<IActionResult> GetPaged(FilterTransactionRequestModel requestQueryCriteria)
+        {
+            var queryCriteria = new QueryCriteria<Transaction>()
+            {
+                Expression = x => true,
+                Limit = requestQueryCriteria.Limit,
+                Offset = requestQueryCriteria.Offset
+            };
+
+            if (!string.IsNullOrWhiteSpace(requestQueryCriteria.Name))
+                queryCriteria.Expression = queryCriteria.Expression.AndAlso(x => x.Description.ToLower().Contains(requestQueryCriteria.Name.ToLower()));
+
+            if (!string.IsNullOrWhiteSpace(requestQueryCriteria.TransactionType))
+                queryCriteria.Expression = queryCriteria.Expression.AndAlso(x => x.TransactionType.ToLower() == requestQueryCriteria.TransactionType.ToLower());
+
+            return ResponseHelper.Handle(await _transactionService.GetPagedAsync(queryCriteria));
         }
 
         /// <summary>

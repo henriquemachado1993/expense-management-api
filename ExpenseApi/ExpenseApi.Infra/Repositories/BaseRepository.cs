@@ -8,6 +8,7 @@ using System.Linq;
 using System.Linq.Expressions;
 using System.Text;
 using System.Threading.Tasks;
+using ExpenseApi.Domain.ValueObjects;
 
 namespace ExpenseApi.Infra.Repositories
 {
@@ -37,6 +38,23 @@ namespace ExpenseApi.Infra.Repositories
         {
             var result = await _collection.Find(filterExpression).ToListAsync();
             return result;
+        }
+
+        public async Task<PagingResult<List<T>>> FindPagedAsync(QueryCriteria<T> queryCriteria)
+        {
+            var totalCount = await _collection.CountDocumentsAsync(queryCriteria.Expression);
+            int skip = (queryCriteria.Offset - 1) * queryCriteria.Limit;
+            var result = await _collection.Find(queryCriteria.Expression)
+                .Skip(skip)
+                .Limit(queryCriteria.Limit)
+                .ToListAsync();
+
+            return PagingResult<List<T>>.CreateValidResultPaging(result, new PageResult()
+            {
+                Limit = queryCriteria.Limit,
+                Offset = queryCriteria.Offset,
+                TotalCount = (int)totalCount
+            });
         }
 
         public async Task<T> CreateAsync(T entity)
