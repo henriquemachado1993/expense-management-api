@@ -6,6 +6,7 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
+using ExpenseApi.Domain.Extensions;
 
 namespace ExpenseApi.Domain.Entities
 {
@@ -20,6 +21,13 @@ namespace ExpenseApi.Domain.Entities
         /// </summary>
         public string Type { get; set; }
         public decimal AccountValue { get; private set; }
+        public string AccountValueText
+        {
+            get
+            {
+                return AccountValue.ConvertToBrazilianReal();
+            }
+        }
 
         public bool IsMain { get; set; }
 

@@ -95,6 +95,7 @@ namespace ExpenseApi.Controllers
                 Category = new TransactionCategory()
                 {
                     Id = request.Category.Id,
+                    Name = request.Category.Name,
                     Description = request.Category.Description,
                     Icon = request.Category.Icon
                 },
@@ -125,6 +126,7 @@ namespace ExpenseApi.Controllers
                 Category = new TransactionCategory()
                 {
                     Id = request.Category.Id,
+                    Name = request.Category.Name,
                     Description = request.Category.Description,
                     Icon = request.Category.Icon
                 },
