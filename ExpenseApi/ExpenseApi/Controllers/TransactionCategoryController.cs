@@ -10,15 +10,15 @@ using Microsoft.AspNetCore.Authorization;
 namespace ExpenseApi.Controllers
 {
     /// <summary>
-    /// API para controlar categorias.
+    /// API para controlar categorias das transações.
     /// </summary>
     [ApiController]
     [Route("[controller]")]
-    public class CategoryController : ControllerBase
+    public class TransactionCategoryController : ControllerBase
     {
         private readonly ITransactionCategoryService _categoryService;
 
-        public CategoryController(ITransactionCategoryService categoryService)
+        public TransactionCategoryController(ITransactionCategoryService categoryService)
         {
             _categoryService = categoryService;
         }
