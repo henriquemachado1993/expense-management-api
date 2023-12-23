@@ -72,7 +72,10 @@ var app = builder.Build();
 if (app.Environment.IsDevelopment())
 {
     app.UseSwagger();
-    app.UseSwaggerUI();
+    app.UseSwaggerUI(c =>
+    {
+        c.SwaggerEndpoint("/swagger/v1/swagger.json", "ExpenseApi V1");
+    });
 }
 
 app.UseHttpsRedirection();
@@ -81,13 +84,6 @@ app.UseAuthentication();
 app.UseAuthorization();
 
 app.MapControllers();
-
-// Swagger
-app.UseSwagger();
-app.UseSwaggerUI(c =>
-{
-    c.SwaggerEndpoint("/swagger/v1/swagger.json", "ExpenseApi V1");
-});
 
 // Middleware
 app.UseMiddleware<ExceptionMiddleware>();
