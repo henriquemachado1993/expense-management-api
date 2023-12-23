@@ -1,0 +1,890 @@
+{
+	"info": {
+		"_postman_id": "bd1c5577-a861-4c59-9616-9863afb6655d",
+		"name": "ExpenseApi",
+		"schema": "https://schema.getpostman.com/json/collection/v2.1.0/collection.json",
+		"_exporter_id": "349413",
+		"_collection_link": "https://crimson-astronaut-559293.postman.co/workspace/Cwi---LINX~6c9fd851-b8ab-4568-ab2d-8999b6390c77/collection/349413-bd1c5577-a861-4c59-9616-9863afb6655d?action=share&source=collection_link&creator=349413"
+	},
+	"item": [
+		{
+			"name": "Transaction",
+			"item": [
+				{
+					"name": "GetAll",
+					"request": {
+						"auth": {
+							"type": "bearer",
+							"bearer": [
+								{
+									"key": "token",
+									"value": "{{bearer}}",
+									"type": "string"
+								}
+							]
+						},
+						"method": "GET",
+						"header": [],
+						"url": {
+							"raw": "{{baseurl}}/transaction",
+							"host": [
+								"{{baseurl}}"
+							],
+							"path": [
+								"transaction"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "GetById",
+					"request": {
+						"auth": {
+							"type": "bearer",
+							"bearer": [
+								{
+									"key": "token",
+									"value": "{{bearer}}",
+									"type": "string"
+								}
+							]
+						},
+						"method": "GET",
+						"header": [],
+						"url": {
+							"raw": "{{baseurl}}/transaction/6586409c583309ab30ac41e2",
+							"host": [
+								"{{baseurl}}"
+							],
+							"path": [
+								"transaction",
+								"6586409c583309ab30ac41e2"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "Create",
+					"protocolProfileBehavior": {
+						"disabledSystemHeaders": {
+							"content-type": true
+						}
+					},
+					"request": {
+						"auth": {
+							"type": "bearer",
+							"bearer": [
+								{
+									"key": "token",
+									"value": "{{bearer}}",
+									"type": "string"
+								}
+							]
+						},
+						"method": "POST",
+						"header": [
+							{
+								"key": "Content-Type",
+								"value": "application/json",
+								"type": "text"
+							}
+						],
+						"body": {
+							"mode": "raw",
+							"raw": "{\r\n  \"id\": \"string\",\r\n  \"userId\": \"string\",\r\n  \"description\": \"Venda placa de video pro kay cara de toba\",\r\n  \"amount\": 2000,\r\n  \"isPaid\": true,\r\n  \"isMonthlyRecurrence\": true,\r\n  \"expenseDate\": \"2023-12-23T02:04:20.565Z\",\r\n  \"transactionType\": \"Income\",\r\n  \"category\": {\r\n    \"id\": \"65863c0a387904c76f0c8a85\",\r\n    \"name\": \"Venda\",\r\n    \"description\": \"Venda\",\r\n    \"icon\": \"pc\"\r\n  }\r\n}"
+						},
+						"url": {
+							"raw": "{{baseurl}}/transaction",
+							"host": [
+								"{{baseurl}}"
+							],
+							"path": [
+								"transaction"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "Update",
+					"protocolProfileBehavior": {
+						"disabledSystemHeaders": {
+							"content-type": true
+						}
+					},
+					"request": {
+						"auth": {
+							"type": "bearer",
+							"bearer": [
+								{
+									"key": "token",
+									"value": "{{bearer}}",
+									"type": "string"
+								}
+							]
+						},
+						"method": "PUT",
+						"header": [
+							{
+								"key": "Content-Type",
+								"value": "application/json",
+								"type": "text"
+							}
+						],
+						"body": {
+							"mode": "raw",
+							"raw": "{\r\n  \"id\": \"65864105583309ab30ac41e3\",\r\n  \"userId\": \"string\",\r\n  \"description\": \"Venda placa de video pro kay cara de tob grabde\",\r\n  \"amount\": 2000,\r\n  \"isPaid\": true,\r\n  \"isMonthlyRecurrence\": true,\r\n  \"expenseDate\": \"2023-12-23T02:04:20.565Z\",\r\n  \"transactionType\": \"Income\",\r\n  \"category\": {\r\n    \"id\": \"65863c0a387904c76f0c8a85\",\r\n    \"name\": \"Venda\",\r\n    \"description\": \"Venda\",\r\n    \"icon\": \"pc\"\r\n  }\r\n}"
+						},
+						"url": {
+							"raw": "{{baseurl}}/transaction",
+							"host": [
+								"{{baseurl}}"
+							],
+							"path": [
+								"transaction"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "Delete",
+					"protocolProfileBehavior": {
+						"disabledSystemHeaders": {
+							"content-type": true
+						}
+					},
+					"request": {
+						"auth": {
+							"type": "bearer",
+							"bearer": [
+								{
+									"key": "token",
+									"value": "{{bearer}}",
+									"type": "string"
+								}
+							]
+						},
+						"method": "DELETE",
+						"header": [
+							{
+								"key": "Content-Type",
+								"value": "application/json",
+								"type": "text"
+							}
+						],
+						"url": {
+							"raw": "{{baseurl}}/transaction/65864105583309ab30ac41e3",
+							"host": [
+								"{{baseurl}}"
+							],
+							"path": [
+								"transaction",
+								"65864105583309ab30ac41e3"
+							]
+						}
+					},
+					"response": []
+				}
+			]
+		},
+		{
+			"name": "Category",
+			"item": [
+				{
+					"name": "GetAll",
+					"request": {
+						"auth": {
+							"type": "bearer",
+							"bearer": [
+								{
+									"key": "token",
+									"value": "{{bearer}}",
+									"type": "string"
+								}
+							]
+						},
+						"method": "GET",
+						"header": [],
+						"url": {
+							"raw": "{{baseurl}}/category",
+							"host": [
+								"{{baseurl}}"
+							],
+							"path": [
+								"category"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "GetById",
+					"request": {
+						"auth": {
+							"type": "bearer",
+							"bearer": [
+								{
+									"key": "token",
+									"value": "{{bearer}}",
+									"type": "string"
+								}
+							]
+						},
+						"method": "GET",
+						"header": [],
+						"url": {
+							"raw": "{{baseurl}}/category/6586409c583309ab30ac41e2",
+							"host": [
+								"{{baseurl}}"
+							],
+							"path": [
+								"category",
+								"6586409c583309ab30ac41e2"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "Create",
+					"protocolProfileBehavior": {
+						"disabledSystemHeaders": {
+							"content-type": true
+						}
+					},
+					"request": {
+						"auth": {
+							"type": "bearer",
+							"bearer": [
+								{
+									"key": "token",
+									"value": "{{bearer}}",
+									"type": "string"
+								}
+							]
+						},
+						"method": "POST",
+						"header": [
+							{
+								"key": "Content-Type",
+								"value": "application/json",
+								"type": "text"
+							}
+						],
+						"body": {
+							"mode": "raw",
+							"raw": "{\r\n  \"id\": \"string\",\r\n  \"name\": \"PC Gamer\",\r\n  \"description\": \"PC Gamer\",\r\n  \"icon\": \"PC\"\r\n}"
+						},
+						"url": {
+							"raw": "{{baseurl}}/category",
+							"host": [
+								"{{baseurl}}"
+							],
+							"path": [
+								"category"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "Update",
+					"protocolProfileBehavior": {
+						"disabledSystemHeaders": {
+							"content-type": true
+						}
+					},
+					"request": {
+						"auth": {
+							"type": "bearer",
+							"bearer": [
+								{
+									"key": "token",
+									"value": "{{bearer}}",
+									"type": "string"
+								}
+							]
+						},
+						"method": "PUT",
+						"header": [
+							{
+								"key": "Content-Type",
+								"value": "application/json",
+								"type": "text"
+							}
+						],
+						"body": {
+							"mode": "raw",
+							"raw": "{\r\n  \"id\": \"65864b7a7f43df8a039b5732\",\r\n  \"name\": \"PC Gamer Teste\",\r\n  \"description\": \"PC Gamer Teste\",\r\n  \"icon\": \"PC\"\r\n}"
+						},
+						"url": {
+							"raw": "{{baseurl}}/category",
+							"host": [
+								"{{baseurl}}"
+							],
+							"path": [
+								"category"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "Delete",
+					"protocolProfileBehavior": {
+						"disabledSystemHeaders": {
+							"content-type": true
+						}
+					},
+					"request": {
+						"auth": {
+							"type": "bearer",
+							"bearer": [
+								{
+									"key": "token",
+									"value": "{{bearer}}",
+									"type": "string"
+								}
+							]
+						},
+						"method": "DELETE",
+						"header": [
+							{
+								"key": "Content-Type",
+								"value": "application/json",
+								"type": "text"
+							}
+						],
+						"url": {
+							"raw": "{{baseurl}}/category/65864105583309ab30ac41e3",
+							"host": [
+								"{{baseurl}}"
+							],
+							"path": [
+								"category",
+								"65864105583309ab30ac41e3"
+							]
+						}
+					},
+					"response": []
+				}
+			]
+		},
+		{
+			"name": "User",
+			"item": [
+				{
+					"name": "GetAll",
+					"request": {
+						"auth": {
+							"type": "bearer",
+							"bearer": [
+								{
+									"key": "token",
+									"value": "{{bearer}}",
+									"type": "string"
+								}
+							]
+						},
+						"method": "GET",
+						"header": [],
+						"url": {
+							"raw": "{{baseurl}}/user",
+							"host": [
+								"{{baseurl}}"
+							],
+							"path": [
+								"user"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "GetById",
+					"request": {
+						"auth": {
+							"type": "bearer",
+							"bearer": [
+								{
+									"key": "token",
+									"value": "{{bearer}}",
+									"type": "string"
+								}
+							]
+						},
+						"method": "GET",
+						"header": [],
+						"url": {
+							"raw": "{{baseurl}}/user/4242342432",
+							"host": [
+								"{{baseurl}}"
+							],
+							"path": [
+								"user",
+								"4242342432"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "GetByName",
+					"request": {
+						"auth": {
+							"type": "bearer",
+							"bearer": [
+								{
+									"key": "token",
+									"value": "{{bearer}}",
+									"type": "string"
+								}
+							]
+						},
+						"method": "GET",
+						"header": [],
+						"url": {
+							"raw": "{{baseurl}}/user/get-by-name/thay",
+							"host": [
+								"{{baseurl}}"
+							],
+							"path": [
+								"user",
+								"get-by-name",
+								"thay"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "Create",
+					"protocolProfileBehavior": {
+						"disabledSystemHeaders": {
+							"content-type": true
+						}
+					},
+					"request": {
+						"auth": {
+							"type": "bearer",
+							"bearer": [
+								{
+									"key": "token",
+									"value": "{{bearer}}",
+									"type": "string"
+								}
+							]
+						},
+						"method": "POST",
+						"header": [
+							{
+								"key": "Content-Type",
+								"value": "application/json",
+								"type": "text"
+							}
+						],
+						"body": {
+							"mode": "raw",
+							"raw": "{\r\n    \"id\": \"12345\",\r\n    \"email\": \"henrique@gmail.com\",\r\n    \"password\": \"optimus1993\",\r\n    \"name\": \"Henrique machado dos Santos\",\r\n    \"birthDate\": \"1993-04-28T01:07:01.313Z\",\r\n    \"address\": {\r\n        \"street\": \"Asa Sul\",\r\n        \"city\": \"Brasília\",\r\n        \"zipCode\": \"4234234234234\"\r\n    }\r\n}"
+						},
+						"url": {
+							"raw": "{{baseurl}}/user",
+							"host": [
+								"{{baseurl}}"
+							],
+							"path": [
+								"user"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "Update",
+					"protocolProfileBehavior": {
+						"disabledSystemHeaders": {
+							"content-type": true
+						}
+					},
+					"request": {
+						"auth": {
+							"type": "bearer",
+							"bearer": [
+								{
+									"key": "token",
+									"value": "{{bearer}}",
+									"type": "string"
+								}
+							]
+						},
+						"method": "PUT",
+						"header": [
+							{
+								"key": "Content-Type",
+								"value": "application/json",
+								"type": "text"
+							}
+						],
+						"body": {
+							"mode": "raw",
+							"raw": "{\r\n    \"id\": \"5f1c3e240ac0922384ac0a2b\",\r\n    \"email\": \"admin@gmail.com\",\r\n    \"password\": \"hellow\",\r\n    \"name\": \"admin teste alteração\",\r\n    \"address\": {\r\n        \"street\": \"Rua louro\",\r\n        \"city\": \"Brasília\",\r\n        \"zipCode\": \"4234234234234\"\r\n    }\r\n}"
+						},
+						"url": {
+							"raw": "{{baseurl}}/user",
+							"host": [
+								"{{baseurl}}"
+							],
+							"path": [
+								"user"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "Delete",
+					"protocolProfileBehavior": {
+						"disabledSystemHeaders": {
+							"content-type": true
+						}
+					},
+					"request": {
+						"auth": {
+							"type": "bearer",
+							"bearer": [
+								{
+									"key": "token",
+									"value": "{{bearer}}",
+									"type": "string"
+								}
+							]
+						},
+						"method": "DELETE",
+						"header": [
+							{
+								"key": "Content-Type",
+								"value": "application/json",
+								"type": "text"
+							}
+						],
+						"url": {
+							"raw": "{{baseurl}}/user/5f1c3e240ac0922384ac0a2b",
+							"host": [
+								"{{baseurl}}"
+							],
+							"path": [
+								"user",
+								"5f1c3e240ac0922384ac0a2b"
+							]
+						}
+					},
+					"response": []
+				}
+			]
+		},
+		{
+			"name": "Auth",
+			"item": [
+				{
+					"name": "Login",
+					"request": {
+						"method": "POST",
+						"header": [],
+						"body": {
+							"mode": "raw",
+							"raw": "{\r\n    \"email\" : \"henrique@gmail.com\",\r\n    \"password\" : \"optimus1993\"\r\n}",
+							"options": {
+								"raw": {
+									"language": "json"
+								}
+							}
+						},
+						"url": {
+							"raw": "{{baseurl}}/auth/login",
+							"host": [
+								"{{baseurl}}"
+							],
+							"path": [
+								"auth",
+								"login"
+							]
+						}
+					},
+					"response": []
+				}
+			]
+		},
+		{
+			"name": "BankAccount",
+			"item": [
+				{
+					"name": "GetAll",
+					"request": {
+						"auth": {
+							"type": "bearer",
+							"bearer": [
+								{
+									"key": "token",
+									"value": "{{bearer}}",
+									"type": "string"
+								}
+							]
+						},
+						"method": "GET",
+						"header": [],
+						"url": {
+							"raw": "{{baseurl}}/bankaccount",
+							"host": [
+								"{{baseurl}}"
+							],
+							"path": [
+								"bankaccount"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "GetById",
+					"request": {
+						"auth": {
+							"type": "bearer",
+							"bearer": [
+								{
+									"key": "token",
+									"value": "{{bearer}}",
+									"type": "string"
+								}
+							]
+						},
+						"method": "GET",
+						"header": [],
+						"url": {
+							"raw": "{{baseurl}}/bankaccount/65863c0a387904c76f0c8a84",
+							"host": [
+								"{{baseurl}}"
+							],
+							"path": [
+								"bankaccount",
+								"65863c0a387904c76f0c8a84"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "Create",
+					"protocolProfileBehavior": {
+						"disabledSystemHeaders": {
+							"content-type": true
+						}
+					},
+					"request": {
+						"auth": {
+							"type": "bearer",
+							"bearer": [
+								{
+									"key": "token",
+									"value": "{{bearer}}",
+									"type": "string"
+								}
+							]
+						},
+						"method": "POST",
+						"header": [
+							{
+								"key": "Content-Type",
+								"value": "application/json",
+								"type": "text"
+							}
+						],
+						"body": {
+							"mode": "raw",
+							"raw": "{\r\n  \"id\": \"string\",\r\n  \"userId\": \"string\",\r\n  \"name\": \"Banco do brasil\",\r\n  \"type\": \"Conta Corrente\",\r\n  \"accountValue\": 5000,\r\n  \"isMain\": true\r\n}"
+						},
+						"url": {
+							"raw": "{{baseurl}}/bankaccount",
+							"host": [
+								"{{baseurl}}"
+							],
+							"path": [
+								"bankaccount"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "Update",
+					"protocolProfileBehavior": {
+						"disabledSystemHeaders": {
+							"content-type": true
+						}
+					},
+					"request": {
+						"auth": {
+							"type": "bearer",
+							"bearer": [
+								{
+									"key": "token",
+									"value": "{{bearer}}",
+									"type": "string"
+								}
+							]
+						},
+						"method": "PUT",
+						"header": [
+							{
+								"key": "Content-Type",
+								"value": "application/json",
+								"type": "text"
+							}
+						],
+						"body": {
+							"mode": "raw",
+							"raw": "{\r\n  \"id\": \"65863c0a387904c76f0c8a84\",\r\n  \"userId\": \"string\",\r\n  \"name\": \"Nubank ultra violeta\",\r\n  \"type\": \"Conta corrente\",\r\n  \"accountValue\": 3999,\r\n  \"isMain\": true\r\n}"
+						},
+						"url": {
+							"raw": "{{baseurl}}/bankaccount",
+							"host": [
+								"{{baseurl}}"
+							],
+							"path": [
+								"bankaccount"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "Deposit",
+					"protocolProfileBehavior": {
+						"disabledSystemHeaders": {
+							"content-type": true
+						}
+					},
+					"request": {
+						"auth": {
+							"type": "bearer",
+							"bearer": [
+								{
+									"key": "token",
+									"value": "{{bearer}}",
+									"type": "string"
+								}
+							]
+						},
+						"method": "PUT",
+						"header": [
+							{
+								"key": "Content-Type",
+								"value": "application/json",
+								"type": "text"
+							}
+						],
+						"body": {
+							"mode": "raw",
+							"raw": "{\r\n  \"id\": \"65863c0a387904c76f0c8a84\",\r\n  \"amount\": 10000\r\n}"
+						},
+						"url": {
+							"raw": "{{baseurl}}/bankaccount/deposit",
+							"host": [
+								"{{baseurl}}"
+							],
+							"path": [
+								"bankaccount",
+								"deposit"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "Withdraw",
+					"protocolProfileBehavior": {
+						"disabledSystemHeaders": {
+							"content-type": true
+						}
+					},
+					"request": {
+						"auth": {
+							"type": "bearer",
+							"bearer": [
+								{
+									"key": "token",
+									"value": "{{bearer}}",
+									"type": "string"
+								}
+							]
+						},
+						"method": "PUT",
+						"header": [
+							{
+								"key": "Content-Type",
+								"value": "application/json",
+								"type": "text"
+							}
+						],
+						"body": {
+							"mode": "raw",
+							"raw": "{\r\n  \"id\": \"65863c0a387904c76f0c8a84\",\r\n  \"amount\": 3790\r\n}"
+						},
+						"url": {
+							"raw": "{{baseurl}}/bankaccount/withdraw",
+							"host": [
+								"{{baseurl}}"
+							],
+							"path": [
+								"bankaccount",
+								"withdraw"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "Delete",
+					"protocolProfileBehavior": {
+						"disabledSystemHeaders": {
+							"content-type": true
+						}
+					},
+					"request": {
+						"auth": {
+							"type": "bearer",
+							"bearer": [
+								{
+									"key": "token",
+									"value": "{{bearer}}",
+									"type": "string"
+								}
+							]
+						},
+						"method": "DELETE",
+						"header": [
+							{
+								"key": "Content-Type",
+								"value": "application/json",
+								"type": "text"
+							}
+						],
+						"url": {
+							"raw": "{{baseurl}}/bankaccount/65863ef8583309ab30ac41e1",
+							"host": [
+								"{{baseurl}}"
+							],
+							"path": [
+								"bankaccount",
+								"65863ef8583309ab30ac41e1"
+							]
+						}
+					},
+					"response": []
+				}
+			]
+		}
+	]
+}
