@@ -7,8 +7,8 @@ MongoDB Driver: Utiliza o driver oficial do MongoDB para .NET (MongoDB.Driver) p
 ## Funcionalidades
 
 - **Controle de Finanças Pessoais:**
-- **Controle de Despesas:**
-- **Gestão de Categorias de Despesas:**
+- **Controle de Transações:**
+- **Gestão de Categorias de Transações:**
 - **Controle de Contas Bancárias:**
 - **Estatísticas Simplificadas com Gráficos:**
 
