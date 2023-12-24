@@ -13,9 +13,8 @@ namespace ExpenseApi.Domain.Mappings
     {
         public MappingProfileUser()
         {
-            CreateMap<User, UserRequestModel>()
-                .ForMember(dest => dest.Id ?? Guid.Empty , opt => opt.MapFrom(src => src.Id))
-                .ReverseMap();
+                CreateMap<User, UserRequestModel>().ReverseMap();
+                CreateMap<Address, AddressModel>().ReverseMap();
         }
     }
 }

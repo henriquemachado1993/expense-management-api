@@ -11,6 +11,16 @@ namespace ExpenseApi.Domain.Entities.Audit
 {
     public class AuditLog : IBaseEntity
     {
+
+        public AuditLog() { }
+        public AuditLog(Guid id, string type, string message, DateTime createdAt, object data) { 
+            Id = id;
+            Type = type;
+            Message = message;
+            CreatedAt = createdAt;
+            SetDataFromObject(data);
+        }
+
         public Guid Id { get; set; }
         /// <summary>
         /// Possiveis valores "error", "information", "warning", "success"
@@ -18,6 +28,7 @@ namespace ExpenseApi.Domain.Entities.Audit
         public string Type { get; set; }
         public string Message { get; set; }
         public BsonDocument Data { get; set; }
+        public DateTime CreatedAt { get; set; }
 
         public void SetDataFromObject(object obj)
         {

@@ -13,18 +13,6 @@
         /// Valores possíveis "Expense" ou "Income"
         /// </summary>
         public string TransactionType { get; set; }
-        public ExpenseCategoryModel Category { get; set; }
-    }
-
-    public class ExpenseCategoryModel
-    {
-
-        public Guid Id { get; set; }
-        public string Name { get; set; }
-        public string Description { get; set; }
-        /// <summary>
-        /// Icone da categoria
-        /// </summary>
-        public string? Icon { get; set; }
+        public TransactionCategoryRequestModel Category { get; set; }
     }
 }

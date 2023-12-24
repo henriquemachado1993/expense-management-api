@@ -7,6 +7,7 @@ using Microsoft.AspNetCore.Http;
 using ExpenseApi.Domain.ValueObjects;
 using ExpenseApi.Domain.Extensions;
 using ExpenseApi.Domain.Models.Transaction;
+using AutoMapper;
 
 namespace ExpenseApi.Controllers
 {
@@ -17,10 +18,12 @@ namespace ExpenseApi.Controllers
     [Route("[controller]")]
     public class TransactionController : ControllerBase
     {
+        private readonly IMapper _mapper;
         private readonly ITransactionService _transactionService;
 
-        public TransactionController(ITransactionService transactionService)
+        public TransactionController(IMapper mapper, ITransactionService transactionService)
         {
+            _mapper = mapper;
             _transactionService = transactionService;
         }
 
@@ -83,24 +86,9 @@ namespace ExpenseApi.Controllers
         [HttpPost]
         public async Task<IActionResult> Post([FromBody] TransactionRequestModel request)
         {
-            // TODO: colocar automapper.
-            var result = await _transactionService.CreateAsync(new Transaction()
-            {
-                Description = request.Description,
-                IsMonthlyRecurrence = request.IsMonthlyRecurrence,
-                IsPaid = request.IsPaid,
-                UserId = AuthenticatedUserHelper.GetUserId(HttpContext),
-                TransactionType = request.TransactionType,
-                Category = new TransactionCategory()
-                {
-                    Id = request.Category.Id,
-                    Name = request.Category.Name,
-                    Description = request.Category.Description,
-                    Icon = request.Category.Icon
-                },
-                Amount = request.Amount,
-                ExpenseDate = request.ExpenseDate
-            });
+            request.UserId = AuthenticatedUserHelper.GetUserId(HttpContext);
+            var user = _mapper.Map<Transaction>(request);
+            var result = await _transactionService.CreateAsync(user);
 
             return ResponseHelper.Handle(result);
         }
@@ -114,23 +102,9 @@ namespace ExpenseApi.Controllers
         [HttpPut]
         public async Task<IActionResult> Put([FromBody] TransactionRequestModel request)
         {
-            // TODO: colocar automapper.
-            var result = await _transactionService.UpdateAsync(new Transaction()
-            {
-                Id = request.Id ?? Guid.Empty,
-                Description = request.Description,
-                IsMonthlyRecurrence = request.IsMonthlyRecurrence,
-                IsPaid = request.IsPaid,
-                UserId = AuthenticatedUserHelper.GetUserId(HttpContext),
-                Category = new TransactionCategory()
-                {
-                    Id = request.Category.Id,
-                    Name = request.Category.Name,
-                    Description = request.Category.Description,
-                    Icon = request.Category.Icon
-                },
-                ExpenseDate = request.ExpenseDate
-            });
+            request.UserId = AuthenticatedUserHelper.GetUserId(HttpContext);
+            var user = _mapper.Map<Transaction>(request);
+            var result = await _transactionService.UpdateAsync(user);
 
             return ResponseHelper.Handle(result);
         }

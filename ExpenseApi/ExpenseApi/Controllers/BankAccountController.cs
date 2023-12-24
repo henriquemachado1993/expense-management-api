@@ -5,6 +5,7 @@ using ExpenseApi.Helper;
 using ExpenseApi.Service;
 using Microsoft.AspNetCore.Authorization;
 using ExpenseApi.Domain.Models.BankAccount;
+using AutoMapper;
 
 namespace ExpenseApi.Controllers
 {
@@ -15,11 +16,13 @@ namespace ExpenseApi.Controllers
     [Route("[controller]")]
     public class BankAccountController : ControllerBase
     {
+        private readonly IMapper _mapper;
         private readonly IBankAccountService _bankService;
 
-        public BankAccountController(IBankAccountService bankService)
+        public BankAccountController(IMapper mapper, IBankAccountService bankService)
         {
             _bankService = bankService;
+            _mapper = mapper;
         }
 
         /// <summary>
@@ -56,14 +59,10 @@ namespace ExpenseApi.Controllers
         [HttpPost]
         public async Task<IActionResult> Post([FromBody] BankAccountRequestModel request)
         {
-            // TODO: colocar automapper.
-            var entity = new BankAccount()
-            {
-                Name = request.Name,
-                IsMain = request.IsMain,
-                Type = request.Type,
-                UserId = AuthenticatedUserHelper.GetUserId(HttpContext)
-            };
+            request.UserId = AuthenticatedUserHelper.GetUserId(HttpContext);
+
+            var entity = _mapper.Map<BankAccount>(request);
+
             entity.Deposit(request.AccountValue);
 
             var result = await _bankService.CreateAsync(entity);
@@ -80,15 +79,9 @@ namespace ExpenseApi.Controllers
         [HttpPut]
         public async Task<IActionResult> Put([FromBody] BankAccountRequestModel request)
         {
-            // TODO: colocar automapper.
-            var entity = new BankAccount()
-            {
-                Id = request.Id ?? Guid.Empty,
-                Name = request.Name,
-                IsMain = request.IsMain,
-                Type = request.Type,
-                UserId = AuthenticatedUserHelper.GetUserId(HttpContext)
-            };
+            request.UserId = AuthenticatedUserHelper.GetUserId(HttpContext);
+
+            var entity = _mapper.Map<BankAccount>(request);
 
             var result = await _bankService.UpdateAsync(entity);
 

@@ -5,6 +5,7 @@ using ExpenseApi.Helper;
 using ExpenseApi.Service;
 using Microsoft.AspNetCore.Authorization;
 using ExpenseApi.Domain.Models.Transaction;
+using AutoMapper;
 
 namespace ExpenseApi.Controllers
 {
@@ -15,11 +16,13 @@ namespace ExpenseApi.Controllers
     [Route("[controller]")]
     public class TransactionCategoryController : ControllerBase
     {
+        private readonly IMapper _mapper;
         private readonly ITransactionCategoryService _categoryService;
 
-        public TransactionCategoryController(ITransactionCategoryService categoryService)
+        public TransactionCategoryController(IMapper mapper, ITransactionCategoryService categoryService)
         {
             _categoryService = categoryService;
+            _mapper = mapper;
         }
 
         /// <summary>
@@ -56,13 +59,7 @@ namespace ExpenseApi.Controllers
         [HttpPost]
         public async Task<IActionResult> Post([FromBody] TransactionCategoryRequestModel request)
         {
-            // TODO: colocar automapper.
-            var result = await _categoryService.CreateAsync(new TransactionCategory()
-            {
-                Name = request.Name,
-                Description = request.Description,
-                Icon = request.Icon
-            });
+            var result = await _categoryService.CreateAsync(_mapper.Map<TransactionCategory>(request));
 
             return ResponseHelper.Handle(result);
         }
@@ -76,14 +73,7 @@ namespace ExpenseApi.Controllers
         [HttpPut]
         public async Task<IActionResult> Put([FromBody] TransactionCategoryRequestModel request)
         {
-            // TODO: colocar automapper.
-            var result = await _categoryService.UpdateAsync(new TransactionCategory()
-            {
-                Id = request.Id ?? Guid.Empty,
-                Name = request.Name,
-                Description = request.Description,
-                Icon = request.Icon
-            });
+            var result = await _categoryService.UpdateAsync(_mapper.Map<TransactionCategory>(request));
             return ResponseHelper.Handle(result);
         }
 

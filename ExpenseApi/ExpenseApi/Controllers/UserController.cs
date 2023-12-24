@@ -82,7 +82,6 @@ namespace ExpenseApi.Controllers
         [HttpPut]
         public async Task<IActionResult> Put([FromBody] UserRequestModel user)
         {
-            // TODO: colocar automapper.
             var result = await _userService.UpdateAsync(_mapper.Map<User>(user));
 
             return ResponseHelper.Handle(result);

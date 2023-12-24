@@ -13,10 +13,7 @@ namespace ExpenseApi.Domain.Mappings
     {
         public MappingProfileBankAccount()
         {
-            CreateMap<BankAccount, BankAccountRequestModel>()
-                .ForMember(dest => dest.Id ?? Guid.Empty, opt => opt.MapFrom(src => src.Id))
-                .ForMember(dest => dest.UserId ?? Guid.Empty, opt => opt.MapFrom(src => src.UserId))
-                .ReverseMap();
+            CreateMap<BankAccount, BankAccountRequestModel>().ReverseMap();
         }
     }
 }

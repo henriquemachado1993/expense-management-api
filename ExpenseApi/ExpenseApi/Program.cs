@@ -26,6 +26,7 @@ builder.Services.AddSingleton(mongoDBConfig);
 // Automapper
 builder.Services.AddSingleton(new MapperConfiguration(cfg =>
 {
+    cfg.AddProfile(new MappingProfileBaseId());
     cfg.AddProfile(new MappingProfileUser());
     cfg.AddProfile(new MappingProfileTransaction());
     cfg.AddProfile(new MappingProfileBankAccount());

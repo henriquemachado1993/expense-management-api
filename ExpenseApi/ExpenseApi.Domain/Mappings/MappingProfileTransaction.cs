@@ -14,10 +14,8 @@ namespace ExpenseApi.Domain.Mappings
     {
         public MappingProfileTransaction()
         {
-            CreateMap<Transaction, TransactionRequestModel>()
-                .ForMember(dest => dest.Id ?? Guid.Empty, opt => opt.MapFrom(src => src.Id))
-                .ForMember(dest => dest.UserId ?? Guid.Empty, opt => opt.MapFrom(src => src.UserId))
-                .ReverseMap();
+            CreateMap<Transaction, TransactionRequestModel>().ReverseMap();
+            CreateMap<TransactionCategory, TransactionCategoryRequestModel>().ReverseMap();
         }
     }
 }
