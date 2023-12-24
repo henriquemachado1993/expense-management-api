@@ -1,6 +1,6 @@
 ﻿using ExpenseApi.Models.Shared;
 
-namespace ExpenseApi.Models
+namespace ExpenseApi.Domain.Models.Transaction
 {
     public class FilterTransactionRequestModel : BasePage
     {

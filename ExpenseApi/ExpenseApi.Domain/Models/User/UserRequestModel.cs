@@ -1,4 +1,4 @@
-﻿namespace ExpenseApi.Models
+﻿namespace ExpenseApi.Domain.Models.User
 {
     public class UserRequestModel
     {

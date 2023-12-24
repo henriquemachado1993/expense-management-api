@@ -1,10 +1,9 @@
 ﻿using Microsoft.AspNetCore.Mvc;
-using MongoDB.Bson;
 using ExpenseApi.Domain.Entities;
 using ExpenseApi.Domain.Interfaces;
-using ExpenseApi.Models;
 using ExpenseApi.Domain.ValueObjects;
 using ExpenseApi.Helper;
+using ExpenseApi.Domain.Models.Auth;
 
 namespace ExpenseApi.Controllers
 {
@@ -28,7 +27,7 @@ namespace ExpenseApi.Controllers
         /// <param name="model"></param>
         /// <returns></returns>
         [HttpPost("login")]
-        public async Task<IActionResult> Login([FromBody] LoginModel model)
+        public async Task<IActionResult> Login([FromBody] LoginRequestModel model)
         {
             var result = await _authService.AuthenticateAsync(model.Email, model.Password);
 

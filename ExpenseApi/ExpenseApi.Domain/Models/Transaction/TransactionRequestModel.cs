@@ -1,4 +1,4 @@
-﻿namespace ExpenseApi.Models
+﻿namespace ExpenseApi.Domain.Models.Transaction
 {
     public class TransactionRequestModel
     {
@@ -18,7 +18,7 @@
 
     public class ExpenseCategoryModel
     {
-        
+
         public Guid Id { get; set; }
         public string Name { get; set; }
         public string Description { get; set; }

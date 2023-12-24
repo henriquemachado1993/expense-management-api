@@ -1,13 +1,10 @@
 ﻿using Microsoft.AspNetCore.Mvc;
-using MongoDB.Bson;
 using ExpenseApi.Domain.Entities;
 using ExpenseApi.Domain.Interfaces;
-using ExpenseApi.Models;
 using ExpenseApi.Helper;
 using ExpenseApi.Service;
 using Microsoft.AspNetCore.Authorization;
-using static MongoDB.Driver.WriteConcern;
-using Amazon.Runtime.Internal;
+using ExpenseApi.Domain.Models.BankAccount;
 
 namespace ExpenseApi.Controllers
 {

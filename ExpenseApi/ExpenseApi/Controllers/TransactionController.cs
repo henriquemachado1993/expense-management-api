@@ -1,13 +1,12 @@
 ﻿using Microsoft.AspNetCore.Mvc;
-using MongoDB.Bson;
 using ExpenseApi.Domain.Entities;
 using ExpenseApi.Domain.Interfaces;
-using ExpenseApi.Models;
 using Microsoft.AspNetCore.Authorization;
 using ExpenseApi.Helper;
 using Microsoft.AspNetCore.Http;
 using ExpenseApi.Domain.ValueObjects;
 using ExpenseApi.Domain.Extensions;
+using ExpenseApi.Domain.Models.Transaction;
 
 namespace ExpenseApi.Controllers
 {

@@ -1,3 +1,4 @@
+using AutoMapper;
 using Microsoft.AspNetCore.Authentication.JwtBearer;
 using Microsoft.AspNetCore.Authorization;
 using Microsoft.IdentityModel.Tokens;
@@ -12,6 +13,8 @@ using ExpenseApi.Service;
 using System.Reflection;
 using System.Text;
 using MongoDB.Bson;
+using Microsoft.AspNetCore.Hosting;
+using ExpenseApi.Domain.Mappings;
 
 var builder = WebApplication.CreateBuilder(args);
 
@@ -19,6 +22,15 @@ var builder = WebApplication.CreateBuilder(args);
 var mongoDBConfig = builder.Configuration.GetSection("MongoDBSettings").Get<MongoDBConfig>();
 BsonDefaults.GuidRepresentation = GuidRepresentation.Standard;
 builder.Services.AddSingleton(mongoDBConfig);
+
+// Automapper
+builder.Services.AddSingleton(new MapperConfiguration(cfg =>
+{
+    cfg.AddProfile(new MappingProfileUser());
+    cfg.AddProfile(new MappingProfileTransaction());
+    cfg.AddProfile(new MappingProfileBankAccount());
+
+}).CreateMapper());
 
 // DependencyInjection
 DependenciesInjector.Register(builder.Services);

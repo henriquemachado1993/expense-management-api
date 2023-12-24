@@ -1,11 +1,12 @@
 ﻿using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
-using MongoDB.Bson;
 using ExpenseApi.Domain.Entities;
 using ExpenseApi.Domain.Interfaces;
-using ExpenseApi.Models;
 using ExpenseApi.Domain.ValueObjects;
 using ExpenseApi.Helper;
+using ExpenseApi.Domain.Models.User;
+using System.Reflection;
+using AutoMapper;
 
 namespace ExpenseApi.Controllers
 {
@@ -17,11 +18,13 @@ namespace ExpenseApi.Controllers
     public class UserController : ControllerBase
     {
         private readonly IUserService _userService;
+        private readonly IMapper _mapper;
 
-        public UserController(IUserService service)
+        public UserController(IUserService service, IMapper mapper)
         {
             _userService = service;
-        }
+            _mapper = mapper;
+    }
 
         /// <summary>
         /// Recupera todos os usuários
@@ -66,21 +69,7 @@ namespace ExpenseApi.Controllers
         [HttpPost]
         public async Task<IActionResult> Post(UserRequestModel user)
         {
-            // TODO: colocar automapper.
-            var result = await _userService.CreateAsync(new User()
-            {
-                Name = user.Name,
-                Email = user.Email,
-                Password = user.Password,
-                BirthDate = user.BirthDate,
-                Address = new Address()
-                {
-                    City = user.Address.City,
-                    Street = user.Address.Street,
-                    ZipCode = user.Address.ZipCode
-                }
-            });
-
+            var result = await _userService.CreateAsync(_mapper.Map<User>(user));
             return ResponseHelper.Handle(result);
         }
 
@@ -94,19 +83,7 @@ namespace ExpenseApi.Controllers
         public async Task<IActionResult> Put([FromBody] UserRequestModel user)
         {
             // TODO: colocar automapper.
-            var result = await _userService.UpdateAsync(new User()
-            {
-                Id = user.Id ?? Guid.Empty,
-                Name = user.Name,
-                BirthDate = user.BirthDate,
-                Password = user.Password,
-                Address = new Address()
-                {
-                    City = user.Address.City,
-                    Street = user.Address.Street,
-                    ZipCode = user.Address.ZipCode
-                }
-            });
+            var result = await _userService.UpdateAsync(_mapper.Map<User>(user));
 
             return ResponseHelper.Handle(result);
         }

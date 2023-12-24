@@ -1,4 +1,4 @@
-﻿namespace ExpenseApi.Models
+﻿namespace ExpenseApi.Domain.Models.BankAccount
 {
     public class BankAccountBalanceRequestModel
     {
