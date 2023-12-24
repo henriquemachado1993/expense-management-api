@@ -24,7 +24,9 @@ namespace ExpenseApi.Service.Service
 
         public async Task<ServiceResult<User>> CreateAsync(User user)
         {
-            var userExists = (await _repository.FindAsync(x => x.Email == user.Email))?.FirstOrDefault();
+            user.Email = user.Email.Trim().ToLower();
+
+            var userExists = (await _repository.FindAsync(x => x.Email.ToLower() == user.Email))?.FirstOrDefault();
 
             if (userExists != null)
                 return ServiceResult<User>.CreateInvalidResult($"Já existe um usuário cadastrado com este email: {user.Email}");
@@ -36,17 +38,19 @@ namespace ExpenseApi.Service.Service
             entity.ClearPassword();
             return ServiceResult<User>.CreateValidResult(entity);
         }
-        public async Task<ServiceResult<User>> UpdateAsync(User user, bool isUpdatePassword = true)
-        {
-            if (isUpdatePassword)
-                user.Password = _passwordHasher.HashPassword(user.Password);
 
+        public async Task<ServiceResult<User>> UpdateAsync(User user)
+        {
             var entity = await _repository.GetByIdAsync(user.Id);
 
             if (entity == null)
                 return ServiceResult<User>.CreateInvalidResult("Registro não encontrado.");
 
-            var result = await _repository.UpdateAsync(user);
+            entity.Name = user.Name;
+            entity.Address = user.Address;
+            entity.BirthDate = user.BirthDate;
+
+            var result = await _repository.UpdateAsync(entity);
             result.ClearPassword();
             return ServiceResult<User>.CreateValidResult(result);
         }
