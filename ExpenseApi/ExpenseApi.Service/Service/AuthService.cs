@@ -16,27 +16,31 @@ namespace ExpenseApi.Service.Service
 {
     public class AuthService : IAuthService
     {
-        private readonly IUserService _userService;
+        private readonly IBaseRepository<User> _repository;
         private readonly IPasswordHasher _passwordHasher;
         private readonly IConfiguration _configuration;
 
-        public AuthService(IUserService userService, IPasswordHasher passwordHasher, IConfiguration configuration)
+        public AuthService(IBaseRepository<User> repository, IPasswordHasher passwordHasher, IConfiguration configuration)
         {
-            _userService = userService;
+            _repository = repository;
             _passwordHasher = passwordHasher;
             _configuration = configuration;
         }
 
         public async Task<ServiceResult<User>> AuthenticateAsync(string email, string password)
         {
-            var result = await _userService.FindAsync(x => x.Email.ToLower() == email.ToLower(), false);
-            var user = result.Data?.FirstOrDefault();
+            email = email.Trim().ToLower();
+
+            var resultUser = await _repository.FindAsync(x => x.Email.ToLower() == email);
+            var user = resultUser?.FirstOrDefault();
 
             if (user != null && _passwordHasher.VerifyPassword(user.Password, password))
             {
                 user.JwtToken = GenerateJwtToken(user);
-                await _userService.UpdateAsync(user, false);
-                return ServiceResult<User>.CreateValidResult(user);
+
+                var result = await _repository.UpdateAsync(user);
+
+                return ServiceResult<User>.CreateValidResult(result);
             }
             return ServiceResult<User>.CreateInvalidResult("Não foi possível se autenticar.", HttpStatusCode.Unauthorized);
         }
