@@ -1,103 +1,98 @@
-﻿using Castle.Core.Configuration;
-using ExpenseApi.Domain.Entities;
+﻿using ExpenseApi.Domain.Entities;
 using ExpenseApi.Domain.Interfaces;
 using ExpenseApi.Domain.Patterns;
 using ExpenseApi.Service.Service;
-using Microsoft.Extensions.Configuration;
-using Microsoft.Extensions.DependencyInjection;
+using Microsoft.IdentityModel.Tokens;
 using Moq;
 using NUnit.Framework;
 using System;
 using System.Collections.Generic;
 using System.Dynamic;
+using System.IdentityModel.Tokens.Jwt;
 using System.Linq;
+using System.Linq.Expressions;
+using System.Security.Claims;
 using System.Text;
-using System.Threading.Tasks;
 
 namespace ExpenseApi.Tests.Service
 {
-    [TestFixture]
     public class AuthServiceTest
     {
-        private readonly Mock<IBaseRepository<User>> _repository;
-        private readonly Mock<IPasswordHasher> _passwordHasher;
-        private readonly Mock<Microsoft.Extensions.Configuration.IConfiguration> _configuration;
+        private Mock<IBaseRepository<User>> _repository;
+        private Mock<IPasswordHasher> _passwordHasher;
+        private Mock<Microsoft.Extensions.Configuration.IConfiguration> _configuration;
+        private Mock<JwtSecurityTokenHandler> _jwtSecurityTokenHandler;
+
+        private AuthService _AuthService;
 
         private readonly string EMAIL = "admin@gmail.com";
         private readonly string PASSWORD = "12345";
 
-        public AuthServiceTest()
+        [SetUp]
+        public void Setup()
         {
             _repository = new Mock<IBaseRepository<User>>();
             _passwordHasher = new Mock<IPasswordHasher>();
-            _configuration = new Mock<Microsoft.Extensions.Configuration.IConfiguration>();
-        }
-
-        [Test]
-        public void Setup()
-        {
-            var users = GetListUserAsync();
-            var userCreate = GetUser();
-
-            _repository.Setup(x => x.FindAsync(x => x.Email.ToLower() == EMAIL))
-                .Returns(Task.FromResult(users));
-
-            _repository.Setup(x => x.UpdateAsync(userCreate))
-                .Returns(Task.FromResult(userCreate));
-
-            //var mockSection = new Mock<Microsoft.Extensions.Configuration.IConfigurationSection>();
-            //mockSection.Setup(x => x.Value).Returns("SecretKey");
             
-            //var mockConfig = new Mock<Microsoft.Extensions.Configuration.IConfiguration>();
-            //mockConfig.Setup(x => x.GetSection("ConfigKey")).Returns(mockSection.Object);
+            _jwtSecurityTokenHandler = new Mock<JwtSecurityTokenHandler>();
+            _jwtSecurityTokenHandler.Setup(x => x.CreateToken(It.IsAny<SecurityTokenDescriptor>()))
+                .Returns(new JwtSecurityToken(
+                    "Issuer", 
+                    "Audience", 
+                    new List<Claim>() {
+                        new Claim(ClaimTypes.Name, ""),
+                    }, 
+                    DateTime.Now, 
+                    DateTime.Now.AddHours(5), 
+                    new SigningCredentials(new SymmetricSecurityKey(Encoding.ASCII.GetBytes("ColoqueSuaChaveSecretaAquihahaha")), 
+                    SecurityAlgorithms.HmacSha256Signature)
+                ));
+            _jwtSecurityTokenHandler.Setup(x => x.WriteToken(It.IsAny<SecurityToken>())).Returns("Token");
 
-            _configuration.Setup(x => x[It.Is<string>(s => s == "JwtSettings:SecretKey")]).Returns("SecretKey");
+            _configuration = new Mock<Microsoft.Extensions.Configuration.IConfiguration>();
+            _configuration.Setup(x => x[It.Is<string>(s => s == "JwtSettings:SecretKey")]).Returns("ColoqueSuaChaveSecretaAquihahaha");
             _configuration.Setup(x => x[It.Is<string>(s => s == "JwtSettings:Audience")]).Returns("Audience");
             _configuration.Setup(x => x[It.Is<string>(s => s == "JwtSettings:Issuer")]).Returns("Issuer");
-            
+
+            _AuthService = new AuthService(_repository.Object, _passwordHasher.Object, _configuration.Object);
         }
 
         [Test]
-        public async Task AuthenticateValid()
+        public async Task AuthenticateIsValid()
         {
             // Arrange
+            var users = Task.FromResult(GetListUserAsync());
+            var userCreate = Task.FromResult(GetUser());
 
-            Setup();
-
-            _passwordHasher.Setup(x => x.VerifyPassword("12345", "12345"))
-               .Returns(true);
+            _repository.Setup(x => x.FindAsync(It.IsAny<Expression<Func<User, bool>>>()))
+                .Returns(users);
+            _passwordHasher.Setup(x => x.VerifyPassword(It.IsAny<string>(), It.IsAny<string>()))
+                .Returns(true);
+            _repository.Setup(x => x.UpdateAsync(It.IsAny<User>()))
+                .Returns(userCreate);
 
             // Act
-            var result = await new AuthService(_repository.Object, _passwordHasher.Object, _configuration.Object).AuthenticateAsync(EMAIL, PASSWORD);
+            var result = await _AuthService.AuthenticateAsync(EMAIL, PASSWORD);
 
             // Assert
             Assert.IsTrue(result.IsValid);
         }
 
         [Test]
-        public async Task AuthenticateInvalid()
+        public async Task AuthenticateIsInvalid()
         {
             // Arrange
-           
-            // Act
-            //var result = await _authService.AuthenticateAsync(email, password);
-
-            // Assert
-            //Assert.IsFalse(!result.IsValid);
-        }
-
-        [Test]
-        public async Task AuthenticateVerifyIfUserNull()
-        {
-            // Arrange
-            var email = "3213213123123123123123123123123123@gmail.com";
-            var password = "12345";
+            List<User> lst = null;
+            _repository.Setup(x => x.FindAsync(It.IsAny<Expression<Func<User, bool>>>()))
+                .Returns(Task.FromResult(lst));
+            _passwordHasher.Setup(x => x.VerifyPassword(It.IsAny<string>(), It.IsAny<string>()))
+                .Returns(false);
 
             // Act
-            //var result = await _authService.AuthenticateAsync(email, password);
+            var result = await _AuthService.AuthenticateAsync(EMAIL, "123");
 
             // Assert
-            //Assert.IsFalse(!result.IsValid);
+            Assert.IsTrue(!result.IsValid);
         }
 
         private List<User> GetListUserAsync()
