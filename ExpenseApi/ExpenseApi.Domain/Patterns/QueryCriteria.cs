@@ -1,6 +1,6 @@
 ﻿using System.Linq.Expressions;
 
-namespace ExpenseApi.Domain.ValueObjects
+namespace ExpenseApi.Domain.Patterns
 {
     public class QueryCriteria<T>
     {

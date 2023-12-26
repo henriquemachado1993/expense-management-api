@@ -1,7 +1,7 @@
 ﻿using MongoDB.Bson;
 using ExpenseApi.Domain.Entities;
 using ExpenseApi.Domain.Interfaces;
-using ExpenseApi.Domain.ValueObjects;
+using ExpenseApi.Domain.Patterns;
 using ExpenseApi.Service.Commands;
 using ExpenseApi.Service.Commands.Manager;
 using ExpenseApi.Domain.Enums;

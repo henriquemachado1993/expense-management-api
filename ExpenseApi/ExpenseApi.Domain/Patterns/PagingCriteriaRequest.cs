@@ -1,6 +1,6 @@
 ﻿using System.Runtime.Serialization;
 
-namespace ExpenseApi.Domain.ValueObjects
+namespace ExpenseApi.Domain.Patterns
 {
     [DataContract]
     public class PagingCriteriaRequest

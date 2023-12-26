@@ -8,7 +8,7 @@ using System.Linq;
 using System.Linq.Expressions;
 using System.Text;
 using System.Threading.Tasks;
-using ExpenseApi.Domain.ValueObjects;
+using ExpenseApi.Domain.Patterns;
 
 namespace ExpenseApi.Infra.Repositories
 {

@@ -4,7 +4,7 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 
-namespace ExpenseApi.Domain.ValueObjects
+namespace ExpenseApi.Domain.Patterns
 {
     public class DataItem<T>
     {

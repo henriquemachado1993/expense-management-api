@@ -1,4 +1,4 @@
-﻿using ExpenseApi.Domain.ValueObjects;
+﻿using ExpenseApi.Domain.Patterns;
 using Microsoft.AspNetCore.Mvc;
 using System.Net;
 

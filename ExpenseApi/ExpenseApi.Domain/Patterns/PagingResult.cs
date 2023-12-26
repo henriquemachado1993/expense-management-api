@@ -1,4 +1,4 @@
-﻿namespace ExpenseApi.Domain.ValueObjects
+﻿namespace ExpenseApi.Domain.Patterns
 {
     public class PagingResult<T> : ServiceResult<T>
     {

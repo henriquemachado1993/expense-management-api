@@ -9,7 +9,7 @@ using System.Linq;
 using System.Security.Claims;
 using System.Text;
 using System.Threading.Tasks;
-using ExpenseApi.Domain.ValueObjects;
+using ExpenseApi.Domain.Patterns;
 using System.Net;
 
 namespace ExpenseApi.Service.Service

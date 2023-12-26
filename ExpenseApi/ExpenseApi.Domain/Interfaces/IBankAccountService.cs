@@ -1,5 +1,5 @@
 ﻿using ExpenseApi.Domain.Entities;
-using ExpenseApi.Domain.ValueObjects;
+using ExpenseApi.Domain.Patterns;
 using MongoDB.Bson;
 using System;
 using System.Collections.Generic;

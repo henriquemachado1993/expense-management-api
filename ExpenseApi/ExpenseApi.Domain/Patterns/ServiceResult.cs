@@ -1,7 +1,7 @@
 ﻿using ExpenseApi.Domain.Enums;
 using System.Net;
 
-namespace ExpenseApi.Domain.ValueObjects
+namespace ExpenseApi.Domain.Patterns
 {
     /// <summary>
     /// Classe usada para transitar entre serviços e controller

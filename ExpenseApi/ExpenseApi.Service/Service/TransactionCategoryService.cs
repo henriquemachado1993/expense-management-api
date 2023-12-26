@@ -1,7 +1,7 @@
 ﻿using ExpenseApi.Domain.Entities;
 using ExpenseApi.Domain.Enums;
 using ExpenseApi.Domain.Interfaces;
-using ExpenseApi.Domain.ValueObjects;
+using ExpenseApi.Domain.Patterns;
 using ExpenseApi.Service.Commands;
 using Microsoft.Extensions.DependencyInjection;
 using MongoDB.Bson;

@@ -6,7 +6,7 @@ using ExpenseApi.Domain.Entities.Audit;
 using ExpenseApi.Infra.Context;
 using System;
 using System.Threading.Tasks;
-using ExpenseApi.Domain.ValueObjects;
+using ExpenseApi.Domain.Patterns;
 using ExpenseApi.Domain.Enums;
 using System.Net;
 
