@@ -20,13 +20,14 @@
 
   <ItemGroup>
     <Folder Include="Infra\" />
-    <Folder Include="Presentation\" />
+    <Folder Include="Domain\" />
   </ItemGroup>
 
   <ItemGroup>
     <ProjectReference Include="..\ExpenseApi.Domain\ExpenseApi.Domain.csproj" />
     <ProjectReference Include="..\ExpenseApi.Infra\ExpenseApi.Infra.csproj" />
     <ProjectReference Include="..\ExpenseApi.Service\ExpenseApi.Service.csproj" />
+    <ProjectReference Include="..\ExpenseApi\ExpenseApi.csproj" />
   </ItemGroup>
 
 </Project>
