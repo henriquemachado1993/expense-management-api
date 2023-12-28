@@ -19,6 +19,9 @@ namespace ExpenseApi.Controllers
         private readonly IMapper _mapper;
         private readonly IBankAccountService _bankService;
 
+        /// <summary>
+        /// API para controlar as contas do banco.
+        /// </summary>
         public BankAccountController(IMapper mapper, IBankAccountService bankService)
         {
             _bankService = bankService;
@@ -102,7 +105,7 @@ namespace ExpenseApi.Controllers
         /// <summary>
         /// Deposita um valor em uma conta
         /// </summary>
-        /// <param name="id"></param>
+        /// <param name="request"></param>
         /// <returns></returns>
         [Authorize]
         [HttpPut("deposit")]
@@ -115,7 +118,7 @@ namespace ExpenseApi.Controllers
         /// <summary>
         /// Debita um valor em uma conta
         /// </summary>
-        /// <param name="id"></param>
+        /// <param name="request"></param>
         /// <returns></returns>
         [Authorize]
         [HttpPut("withdraw")]

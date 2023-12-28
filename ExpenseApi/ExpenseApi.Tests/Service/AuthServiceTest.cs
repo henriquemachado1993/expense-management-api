@@ -82,9 +82,8 @@ namespace ExpenseApi.Tests.Service
         public async Task AuthenticateIsInvalid()
         {
             // Arrange
-            List<User> lst = null;
             _repository.Setup(x => x.FindAsync(It.IsAny<Expression<Func<User, bool>>>()))
-                .Returns(Task.FromResult(lst));
+                .Returns(Task.FromResult(new List<User>()));
             _passwordHasher.Setup(x => x.VerifyPassword(It.IsAny<string>(), It.IsAny<string>()))
                 .Returns(false);
 
@@ -120,7 +119,7 @@ namespace ExpenseApi.Tests.Service
         private User GetUser()
         {
             var users = GetListUserAsync();
-            return users.FirstOrDefault(x => x.Email == EMAIL);
+            return users.FirstOrDefault(x => x.Email == EMAIL) ?? new User();
         }
     }
 }

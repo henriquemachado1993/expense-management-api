@@ -21,6 +21,9 @@ namespace ExpenseApi.Controllers
         private readonly IMapper _mapper;
         private readonly ITransactionService _transactionService;
 
+        /// <summary>
+        /// API para controlar despesas.
+        /// </summary>
         public TransactionController(IMapper mapper, ITransactionService transactionService)
         {
             _mapper = mapper;

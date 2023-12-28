@@ -51,12 +51,12 @@ namespace ExpenseApi.Tests.Presentation
             Assert.IsInstanceOf<OkObjectResult>(result);
 
             var okResult = result as OkObjectResult;
-            Assert.IsNotNull(okResult.Value);
+            Assert.IsNotNull(okResult?.Value);
             Assert.IsInstanceOf<ServiceResult<User>>(okResult.Value);
 
             var serviceResult = okResult.Value as ServiceResult<User>;
-            Assert.IsTrue(serviceResult.IsValid);
-            Assert.IsNotNull(serviceResult.Data);
+            Assert.IsTrue(serviceResult?.IsValid);
+            Assert.IsNotNull(serviceResult?.Data);
         }
 
         [Test]
@@ -77,12 +77,12 @@ namespace ExpenseApi.Tests.Presentation
             Assert.IsInstanceOf<UnauthorizedObjectResult>(result);
 
             var unauthorizedResult = result as UnauthorizedObjectResult;
-            Assert.IsNotNull(unauthorizedResult.Value);
+            Assert.IsNotNull(unauthorizedResult?.Value);
             Assert.IsInstanceOf<ServiceResult<User>>(unauthorizedResult.Value);
 
             var serviceResult = unauthorizedResult.Value as ServiceResult<User>;
-            Assert.IsFalse(serviceResult.IsValid);
-            Assert.IsNull(serviceResult.Data);
+            Assert.IsFalse(serviceResult?.IsValid);
+            Assert.IsNull(serviceResult?.Data);
         }
 
         private ServiceResult<User> GetUser()

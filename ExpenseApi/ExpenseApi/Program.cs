@@ -20,7 +20,6 @@ var builder = WebApplication.CreateBuilder(args);
 
 // Config access mongoDB
 var mongoDBConfig = builder.Configuration.GetSection("MongoDBSettings").Get<MongoDBConfig>();
-BsonDefaults.GuidRepresentation = GuidRepresentation.Standard;
 builder.Services.AddSingleton(mongoDBConfig);
 
 // Automapper

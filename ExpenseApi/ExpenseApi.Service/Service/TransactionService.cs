@@ -45,7 +45,7 @@ namespace ExpenseApi.Service
                 }
             }
 
-            return ServiceResult<Transaction>.CreateValidResult(tranResult);
+            return ServiceResult<Transaction>.CreateValidResult(tranResult ?? transaction);
         }
 
         public async Task<ServiceResult<Transaction>> UpdateAsync(Transaction transaction)

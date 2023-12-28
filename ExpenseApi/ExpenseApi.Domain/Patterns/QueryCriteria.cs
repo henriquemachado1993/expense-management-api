@@ -9,7 +9,7 @@ namespace ExpenseApi.Domain.Patterns
             Navigation = new List<string>();
         }
 
-        public QueryCriteria(Page pager = null)
+        public QueryCriteria(Page pager)
         {
             Navigation = new List<string>();
             if (pager != null)

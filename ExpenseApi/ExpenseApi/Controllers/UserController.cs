@@ -20,6 +20,9 @@ namespace ExpenseApi.Controllers
         private readonly IUserService _userService;
         private readonly IMapper _mapper;
 
+        /// <summary>
+        /// API para controlar usuário.
+        /// </summary>
         public UserController(IUserService service, IMapper mapper)
         {
             _userService = service;
@@ -90,7 +93,7 @@ namespace ExpenseApi.Controllers
         /// <summary>
         /// Altera um senha somente se estiver logado
         /// </summary>
-        /// <param name="user"></param>
+        /// <param name="request"></param>
         /// <returns></returns>
         [Authorize]
         [HttpPut("update-password")]

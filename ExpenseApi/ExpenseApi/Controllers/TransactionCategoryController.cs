@@ -19,6 +19,9 @@ namespace ExpenseApi.Controllers
         private readonly IMapper _mapper;
         private readonly ITransactionCategoryService _categoryService;
 
+        /// <summary>
+        /// API para controlar categorias das transações.
+        /// </summary>
         public TransactionCategoryController(IMapper mapper, ITransactionCategoryService categoryService)
         {
             _categoryService = categoryService;

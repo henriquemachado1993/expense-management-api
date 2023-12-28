@@ -66,7 +66,7 @@ namespace ExpenseApi.Infra.Repositories
         public async Task<T> UpdateAsync(T entity)
         {
             // Assumindo que a entidade tem um campo chamado "Id"
-            var id = (Guid)entity.GetType().GetProperty("Id").GetValue(entity, null);
+            var id = (Guid?)entity?.GetType()?.GetProperty("Id")?.GetValue(entity, null);
             await _collection.ReplaceOneAsync(Builders<T>.Filter.Eq("_id", id), entity);
 
             return entity;

@@ -4,8 +4,17 @@ using System.Net;
 
 namespace ExpenseApi.Helper
 {
+    /// <summary>
+    /// Classe responsável por tratar o retorno dos serviços.
+    /// </summary>
     public static class ResponseHelper
     {
+        /// <summary>
+        /// Trata resposta da camada de serviço.
+        /// </summary>
+        /// <typeparam name="T"></typeparam>
+        /// <param name="serviceResult"></param>
+        /// <returns></returns>
         public static IActionResult Handle<T>(ServiceResult<T> serviceResult)
         {
             switch (serviceResult.StatusCode)

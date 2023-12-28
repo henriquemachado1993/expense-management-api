@@ -76,27 +76,30 @@ namespace ExpenseApi.Domain.Patterns
             return bo;
         }
 
-        public static ServiceResult<T> CreateInvalidResult(T model, string message, Exception exception = null, HttpStatusCode statusCode = HttpStatusCode.BadRequest)
+        public static ServiceResult<T> CreateInvalidResult(T model, string message, Exception exception, HttpStatusCode statusCode = HttpStatusCode.BadRequest)
         {
             var result = new ServiceResult<T>();
             result.Data = model;
-            result.Messages = AddError(message, exception);
+            if(exception != null)
+                result.Messages = AddError(message, exception);
             result.StatusCode = statusCode;
             return result;
         }
 
-        public static ServiceResult<T> CreateInvalidResult(Exception exception = null, HttpStatusCode statusCode = HttpStatusCode.BadRequest)
+        public static ServiceResult<T> CreateInvalidResult(Exception exception, HttpStatusCode statusCode = HttpStatusCode.BadRequest)
         {
             var result = new ServiceResult<T>();
-            result.Messages = AddError(exception);
+            if(exception != null)
+                result.Messages = AddError(exception);
             result.StatusCode = statusCode;
             return result;
         }
 
-        public static ServiceResult<T> CreateInvalidResult(Exception exception = null, string message = "Ocorreu um erro.", HttpStatusCode statusCode = HttpStatusCode.BadRequest)
+        public static ServiceResult<T> CreateInvalidResult(Exception exception, string message = "Ocorreu um erro.", HttpStatusCode statusCode = HttpStatusCode.BadRequest)
         {
             var result = new ServiceResult<T>();
-            result.Messages = AddError(message, exception);
+            if(exception != null)
+                result.Messages = AddError(message, exception);
             result.StatusCode = statusCode;
             return result;
         }
@@ -171,7 +174,7 @@ namespace ExpenseApi.Domain.Patterns
         /// </summary>
         /// <param name="message">Mensagem de sucesso</param>
         /// <param name="typeCustom">Usado para algo em HTML no frontend</param>
-        public void WithSucess(string message, string typeCustom = null)
+        public void WithSucess(string message, string typeCustom = "")
         {
             if (message != null && message.Any())
             {
@@ -179,7 +182,7 @@ namespace ExpenseApi.Domain.Patterns
             }
         }
 
-        private static List<MessageResult> AddSucess(string message, string typeCustom = null)
+        private static List<MessageResult> AddSucess(string message, string typeCustom = "")
         {
             var messageResult = new List<MessageResult>();
             messageResult.Add(new MessageResult()
@@ -207,7 +210,7 @@ namespace ExpenseApi.Domain.Patterns
             return messageResult;
         }
 
-        private static List<MessageResult> AddError(string message, Exception exception = null)
+        private static List<MessageResult> AddError(string message, Exception? exception = null)
         {
             var messageResult = new List<MessageResult>();
             messageResult.Add(new MessageResult()
@@ -228,7 +231,7 @@ namespace ExpenseApi.Domain.Patterns
             return messageResult;
         }
 
-        private static List<MessageResult> AddError(Exception exception = null)
+        private static List<MessageResult> AddError(Exception? exception = null)
         {
             var messageResult = new List<MessageResult>();
             if (exception != null)
@@ -243,7 +246,7 @@ namespace ExpenseApi.Domain.Patterns
             return messageResult;
         }
 
-        private static List<MessageResult> AddError(IEnumerable<string> errors, Exception exception = null)
+        private static List<MessageResult> AddError(IEnumerable<string> errors, Exception? exception = null)
         {
             var messageResult = new List<MessageResult>();
             foreach (var item in errors)

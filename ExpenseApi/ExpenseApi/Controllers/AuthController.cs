@@ -16,6 +16,10 @@ namespace ExpenseApi.Controllers
     {
         private readonly IAuthService _authService;
 
+        /// <summary>
+        /// API para autenticação do usuário.
+        /// </summary>
+        /// <param name="authService"></param>
         public AuthController(IAuthService authService)
         {
             _authService = authService;

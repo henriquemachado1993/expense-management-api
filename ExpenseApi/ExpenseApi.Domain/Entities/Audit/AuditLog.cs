@@ -11,7 +11,6 @@ namespace ExpenseApi.Domain.Entities.Audit
 {
     public class AuditLog : IBaseEntity
     {
-
         public AuditLog() { }
         public AuditLog(Guid id, string type, string message, DateTime createdAt, object data) { 
             Id = id;
