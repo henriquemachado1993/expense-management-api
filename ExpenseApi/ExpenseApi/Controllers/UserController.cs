@@ -30,7 +30,7 @@ namespace ExpenseApi.Controllers
         /// Recupera todos os usuários
         /// </summary>
         /// <returns></returns>
-        [Authorize("Bearer")]
+        [Authorize]
         [HttpGet]
         public async Task<IActionResult> Get()
         {
@@ -42,7 +42,7 @@ namespace ExpenseApi.Controllers
         /// </summary>
         /// <param name="id"></param>
         /// <returns></returns>
-        [Authorize("Bearer")]
+        [Authorize]
         [HttpGet("{id}")]
         public async Task<IActionResult> Get(Guid id)
         {
@@ -54,7 +54,7 @@ namespace ExpenseApi.Controllers
         /// </summary>
         /// <param name="name"></param>
         /// <returns></returns>
-        [Authorize("Bearer")]
+        [Authorize]
         [HttpGet("get-by-name/{name}")]
         public async Task<IActionResult> GetByName(string name)
         {
@@ -78,7 +78,7 @@ namespace ExpenseApi.Controllers
         /// </summary>
         /// <param name="user"></param>
         /// <returns></returns>
-        [Authorize("Bearer")]
+        [Authorize]
         [HttpPut]
         public async Task<IActionResult> Put([FromBody] UserRequestModel user)
         {
@@ -92,7 +92,7 @@ namespace ExpenseApi.Controllers
         /// </summary>
         /// <param name="user"></param>
         /// <returns></returns>
-        [Authorize("Bearer")]
+        [Authorize]
         [HttpPut("update-password")]
         public async Task<IActionResult> UpdatePassword([FromBody] UpdatePasswordRequestModel request)
         {
@@ -105,7 +105,7 @@ namespace ExpenseApi.Controllers
         /// </summary>
         /// <param name="id"></param>
         /// <returns></returns>
-        [Authorize("Bearer")]
+        [Authorize]
         [HttpDelete("{id}")]
         public async Task<IActionResult> Delete(Guid id)
         {

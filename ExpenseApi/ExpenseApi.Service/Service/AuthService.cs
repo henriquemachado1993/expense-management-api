@@ -37,9 +37,7 @@ namespace ExpenseApi.Service.Service
             if (user != null && _passwordHasher.VerifyPassword(user.Password, password))
             {
                 user.JwtToken = GenerateJwtToken(user);
-
                 var result = await _repository.UpdateAsync(user);
-                result.ClearPassword();
                 return ServiceResult<User>.CreateValidResult(result);
             }
             return ServiceResult<User>.CreateInvalidResult("Não foi possível se autenticar.", HttpStatusCode.Unauthorized);

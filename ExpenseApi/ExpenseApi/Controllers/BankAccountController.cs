@@ -29,7 +29,7 @@ namespace ExpenseApi.Controllers
         /// Recupera todas as contas de um usuário
         /// </summary>
         /// <returns></returns>
-        [Authorize("Bearer")]
+        [Authorize]
         [HttpGet]
         public async Task<IActionResult> Get()
         {
@@ -42,7 +42,7 @@ namespace ExpenseApi.Controllers
         /// </summary>
         /// <param name="id"></param>
         /// <returns></returns>
-        [Authorize("Bearer")]
+        [Authorize]
         [HttpGet("{id}")]
         public async Task<IActionResult> Get(Guid id)
         {
@@ -55,15 +55,13 @@ namespace ExpenseApi.Controllers
         /// </summary>
         /// <param name="request"></param>
         /// <returns></returns>
-        [Authorize("Bearer")]
+        [Authorize]
         [HttpPost]
         public async Task<IActionResult> Post([FromBody] BankAccountRequestModel request)
         {
             request.UserId = AuthenticatedUserHelper.GetId(HttpContext);
 
             var entity = _mapper.Map<BankAccount>(request);
-
-            entity.Deposit(request.AccountValue);
 
             var result = await _bankService.CreateAsync(entity);
 
@@ -75,7 +73,7 @@ namespace ExpenseApi.Controllers
         /// </summary>
         /// <param name="request"></param>
         /// <returns></returns>
-        [Authorize("Bearer")]
+        [Authorize]
         [HttpPut]
         public async Task<IActionResult> Put([FromBody] BankAccountRequestModel request)
         {
@@ -93,7 +91,7 @@ namespace ExpenseApi.Controllers
         /// </summary>
         /// <param name="id"></param>
         /// <returns></returns>
-        [Authorize("Bearer")]
+        [Authorize]
         [HttpDelete("{id}")]
         public async Task<IActionResult> Delete(Guid id)
         {
@@ -106,7 +104,7 @@ namespace ExpenseApi.Controllers
         /// </summary>
         /// <param name="id"></param>
         /// <returns></returns>
-        [Authorize("Bearer")]
+        [Authorize]
         [HttpPut("deposit")]
         public async Task<IActionResult> Deposit([FromBody] BankAccountBalanceRequestModel request)
         {
@@ -119,7 +117,7 @@ namespace ExpenseApi.Controllers
         /// </summary>
         /// <param name="id"></param>
         /// <returns></returns>
-        [Authorize("Bearer")]
+        [Authorize]
         [HttpPut("withdraw")]
         public async Task<IActionResult> WithDraw([FromBody] BankAccountBalanceRequestModel request)
         {

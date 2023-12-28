@@ -29,7 +29,7 @@ namespace ExpenseApi.Controllers
         /// Recupera todas as categoria
         /// </summary>
         /// <returns></returns>
-        [Authorize("Bearer")]
+        [Authorize]
         [HttpGet]
         public async Task<IActionResult> Get()
         {
@@ -42,7 +42,7 @@ namespace ExpenseApi.Controllers
         /// </summary>
         /// <param name="id"></param>
         /// <returns></returns>
-        [Authorize("Bearer")]
+        [Authorize]
         [HttpGet("{id}")]
         public async Task<IActionResult> Get(Guid id)
         {
@@ -55,7 +55,7 @@ namespace ExpenseApi.Controllers
         /// </summary>
         /// <param name="request"></param>
         /// <returns></returns>
-        [Authorize("Bearer")]
+        [Authorize]
         [HttpPost]
         public async Task<IActionResult> Post([FromBody] TransactionCategoryRequestModel request)
         {
@@ -69,7 +69,7 @@ namespace ExpenseApi.Controllers
         /// </summary>
         /// <param name="request"></param>
         /// <returns></returns>
-        [Authorize("Bearer")]
+        [Authorize]
         [HttpPut]
         public async Task<IActionResult> Put([FromBody] TransactionCategoryRequestModel request)
         {
@@ -82,7 +82,7 @@ namespace ExpenseApi.Controllers
         /// </summary>
         /// <param name="id"></param>
         /// <returns></returns>
-        [Authorize("Bearer")]
+        [Authorize]
         [HttpDelete("{id}")]
         public async Task<IActionResult> Delete(Guid id)
         {
