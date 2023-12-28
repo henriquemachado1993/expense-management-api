@@ -196,7 +196,7 @@
 						],
 						"body": {
 							"mode": "raw",
-							"raw": "{\r\n    \"id\": \"5f1c3e240ac0922384ac0a2b\",\r\n    \"name\": \"admin teste alteração\",\r\n    \"address\": {\r\n        \"street\": \"Rua louro\",\r\n        \"city\": \"Brasília\",\r\n        \"zipCode\": \"4234234234234\"\r\n    }\r\n}"
+							"raw": "{\r\n    \"id\": \"6b2a64cc-67db-4a66-a276-ebc586edc71b\",\r\n    \"name\": \"admin teste alteração\",\r\n    \"birthDate\": \"1980-07-08T01:07:01.313Z\",\r\n    \"address\": {\r\n        \"street\": \"Rua louro\",\r\n        \"city\": \"Brasília\",\r\n        \"zipCode\": \"4234234234234\"\r\n    }\r\n}"
 						},
 						"url": {
 							"raw": "{{baseurl}}/user",
@@ -341,7 +341,7 @@
 						"header": [],
 						"body": {
 							"mode": "raw",
-							"raw": "{\r\n  \"limit\": 15,\r\n  \"offset\": 1,\r\n  \"name\": \"despesa 1\"\r\n}",
+							"raw": "{\r\n  \"limit\": 30,\r\n  \"offset\": 1,\r\n  \"name\": \"despesa\",\r\n  \"categoryName\": \"alimentação\"\r\n}",
 							"options": {
 								"raw": {
 									"language": "json"
@@ -397,6 +397,7 @@
 							"script": {
 								"exec": [
 									"\r",
+									"//// Data da despesa random\r",
 									"// Recupere as variáveis de ambiente\r",
 									"const startDate = pm.environment.get(\"startDateExpenseDate\");\r",
 									"const endDate = pm.environment.get(\"endDateExpenseDate\");\r",
@@ -414,14 +415,42 @@
 									"// Defina a variável de ambiente para uso na solicitação\r",
 									"pm.globals.set(\"randomExpenseDate\", formattedDate);\r",
 									"\r",
-									"// Gera um nome aleatório\r",
-									"const randomName = \"Despesa \" + Math.floor(Math.random() * 1000) + 1;\r",
+									"//// Nome da despesa random\r",
+									"\r",
 									"// Gera um preço aleatório entre 10 e 1000\r",
 									"const randomPrice = Math.floor(Math.random() * (1000 - 10 + 1)) + 10;\r",
 									"\r",
 									"// Define as variáveis globais\r",
-									"pm.globals.set(\"randomName\", randomName);\r",
 									"pm.globals.set(\"randomPrice\", randomPrice);\r",
+									"\r",
+									"//// Id da categoria random\r",
+									"const numberExpense = Math.floor(Math.random() * 1000) + 1;\r",
+									"const transaction = [\r",
+									"    { nameTransaction : \"Despesa \" + numberExpense, expenseType : \"Expense\", id: '3fa85f64-5717-4562-b3fc-2c963f66afa6', name: 'Alimentação' },\r",
+									"    { nameTransaction : \"Despesa \" + numberExpense, expenseType : \"Expense\", id: '3fa85f64-5717-4562-b3fc-2c963f66afa7', name: 'Saúde' },\r",
+									"    { nameTransaction : \"Despesa \" + numberExpense, expenseType : \"Expense\", id: '3fa85f64-5717-4562-b3fc-2c963f66afa8', name: 'Outros' },\r",
+									"    { nameTransaction : \"Despesa \" + numberExpense, expenseType : \"Expense\", id: '3fa85f64-5717-4562-b3fc-2c963f66afa9', name: 'Despesas pessoais' },\r",
+									"    { nameTransaction : \"Despesa \" + numberExpense, expenseType : \"Expense\", id: '3fa85f64-5717-4562-b3fc-2c963f66afa0', name: 'Educação' },\r",
+									"    { nameTransaction : \"Despesa \" + numberExpense, expenseType : \"Expense\", id: '3fa85f64-5717-4562-b3fc-2c963f66afa1', name: 'Lazer' },\r",
+									"    { nameTransaction : \"Despesa \" + numberExpense, expenseType : \"Expense\", id: '3fa85f64-5717-4562-b3fc-2c963f66afa2', name: 'Comunicação' },\r",
+									"    { nameTransaction : \"Despesa \" + numberExpense, expenseType : \"Expense\", id: '3fa85f64-5717-4562-b3fc-2c963f66afa3', name: 'Transporte' },\r",
+									"    { nameTransaction : \"Entrada \" + numberExpense, expenseType : \"Income\", id: '3fa85f64-5717-4562-b3fc-2c963f66afa4', name: 'Entrada' }\r",
+									"];\r",
+									"\r",
+									"// Função para obter uma categoria aleatória\r",
+									"const getRandomTransaction = () => {\r",
+									"    const randomIndex = Math.floor(Math.random() * transaction.length);\r",
+									"    return transaction[randomIndex];\r",
+									"};\r",
+									"\r",
+									"// Gera uma categoria aleatória\r",
+									"const randomTransaction = getRandomTransaction();\r",
+									"\r",
+									"pm.globals.set(\"randomNameTransaction\", randomTransaction.nameTransaction );\r",
+									"pm.globals.set(\"randomTransactionType\", randomTransaction.expenseType );\r",
+									"pm.globals.set(\"randomCategoryId\", randomTransaction.id );\r",
+									"pm.globals.set(\"randomCategoryName\", randomTransaction.name );\r",
+									"\r",
 									""
 								],
 								"type": "text/javascript"
@@ -454,7 +483,7 @@
 						],
 						"body": {
 							"mode": "raw",
-							"raw": "{\r\n  \"description\": \"{{randomName}}\",\r\n  \"amount\": {{randomPrice}},\r\n  \"isPaid\": true,\r\n  \"isMonthlyRecurrence\": true,\r\n  \"expenseDate\": \"{{randomExpenseDate}}\",\r\n  \"transactionType\": \"Expense\",\r\n  \"category\": {\r\n    \"id\": \"e7d4d857-329f-4d5c-9138-23cf8df06fd5\",\r\n    \"name\": \"Venda\",\r\n    \"description\": \"Venda\",\r\n    \"icon\": \"pc\"\r\n  }\r\n}"
+							"raw": "{\r\n  \"description\": \"{{randomNameTransaction}}\",\r\n  \"amount\": {{randomPrice}},\r\n  \"isPaid\": true,\r\n  \"isMonthlyRecurrence\": true,\r\n  \"expenseDate\": \"{{randomExpenseDate}}\",\r\n  \"transactionType\": \"{{randomTransactionType}}\",\r\n  \"category\": {\r\n    \"id\": \"{{randomCategoryId}}\",\r\n    \"name\": \"{{randomCategoryName}}\",\r\n    \"description\": \"{{randomCategoryName}}\",\r\n    \"icon\": \"\"\r\n  }\r\n}"
 						},
 						"url": {
 							"raw": "{{baseurl}}/transaction",
@@ -679,7 +708,7 @@
 						],
 						"body": {
 							"mode": "raw",
-							"raw": "{\r\n  \"id\": \"65864b7a7f43df8a039b5732\",\r\n  \"name\": \"PC Gamer Teste\",\r\n  \"description\": \"PC Gamer Teste\",\r\n  \"icon\": \"PC\"\r\n}"
+							"raw": "{\r\n  \"id\": \"f7eb20e6-f5fc-4ac0-81ad-8377aedf6806\",\r\n  \"name\": \"PC Gamer Teste\",\r\n  \"description\": \"PC Gamer Teste\",\r\n  \"icon\": \"PC\"\r\n}"
 						},
 						"url": {
 							"raw": "{{baseurl}}/transactioncategory",
@@ -820,7 +849,7 @@
 						],
 						"body": {
 							"mode": "raw",
-							"raw": "{\r\n  \"name\": \"Banco do brasil\",\r\n  \"type\": \"Conta Corrente\",\r\n  \"accountValue\": 5000,\r\n  \"isMain\": true\r\n}"
+							"raw": "{\r\n  \"name\": \"Banco do Brasil\",\r\n  \"type\": \"Conta Corrente\",\r\n  \"accountValue\": 5000,\r\n  \"isMain\": false\r\n}"
 						},
 						"url": {
 							"raw": "{{baseurl}}/bankaccount",
@@ -862,7 +891,7 @@
 						],
 						"body": {
 							"mode": "raw",
-							"raw": "{\r\n  \"id\": \"65863c0a387904c76f0c8a84\",\r\n  \"userId\": \"string\",\r\n  \"name\": \"Nubank ultra violeta\",\r\n  \"type\": \"Conta corrente\",\r\n  \"accountValue\": 3999,\r\n  \"isMain\": true\r\n}"
+							"raw": "{\r\n  \"id\": \"3c87477c-72ea-44b9-b0a3-4164603ce949\",\r\n  \"name\": \"Nubank ultra violeta\",\r\n  \"type\": \"Conta corrente\",\r\n  \"accountValue\": 3999,\r\n  \"isMain\": true\r\n}"
 						},
 						"url": {
 							"raw": "{{baseurl}}/bankaccount",
