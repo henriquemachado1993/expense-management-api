@@ -9,5 +9,7 @@ namespace ExpenseApi.Domain.Models.Transaction
         /// Valores possíveis "Expense" ou "Income"
         /// </summary>
         public string? TransactionType { get; set; }
+        public Guid? CategoryId { get; set; }
+        public string? CategoryName { get; set; }
     }
 }

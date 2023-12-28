@@ -33,7 +33,7 @@ namespace ExpenseApi.Controllers
         [HttpGet]
         public async Task<IActionResult> Get()
         {
-            var results = await _bankService.GetAllAsync(AuthenticatedUserHelper.GetUserId(HttpContext));
+            var results = await _bankService.GetAllAsync(AuthenticatedUserHelper.GetId(HttpContext));
             return ResponseHelper.Handle(results);
         }
 
@@ -46,7 +46,7 @@ namespace ExpenseApi.Controllers
         [HttpGet("{id}")]
         public async Task<IActionResult> Get(Guid id)
         {
-            var result = await _bankService.GetByIdAsync(AuthenticatedUserHelper.GetUserId(HttpContext), id);
+            var result = await _bankService.GetByIdAsync(AuthenticatedUserHelper.GetId(HttpContext), id);
             return ResponseHelper.Handle(result);
         }
 
@@ -59,7 +59,7 @@ namespace ExpenseApi.Controllers
         [HttpPost]
         public async Task<IActionResult> Post([FromBody] BankAccountRequestModel request)
         {
-            request.UserId = AuthenticatedUserHelper.GetUserId(HttpContext);
+            request.UserId = AuthenticatedUserHelper.GetId(HttpContext);
 
             var entity = _mapper.Map<BankAccount>(request);
 
@@ -79,7 +79,7 @@ namespace ExpenseApi.Controllers
         [HttpPut]
         public async Task<IActionResult> Put([FromBody] BankAccountRequestModel request)
         {
-            request.UserId = AuthenticatedUserHelper.GetUserId(HttpContext);
+            request.UserId = AuthenticatedUserHelper.GetId(HttpContext);
 
             var entity = _mapper.Map<BankAccount>(request);
 
@@ -97,7 +97,7 @@ namespace ExpenseApi.Controllers
         [HttpDelete("{id}")]
         public async Task<IActionResult> Delete(Guid id)
         {
-            var result = await _bankService.DeleteAsync(AuthenticatedUserHelper.GetUserId(HttpContext), id);
+            var result = await _bankService.DeleteAsync(AuthenticatedUserHelper.GetId(HttpContext), id);
             return ResponseHelper.Handle(result);
         }
 
@@ -110,7 +110,7 @@ namespace ExpenseApi.Controllers
         [HttpPut("deposit")]
         public async Task<IActionResult> Deposit([FromBody] BankAccountBalanceRequestModel request)
         {
-            var result = await _bankService.DepositAsync(AuthenticatedUserHelper.GetUserId(HttpContext), request.Id, request.Amount);
+            var result = await _bankService.DepositAsync(AuthenticatedUserHelper.GetId(HttpContext), request.Id, request.Amount);
             return ResponseHelper.Handle(result);
         }
 
@@ -123,7 +123,7 @@ namespace ExpenseApi.Controllers
         [HttpPut("withdraw")]
         public async Task<IActionResult> WithDraw([FromBody] BankAccountBalanceRequestModel request)
         {
-            var result = await _bankService.WithDrawAsync(AuthenticatedUserHelper.GetUserId(HttpContext), request.Id, request.Amount);
+            var result = await _bankService.WithDrawAsync(AuthenticatedUserHelper.GetId(HttpContext), request.Id, request.Amount);
             return ResponseHelper.Handle(result);
         }
     }

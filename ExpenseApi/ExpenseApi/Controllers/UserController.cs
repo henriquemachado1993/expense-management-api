@@ -96,7 +96,7 @@ namespace ExpenseApi.Controllers
         [HttpPut("update-password")]
         public async Task<IActionResult> UpdatePassword([FromBody] UpdatePasswordRequestModel request)
         {
-            var result = await _userService.UpdatePasswordAsync(AuthenticatedUserHelper.GetUserId(HttpContext), request.OldPassword, request.NewPassword);
+            var result = await _userService.UpdatePasswordAsync(AuthenticatedUserHelper.GetId(HttpContext), request.OldPassword, request.NewPassword);
             return ResponseHelper.Handle(result);
         }
 

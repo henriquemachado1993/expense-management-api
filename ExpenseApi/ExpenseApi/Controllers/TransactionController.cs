@@ -35,7 +35,7 @@ namespace ExpenseApi.Controllers
         [HttpGet]
         public async Task<IActionResult> Get()
         {
-            var results = await _transactionService.GetAllAsync(AuthenticatedUserHelper.GetUserId(HttpContext));
+            var results = await _transactionService.GetAllAsync(AuthenticatedUserHelper.GetId(HttpContext));
             return ResponseHelper.Handle(results);
         }
 
@@ -47,7 +47,7 @@ namespace ExpenseApi.Controllers
         [HttpPost("get-paged")]
         public async Task<IActionResult> GetPaged(FilterTransactionRequestModel requestQueryCriteria)
         {
-            var userId = AuthenticatedUserHelper.GetUserId(HttpContext);
+            var userId = AuthenticatedUserHelper.GetId(HttpContext);
             var queryCriteria = new QueryCriteria<Transaction>()
             {
                 Expression = x => x.UserId == userId,
@@ -61,6 +61,12 @@ namespace ExpenseApi.Controllers
             if (!string.IsNullOrWhiteSpace(requestQueryCriteria.TransactionType))
                 queryCriteria.Expression = queryCriteria.Expression.AndAlso(x => x.TransactionType.ToLower() == requestQueryCriteria.TransactionType.ToLower());
 
+            if (requestQueryCriteria.CategoryId != null)
+                queryCriteria.Expression = queryCriteria.Expression.AndAlso(x => x.Category.Id == requestQueryCriteria.CategoryId);
+
+            if (!string.IsNullOrWhiteSpace(requestQueryCriteria.CategoryName))
+                queryCriteria.Expression = queryCriteria.Expression.AndAlso(x => x.Category.Name.ToLower().Contains(requestQueryCriteria.CategoryName.ToLower()));
+
             return ResponseHelper.Handle(await _transactionService.GetPagedAsync(queryCriteria));
         }
 
@@ -73,7 +79,7 @@ namespace ExpenseApi.Controllers
         [HttpGet("{id}")]
         public async Task<IActionResult> Get(Guid id)
         {
-            var result = await _transactionService.GetByIdAsync(AuthenticatedUserHelper.GetUserId(HttpContext), id);
+            var result = await _transactionService.GetByIdAsync(AuthenticatedUserHelper.GetId(HttpContext), id);
             return ResponseHelper.Handle(result);
         }
 
@@ -86,7 +92,7 @@ namespace ExpenseApi.Controllers
         [HttpPost]
         public async Task<IActionResult> Post([FromBody] TransactionRequestModel request)
         {
-            request.UserId = AuthenticatedUserHelper.GetUserId(HttpContext);
+            request.UserId = AuthenticatedUserHelper.GetId(HttpContext);
             var user = _mapper.Map<Transaction>(request);
             var result = await _transactionService.CreateAsync(user);
 
@@ -102,7 +108,7 @@ namespace ExpenseApi.Controllers
         [HttpPut]
         public async Task<IActionResult> Put([FromBody] TransactionRequestModel request)
         {
-            request.UserId = AuthenticatedUserHelper.GetUserId(HttpContext);
+            request.UserId = AuthenticatedUserHelper.GetId(HttpContext);
             var user = _mapper.Map<Transaction>(request);
             var result = await _transactionService.UpdateAsync(user);
 
@@ -118,7 +124,7 @@ namespace ExpenseApi.Controllers
         [HttpDelete("{id}")]
         public async Task<IActionResult> Delete(Guid id)
         {
-            var result = await _transactionService.DeleteAsync(AuthenticatedUserHelper.GetUserId(HttpContext), id);
+            var result = await _transactionService.DeleteAsync(AuthenticatedUserHelper.GetId(HttpContext), id);
             return ResponseHelper.Handle(result);
         }
     }
