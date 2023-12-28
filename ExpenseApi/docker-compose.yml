@@ -1,0 +1,11 @@
+version: '3.4'
+
+services:
+  expensedb:
+    image: henriquemachado1993/expense-manager-mongo:dev
+
+  expense.api:
+    image: ${DOCKER_REGISTRY-}expenseapi
+    build:
+      context: .
+      dockerfile: Dockerfile

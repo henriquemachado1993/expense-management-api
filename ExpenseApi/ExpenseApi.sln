@@ -11,7 +11,9 @@ Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "ExpenseApi.Domain", "Expens
 EndProject
 Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "ExpenseApi.Service", "ExpenseApi.Service\ExpenseApi.Service.csproj", "{07E4A64F-A025-4BBA-8314-53CDA3B3D996}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "ExpenseApi.Tests", "ExpenseApi.Tests\ExpenseApi.Tests.csproj", "{8AB86076-385B-4230-8C3C-8B519E4EC7CC}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "ExpenseApi.Tests", "ExpenseApi.Tests\ExpenseApi.Tests.csproj", "{8AB86076-385B-4230-8C3C-8B519E4EC7CC}"
+EndProject
+Project("{E53339B2-1760-4266-BCC7-CA923CBCF16C}") = "docker-compose", "docker-compose.dcproj", "{9A30BCE7-D0B7-45D4-B261-BEE2194547B2}"
 EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
@@ -39,6 +41,10 @@ Global
 		{8AB86076-385B-4230-8C3C-8B519E4EC7CC}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{8AB86076-385B-4230-8C3C-8B519E4EC7CC}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{8AB86076-385B-4230-8C3C-8B519E4EC7CC}.Release|Any CPU.Build.0 = Release|Any CPU
+		{9A30BCE7-D0B7-45D4-B261-BEE2194547B2}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{9A30BCE7-D0B7-45D4-B261-BEE2194547B2}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{9A30BCE7-D0B7-45D4-B261-BEE2194547B2}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{9A30BCE7-D0B7-45D4-B261-BEE2194547B2}.Release|Any CPU.Build.0 = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE
