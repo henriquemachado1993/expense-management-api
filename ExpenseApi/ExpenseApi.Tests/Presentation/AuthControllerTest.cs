@@ -52,9 +52,9 @@ namespace ExpenseApi.Tests.Presentation
 
             var okResult = result as OkObjectResult;
             Assert.IsNotNull(okResult?.Value);
-            Assert.IsInstanceOf<ServiceResult<User>>(okResult.Value);
+            Assert.IsInstanceOf<ServiceResult<User>>(okResult?.Value);
 
-            var serviceResult = okResult.Value as ServiceResult<User>;
+            var serviceResult = okResult?.Value as ServiceResult<User>;
             Assert.IsTrue(serviceResult?.IsValid);
             Assert.IsNotNull(serviceResult?.Data);
         }
@@ -78,14 +78,14 @@ namespace ExpenseApi.Tests.Presentation
 
             var unauthorizedResult = result as UnauthorizedObjectResult;
             Assert.IsNotNull(unauthorizedResult?.Value);
-            Assert.IsInstanceOf<ServiceResult<User>>(unauthorizedResult.Value);
+            Assert.IsInstanceOf<ServiceResult<User>>(unauthorizedResult?.Value);
 
-            var serviceResult = unauthorizedResult.Value as ServiceResult<User>;
+            var serviceResult = unauthorizedResult?.Value as ServiceResult<User>;
             Assert.IsFalse(serviceResult?.IsValid);
             Assert.IsNull(serviceResult?.Data);
         }
 
-        private ServiceResult<User> GetUser()
+        private static ServiceResult<User> GetUser()
         {
             return ServiceResult<User>.CreateValidResult(new User()
             {

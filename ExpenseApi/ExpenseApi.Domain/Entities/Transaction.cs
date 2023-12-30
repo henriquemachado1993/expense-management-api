@@ -2,6 +2,7 @@
 using MongoDB.Bson.Serialization.Attributes;
 using ExpenseApi.Domain.Interfaces;
 using ExpenseApi.Domain.Extensions;
+using ExpenseApi.Domain.Enums;
 
 namespace ExpenseApi.Domain.Entities
 {
@@ -25,7 +26,7 @@ namespace ExpenseApi.Domain.Entities
         /// <summary>
         /// Valores possíveis "Expense" ou "Income"
         /// </summary>
-        public string TransactionType { get; set; }
+        public TransactionType TransactionType { get; set; }
         public TransactionCategory Category { get; set; }
     }
 }

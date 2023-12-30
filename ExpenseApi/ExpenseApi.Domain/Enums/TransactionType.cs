@@ -8,6 +8,7 @@ namespace ExpenseApi.Domain.Enums
 {
     public enum TransactionType
     {
+        Undefined,
         Expense,
         Income
     }

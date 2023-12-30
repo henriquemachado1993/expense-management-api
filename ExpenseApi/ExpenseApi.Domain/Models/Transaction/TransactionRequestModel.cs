@@ -1,4 +1,6 @@
-﻿namespace ExpenseApi.Domain.Models.Transaction
+﻿using ExpenseApi.Domain.Enums;
+
+namespace ExpenseApi.Domain.Models.Transaction
 {
     public class TransactionRequestModel
     {
@@ -12,7 +14,7 @@
         /// <summary>
         /// Valores possíveis "Expense" ou "Income"
         /// </summary>
-        public string TransactionType { get; set; }
+        public TransactionType TransactionType { get; set; }
         public TransactionCategoryRequestModel Category { get; set; }
     }
 }
