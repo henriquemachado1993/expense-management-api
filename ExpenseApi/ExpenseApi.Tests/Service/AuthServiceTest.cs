@@ -2,6 +2,7 @@
 using ExpenseApi.Domain.Interfaces;
 using ExpenseApi.Domain.Patterns;
 using ExpenseApi.Service.Service;
+using ExpenseApi.Tests.Helper;
 using Microsoft.IdentityModel.Tokens;
 using Moq;
 using NUnit.Framework;
@@ -61,8 +62,8 @@ namespace ExpenseApi.Tests.Service
         public async Task AuthenticateIsValid()
         {
             // Arrange
-            var users = Task.FromResult(GetListUserAsync());
-            var userCreate = Task.FromResult(GetUser());
+            var users = Task.FromResult(UserModelsHelper.GetListUserAsync());
+            var userCreate = Task.FromResult(UserModelsHelper.GetUser());
 
             _repository.Setup(x => x.FindAsync(It.IsAny<Expression<Func<User, bool>>>()))
                 .Returns(users);
@@ -92,34 +93,6 @@ namespace ExpenseApi.Tests.Service
 
             // Assert
             Assert.IsTrue(!result.IsValid);
-        }
-
-        private List<User> GetListUserAsync()
-        {
-            var lst = new List<User>()
-            {
-                new User()
-                {
-                    Id = Guid.NewGuid(),
-                    Name = "Admin",
-                    Email = "admin@gmail.com",
-                    BirthDate = DateTime.Now,
-                    Password = "12345",
-                    Address = new Address() {
-                        City = "Brasilia",
-                        Street = "X",
-                        ZipCode = "123123"
-                    }
-                }
-            };
-
-            return lst;
-        }
-
-        private User GetUser()
-        {
-            var users = GetListUserAsync();
-            return users.FirstOrDefault(x => x.Email == EMAIL) ?? new User();
         }
     }
 }

@@ -29,7 +29,7 @@ namespace ExpenseApi.Service
             var tranResult = await _repository.CreateAsync(transaction);
 
             // Se for uma entrada, nós adicionamos à alguma conta.
-            if (tranResult != null && tranResult.TransactionType == TransactionType.Income.ToString())
+            if (tranResult != null && tranResult.TransactionType == TransactionType.Income)
             {
                 var transactionManager = new TransactionManager();
                 var commandDesposit = new BankAccountDepositCommand(_serviceProvider.GetRequiredService<IBankAccountService>(), tranResult.UserId, tranResult.Amount);
@@ -80,7 +80,7 @@ namespace ExpenseApi.Service
                     await _repository.DeleteAsync(id);
 
                     // Se for uma entrada, nós debitamos de alguma conta.
-                    if (entity.TransactionType == TransactionType.Income.ToString())
+                    if (entity.TransactionType == TransactionType.Income)
                         await transactionManager.ExecuteCommand(command);
                 }
                 catch

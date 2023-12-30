@@ -61,8 +61,8 @@ namespace ExpenseApi.Controllers
             if (!string.IsNullOrWhiteSpace(requestQueryCriteria.Name))
                 queryCriteria.Expression = queryCriteria.Expression.AndAlso(x => x.Description.ToLower().Contains(requestQueryCriteria.Name.ToLower()));
 
-            if (!string.IsNullOrWhiteSpace(requestQueryCriteria.TransactionType))
-                queryCriteria.Expression = queryCriteria.Expression.AndAlso(x => x.TransactionType.ToLower() == requestQueryCriteria.TransactionType.ToLower());
+            if (requestQueryCriteria.TransactionType != null)
+                queryCriteria.Expression = queryCriteria.Expression.AndAlso(x => x.TransactionType == requestQueryCriteria.TransactionType);
 
             if (requestQueryCriteria.CategoryId != null)
                 queryCriteria.Expression = queryCriteria.Expression.AndAlso(x => x.Category.Id == requestQueryCriteria.CategoryId);

@@ -88,7 +88,7 @@ namespace ExpenseApi.Service.Service
         {
             var result = await _repository.FindAsync(filterExpression);
 
-            if(clearPassword)
+            if(result != null && clearPassword)
                 result.ForEach(user => { user.ClearPassword(); });
 
             return ServiceResult<List<User>>.CreateValidResult(result);
@@ -98,7 +98,7 @@ namespace ExpenseApi.Service.Service
         {
             var result = await _repository.FindAsync(_ => true);
             
-            if (clearPassword)
+            if (result != null && clearPassword)
                 result.ForEach(user => { user.ClearPassword(); });
 
             return ServiceResult<List<User>>.CreateValidResult(result);

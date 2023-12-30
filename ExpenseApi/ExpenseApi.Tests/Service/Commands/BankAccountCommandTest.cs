@@ -1,12 +1,30 @@
-﻿using System;
+﻿using ExpenseApi.Domain.Entities;
+using ExpenseApi.Domain.Interfaces;
+using ExpenseApi.Domain.Patterns;
+using ExpenseApi.Service.Service;
+using Microsoft.IdentityModel.Tokens;
+using Moq;
+using NUnit.Framework;
+using System;
 using System.Collections.Generic;
+using System.Dynamic;
+using System.IdentityModel.Tokens.Jwt;
 using System.Linq;
+using System.Linq.Expressions;
+using System.Security.Claims;
 using System.Text;
-using System.Threading.Tasks;
+
 
 namespace ExpenseApi.Tests.Service.Commands
 {
-    internal class BankAccountCommandTest
+    public class BankAccountCommandTest
     {
+        private Mock<IBankAccountService> _service;
+
+        [SetUp]
+        public void Setup()
+        {
+            _service = new Mock<IBankAccountService>();
+        }
     }
 }

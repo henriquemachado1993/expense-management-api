@@ -1,4 +1,5 @@
-﻿using ExpenseApi.Models.Shared;
+﻿using ExpenseApi.Domain.Enums;
+using ExpenseApi.Models.Shared;
 
 namespace ExpenseApi.Domain.Models.Transaction
 {
@@ -8,7 +9,7 @@ namespace ExpenseApi.Domain.Models.Transaction
         /// <summary>
         /// Valores possíveis "Expense" ou "Income"
         /// </summary>
-        public string? TransactionType { get; set; }
+        public TransactionType? TransactionType { get; set; }
         public Guid? CategoryId { get; set; }
         public string? CategoryName { get; set; }
     }
