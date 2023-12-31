@@ -17,7 +17,7 @@ using System.Security.Claims;
 using System.Text;
 using System.Threading.Tasks;
 
-namespace ExpenseApi.Tests.Presentation
+namespace ExpenseApi.Tests.Controller
 {
     public class AuthControllerTest
     {
