@@ -1,6 +1,9 @@
 # MongoDB .NET Core Demo
 Este é um projeto de API para Controle de Finanças Pessoais, desenvolvido em .NET Core 6. A API oferece funcionalidades intuitivas e fáceis de usar para o gerenciamento abrangente de finanças pessoais, incluindo controle de despesas, gestão de categorias, controle de contas bancárias e estatísticas simplificadas com gráficos.
 
+## Azure Devops
+https://dev.azure.com/henriquemachado1993
+
 ## Recursos
 MongoDB Driver: Utiliza o driver oficial do MongoDB para .NET (MongoDB.Driver) para se conectar ao banco de dados MongoDB.
 
