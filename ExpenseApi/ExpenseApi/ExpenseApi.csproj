@@ -25,4 +25,9 @@
     <ProjectReference Include="..\ExpenseApi.Infra\ExpenseApi.Infra.csproj" />
   </ItemGroup>
 
+  <ItemGroup>
+    <InternalsVisibleTo Include="ExpenseApi.TestIntegration" />
+  </ItemGroup>
+  
+
 </Project>
