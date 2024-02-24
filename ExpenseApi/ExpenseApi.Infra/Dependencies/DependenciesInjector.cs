@@ -11,6 +11,7 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
+using ExpenseApi.Infra.PollyPolicies;
 
 namespace ExpenseApi.Infra.Dependencies
 {
@@ -18,6 +19,11 @@ namespace ExpenseApi.Infra.Dependencies
     {
         public static void Register(IServiceCollection svcCollection)
         {
+            // Poly configurations
+            svcCollection.AddHttpClient<IHttpBinService, HttpBinService>()
+                .AddPolicyHandler(PolicyHandler.GetRetryPolicy(retryCount: 3))
+                .AddPolicyHandler(PolicyHandler.GetCircuitBreakerPolicy(exceptionsAllowedBeforeBreaking: 5, durationOfBreakInSeconds: 30));
+
             // Context
             svcCollection.AddScoped<MongoDBContext>();
             
