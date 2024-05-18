@@ -1,9 +1,7 @@
-﻿using Microsoft.AspNetCore.Mvc;
-using ExpenseApi.Domain.Entities;
-using ExpenseApi.Domain.Interfaces;
-using ExpenseApi.Domain.Patterns;
-using ExpenseApi.Helper;
+﻿using ExpenseApi.Domain.Interfaces;
 using ExpenseApi.Domain.Models.Auth;
+using ExpenseApi.Helper;
+using Microsoft.AspNetCore.Mvc;
 
 namespace ExpenseApi.Controllers
 {

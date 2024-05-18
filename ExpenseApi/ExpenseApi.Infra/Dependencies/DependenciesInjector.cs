@@ -1,17 +1,10 @@
-﻿using Microsoft.Extensions.Configuration;
-using Microsoft.Extensions.DependencyInjection;
-using ExpenseApi.Domain.Interfaces;
-using ExpenseApi.Infra.Auth;
+﻿using ExpenseApi.Domain.Interfaces;
 using ExpenseApi.Infra.Context;
+using ExpenseApi.Infra.PollyPolicies;
 using ExpenseApi.Infra.Repositories;
 using ExpenseApi.Service;
 using ExpenseApi.Service.Service;
-using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
-using ExpenseApi.Infra.PollyPolicies;
+using Microsoft.Extensions.DependencyInjection;
 
 namespace ExpenseApi.Infra.Dependencies
 {
@@ -38,7 +31,6 @@ namespace ExpenseApi.Infra.Dependencies
 
             // Auth
             svcCollection.AddScoped<IAuthService, AuthService>();
-            svcCollection.AddSingleton<IPasswordHasher, BCryptPasswordHasher>();
         }
     }
 }

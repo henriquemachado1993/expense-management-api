@@ -1,22 +1,17 @@
-﻿using MongoDB.Bson;
+﻿using BeireMKit.Authetication.Interfaces.Jwt;
 using ExpenseApi.Domain.Entities;
 using ExpenseApi.Domain.Interfaces;
-using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Linq.Expressions;
-using System.Text;
-using System.Threading.Tasks;
 using ExpenseApi.Domain.Patterns;
+using System.Linq.Expressions;
 
 namespace ExpenseApi.Service.Service
 {
     public class UserService : IUserService
     {
         private readonly IBaseRepository<User> _repository;
-        private readonly IPasswordHasher _passwordHasher;
+        private readonly IPasswordHasherService _passwordHasher;
 
-        public UserService(IBaseRepository<User> repository, IPasswordHasher passwordHasher)
+        public UserService(IBaseRepository<User> repository, IPasswordHasherService passwordHasher)
         {
             _repository = repository;
             _passwordHasher = passwordHasher;

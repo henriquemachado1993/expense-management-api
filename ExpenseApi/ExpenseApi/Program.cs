@@ -1,20 +1,16 @@
 using AutoMapper;
+using BeireMKit.Authetication.Extensions;
+using BeireMKit.Authetication.Models;
+using ExpenseApi.Domain.Entities;
+using ExpenseApi.Domain.Mappings;
+using ExpenseApi.Infra.Dependencies;
+using ExpenseApi.Infra.Middlewares;
 using Microsoft.AspNetCore.Authentication.JwtBearer;
 using Microsoft.AspNetCore.Authorization;
 using Microsoft.IdentityModel.Tokens;
 using Microsoft.OpenApi.Models;
-using ExpenseApi.Domain.Entities;
-using ExpenseApi.Domain.Interfaces;
-using ExpenseApi.Infra.Context;
-using ExpenseApi.Infra.Dependencies;
-using ExpenseApi.Infra.Middlewares;
-using ExpenseApi.Infra.Repositories;
-using ExpenseApi.Service;
 using System.Reflection;
 using System.Text;
-using MongoDB.Bson;
-using Microsoft.AspNetCore.Hosting;
-using ExpenseApi.Domain.Mappings;
 
 var builder = WebApplication.CreateBuilder(args);
 
@@ -47,36 +43,13 @@ builder.Services.AddSwaggerGen(c =>
 });
 
 builder.Services.AddControllers();
-// Learn more about configuring Swagger/OpenAPI at https://aka.ms/aspnetcore/swashbuckle
 builder.Services.AddEndpointsApiExplorer();
 builder.Services.AddSwaggerGen();
 
 // Auth
-builder.Services.AddAuthentication(options =>
-{
-    options.DefaultAuthenticateScheme = JwtBearerDefaults.AuthenticationScheme;
-    options.DefaultChallengeScheme = JwtBearerDefaults.AuthenticationScheme;
-}).AddJwtBearer(options =>
-{
-    options.TokenValidationParameters = new TokenValidationParameters
-    {
-        ValidateIssuer = true,
-        ValidateAudience = true,
-        ValidateLifetime = true,
-        ValidateIssuerSigningKey = true,
-        ValidIssuer = builder.Configuration.GetSection("JwtSettings:Issuer").Value,
-        ValidAudience = builder.Configuration.GetSection("JwtSettings:Audience").Value,
-        IssuerSigningKey = new SymmetricSecurityKey(Encoding.UTF8.GetBytes(builder.Configuration.GetSection("JwtSettings:SecretKey").Value))
-    };
-});
-
-builder.Services.AddAuthorization(options =>
-{
-    options.AddPolicy("Bearer", new AuthorizationPolicyBuilder()
-        .AddAuthenticationSchemes(JwtBearerDefaults.AuthenticationScheme)
-        .RequireAuthenticatedUser()
-        .Build());
-});
+var jwtSetthings = builder.Configuration.GetSection("JwtSettings").Get<JwtSettings>();
+builder.Services.ConfigureJwtAuthentication(jwtSetthings);
+builder.Services.ConfigureJwtServices();
 
 builder.Services.AddSingleton<IConfiguration>(builder.Configuration);
 

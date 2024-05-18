@@ -10,6 +10,7 @@
   </PropertyGroup>
 
   <ItemGroup>
+    <PackageReference Include="BeireMKit.Authetication" Version="1.0.1" />
     <PackageReference Include="Microsoft.NET.Test.Sdk" Version="17.5.0" />
     <PackageReference Include="Moq" Version="4.20.70" />
     <PackageReference Include="NUnit" Version="3.13.3" />
@@ -28,6 +29,12 @@
     <ProjectReference Include="..\ExpenseApi.Infra\ExpenseApi.Infra.csproj" />
     <ProjectReference Include="..\ExpenseApi.Service\ExpenseApi.Service.csproj" />
     <ProjectReference Include="..\ExpenseApi\ExpenseApi.csproj" />
+  </ItemGroup>
+
+  <ItemGroup>
+    <Reference Include="BeireMKit.Authetication">
+      <HintPath>E:\projects\libs-tests\BeireMKit\BeireMKit.Authetication.dll</HintPath>
+    </Reference>
   </ItemGroup>
 
 </Project>

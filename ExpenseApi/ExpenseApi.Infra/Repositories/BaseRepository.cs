@@ -1,14 +1,8 @@
-﻿using MongoDB.Bson;
-using MongoDB.Driver;
-using ExpenseApi.Domain.Interfaces;
-using ExpenseApi.Infra.Context;
-using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Linq.Expressions;
-using System.Text;
-using System.Threading.Tasks;
+﻿using ExpenseApi.Domain.Interfaces;
 using ExpenseApi.Domain.Patterns;
+using ExpenseApi.Infra.Context;
+using MongoDB.Driver;
+using System.Linq.Expressions;
 
 namespace ExpenseApi.Infra.Repositories
 {
@@ -65,7 +59,7 @@ namespace ExpenseApi.Infra.Repositories
 
         public async Task<T> UpdateAsync(T entity)
         {
-            // Assumindo que a entidade tem um campo chamado "Id"
+            // Assuming that the entity has a field called “Id”
             var id = (Guid?)entity?.GetType()?.GetProperty("Id")?.GetValue(entity, null);
             await _collection.ReplaceOneAsync(Builders<T>.Filter.Eq("_id", id), entity);
 

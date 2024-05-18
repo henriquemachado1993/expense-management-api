@@ -1,11 +1,10 @@
-﻿using Microsoft.AspNetCore.Mvc;
+﻿using AutoMapper;
 using ExpenseApi.Domain.Entities;
 using ExpenseApi.Domain.Interfaces;
-using ExpenseApi.Helper;
-using ExpenseApi.Service;
-using Microsoft.AspNetCore.Authorization;
 using ExpenseApi.Domain.Models.Transaction;
-using AutoMapper;
+using ExpenseApi.Helper;
+using Microsoft.AspNetCore.Authorization;
+using Microsoft.AspNetCore.Mvc;
 
 namespace ExpenseApi.Controllers
 {

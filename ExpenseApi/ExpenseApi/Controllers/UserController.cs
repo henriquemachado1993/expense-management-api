@@ -1,12 +1,10 @@
-﻿using Microsoft.AspNetCore.Authorization;
-using Microsoft.AspNetCore.Mvc;
+﻿using AutoMapper;
 using ExpenseApi.Domain.Entities;
 using ExpenseApi.Domain.Interfaces;
-using ExpenseApi.Domain.Patterns;
-using ExpenseApi.Helper;
 using ExpenseApi.Domain.Models.User;
-using System.Reflection;
-using AutoMapper;
+using ExpenseApi.Helper;
+using Microsoft.AspNetCore.Authorization;
+using Microsoft.AspNetCore.Mvc;
 
 namespace ExpenseApi.Controllers
 {

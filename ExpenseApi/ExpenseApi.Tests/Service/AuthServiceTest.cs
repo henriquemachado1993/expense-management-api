@@ -1,4 +1,5 @@
-﻿using ExpenseApi.Domain.Entities;
+﻿using BeireMKit.Authetication.Interfaces.Jwt;
+using ExpenseApi.Domain.Entities;
 using ExpenseApi.Domain.Interfaces;
 using ExpenseApi.Domain.Patterns;
 using ExpenseApi.Service.Service;
@@ -20,8 +21,8 @@ namespace ExpenseApi.Tests.Service
     public class AuthServiceTest
     {
         private Mock<IBaseRepository<User>> _repository;
-        private Mock<IPasswordHasher> _passwordHasher;
-        private Mock<Microsoft.Extensions.Configuration.IConfiguration> _configuration;
+        private Mock<IPasswordHasherService> _passwordHasher;
+        private Mock<IJwtTokenService> _configuration;
         private Mock<JwtSecurityTokenHandler> _jwtSecurityTokenHandler;
 
         private AuthService _AuthService;
@@ -33,7 +34,7 @@ namespace ExpenseApi.Tests.Service
         public void Setup()
         {
             _repository = new Mock<IBaseRepository<User>>();
-            _passwordHasher = new Mock<IPasswordHasher>();
+            _passwordHasher = new Mock<IPasswordHasherService>();
             
             _jwtSecurityTokenHandler = new Mock<JwtSecurityTokenHandler>();
             _jwtSecurityTokenHandler.Setup(x => x.CreateToken(It.IsAny<SecurityTokenDescriptor>()))
@@ -50,11 +51,8 @@ namespace ExpenseApi.Tests.Service
                 ));
             _jwtSecurityTokenHandler.Setup(x => x.WriteToken(It.IsAny<SecurityToken>())).Returns("Token");
 
-            _configuration = new Mock<Microsoft.Extensions.Configuration.IConfiguration>();
-            _configuration.Setup(x => x[It.Is<string>(s => s == "JwtSettings:SecretKey")]).Returns("ColoqueSuaChaveSecretaAquihahaha");
-            _configuration.Setup(x => x[It.Is<string>(s => s == "JwtSettings:Audience")]).Returns("Audience");
-            _configuration.Setup(x => x[It.Is<string>(s => s == "JwtSettings:Issuer")]).Returns("Issuer");
-
+            _configuration = new Mock<IJwtTokenService>();
+         
             _AuthService = new AuthService(_repository.Object, _passwordHasher.Object, _configuration.Object);
         }
 

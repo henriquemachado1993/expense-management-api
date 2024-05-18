@@ -1,23 +1,17 @@
-﻿using ExpenseApi.Domain.Entities;
+﻿using BeireMKit.Authetication.Interfaces.Jwt;
+using ExpenseApi.Domain.Entities;
 using ExpenseApi.Domain.Interfaces;
-using ExpenseApi.Domain.Patterns;
 using ExpenseApi.Service.Service;
 using ExpenseApi.Tests.Helper;
-using Microsoft.IdentityModel.Tokens;
 using Moq;
-using System;
-using System.Collections.Generic;
-using System.Linq;
 using System.Linq.Expressions;
-using System.Text;
-using System.Threading.Tasks;
 
 namespace ExpenseApi.Tests.Service
 {
     public class UserServiceTest
     {
         private Mock<IBaseRepository<User>> _repository;
-        private Mock<IPasswordHasher> _passwordHasher;
+        private Mock<IPasswordHasherService> _passwordHasher;
 
         private UserService _service;
 
@@ -25,7 +19,7 @@ namespace ExpenseApi.Tests.Service
         public void Setup()
         {
             _repository = new Mock<IBaseRepository<User>>();
-            _passwordHasher = new Mock<IPasswordHasher>();
+            _passwordHasher = new Mock<IPasswordHasherService>();
 
             _repository.Setup(x => x.CreateAsync(It.IsAny<User>())).Returns(Task.FromResult(UserModelsHelper.GetUser()));
             _repository.Setup(x => x.UpdateAsync(It.IsAny<User>())).Returns(Task.FromResult(UserModelsHelper.GetUser()));
