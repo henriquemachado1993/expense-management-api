@@ -1,43 +1,33 @@
-﻿using ExpenseApi.Domain.Entities;
-using ExpenseApi.Domain.Enums;
+﻿using BeireMKit.Data.Interfaces.MongoDB;
+using BeireMKit.Domain.BaseModels;
+using ExpenseApi.Domain.Entities;
 using ExpenseApi.Domain.Interfaces;
-using ExpenseApi.Domain.Patterns;
-using ExpenseApi.Service.Commands;
-using Microsoft.Extensions.DependencyInjection;
-using MongoDB.Bson;
-using System;
-using System.Collections.Generic;
-using System.Data.Common;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
-using System.Transactions;
 
 namespace ExpenseApi.Service.Service
 {
     public class TransactionCategoryService : ITransactionCategoryService
     {
-        private readonly IBaseRepository<TransactionCategory> _repository;
+        private readonly IMongoRepository<TransactionCategory> _repository;
 
-        public TransactionCategoryService(IBaseRepository<TransactionCategory> repository)
+        public TransactionCategoryService(IMongoRepository<TransactionCategory> repository)
         {
             _repository = repository;
         }
 
-        public async Task<ServiceResult<TransactionCategory>> CreateAsync(TransactionCategory category)
+        public async Task<BaseResult<TransactionCategory>> CreateAsync(TransactionCategory category)
         {
             category.Id = Guid.NewGuid();
 
             var tranResult = await _repository.CreateAsync(category);
 
-            return ServiceResult<TransactionCategory>.CreateValidResult(tranResult);
+            return BaseResult<TransactionCategory>.CreateValidResult(tranResult);
         }
 
-        public async Task<ServiceResult<TransactionCategory>> UpdateAsync(TransactionCategory category)
+        public async Task<BaseResult<TransactionCategory>> UpdateAsync(TransactionCategory category)
         {
             var entity = await _repository.GetByIdAsync(category.Id);
             if (entity == null)
-                return ServiceResult<TransactionCategory>.CreateInvalidResult("Registro não encontrado.");
+                return BaseResult<TransactionCategory>.CreateInvalidResult(message: "Registro não encontrado.");
 
             entity.Description = category.Description;
             entity.Name = category.Name;
@@ -45,10 +35,10 @@ namespace ExpenseApi.Service.Service
 
             var resultUpdate = await _repository.UpdateAsync(entity);
 
-            return ServiceResult<TransactionCategory>.CreateValidResult(resultUpdate);
+            return BaseResult<TransactionCategory>.CreateValidResult(resultUpdate);
         }
 
-        public async Task<ServiceResult<bool>> DeleteAsync(Guid id)
+        public async Task<BaseResult<bool>> DeleteAsync(Guid id)
         {
             var entity = await _repository.GetByIdAsync(id);
 
@@ -56,26 +46,26 @@ namespace ExpenseApi.Service.Service
             {
                 await _repository.DeleteAsync(id);
 
-                return ServiceResult<bool>.CreateValidResult(true);
+                return BaseResult<bool>.CreateValidResult(true);
             }
             else
             {
-                return ServiceResult<bool>.CreateInvalidResult("Registro não encontrado.");
+                return BaseResult<bool>.CreateInvalidResult(message: "Registro não encontrado.");
             }
         }
 
-        public async Task<ServiceResult<List<TransactionCategory>>> GetAllAsync()
+        public async Task<BaseResult<List<TransactionCategory>>> GetAllAsync()
         {
-            return ServiceResult<List<TransactionCategory>>.CreateValidResult(await _repository.FindAsync(_ => true));
+            return BaseResult<List<TransactionCategory>>.CreateValidResult(await _repository.FindAsync(_ => true));
         }
 
-        public async Task<ServiceResult<TransactionCategory>> GetByIdAsync(Guid id)
+        public async Task<BaseResult<TransactionCategory>> GetByIdAsync(Guid id)
         {
             var entity = await _repository.GetByIdAsync(id);
             if (entity == null)
-                return ServiceResult<TransactionCategory>.CreateInvalidResult("Registro não encontrado.");
+                return BaseResult<TransactionCategory>.CreateInvalidResult(message: "Registro não encontrado.");
 
-            return ServiceResult<TransactionCategory>.CreateValidResult(entity);
+            return BaseResult<TransactionCategory>.CreateValidResult(entity);
         }
 
     }

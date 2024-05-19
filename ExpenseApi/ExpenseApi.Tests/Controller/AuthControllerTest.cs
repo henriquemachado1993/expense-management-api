@@ -1,21 +1,11 @@
-﻿using ExpenseApi.Controllers;
+﻿using BeireMKit.Domain.BaseModels;
+using ExpenseApi.Controllers;
 using ExpenseApi.Domain.Entities;
 using ExpenseApi.Domain.Interfaces;
 using ExpenseApi.Domain.Models.Auth;
-using ExpenseApi.Domain.Patterns;
-using ExpenseApi.Service.Service;
 using Microsoft.AspNetCore.Mvc;
-using Microsoft.IdentityModel.Tokens;
 using Moq;
-using System;
-using System.Collections.Generic;
-using System.IdentityModel.Tokens.Jwt;
-using System.Linq;
-using System.Linq.Expressions;
 using System.Net;
-using System.Security.Claims;
-using System.Text;
-using System.Threading.Tasks;
 
 namespace ExpenseApi.Tests.Controller
 {
@@ -52,9 +42,9 @@ namespace ExpenseApi.Tests.Controller
 
             var okResult = result as OkObjectResult;
             Assert.IsNotNull(okResult?.Value);
-            Assert.IsInstanceOf<ServiceResult<User>>(okResult?.Value);
+            Assert.IsInstanceOf<BaseResult<User>>(okResult?.Value);
 
-            var serviceResult = okResult?.Value as ServiceResult<User>;
+            var serviceResult = okResult?.Value as BaseResult<User>;
             Assert.IsTrue(serviceResult?.IsValid);
             Assert.IsNotNull(serviceResult?.Data);
         }
@@ -64,7 +54,7 @@ namespace ExpenseApi.Tests.Controller
         {
             // Arrange
             var login = new LoginRequestModel() { Email = EMAIL, Password = PASSWORD };
-            var resultAuthService = ServiceResult<User>.CreateInvalidResult("Não foi possível se autenticar.", HttpStatusCode.Unauthorized);
+            var resultAuthService = BaseResult<User>.CreateInvalidResult(message: "Não foi possível se autenticar.", statusCode:HttpStatusCode.Unauthorized);
             _authService.Setup(x => x.AuthenticateAsync(It.IsAny<string>(), It.IsAny<string>())).Returns(Task.FromResult(resultAuthService));
 
             // Act
@@ -78,16 +68,16 @@ namespace ExpenseApi.Tests.Controller
 
             var unauthorizedResult = result as UnauthorizedObjectResult;
             Assert.IsNotNull(unauthorizedResult?.Value);
-            Assert.IsInstanceOf<ServiceResult<User>>(unauthorizedResult?.Value);
+            Assert.IsInstanceOf<BaseResult<User>>(unauthorizedResult?.Value);
 
-            var serviceResult = unauthorizedResult?.Value as ServiceResult<User>;
+            var serviceResult = unauthorizedResult?.Value as BaseResult<User>;
             Assert.IsFalse(serviceResult?.IsValid);
             Assert.IsNull(serviceResult?.Data);
         }
 
-        private static ServiceResult<User> GetUser()
+        private static BaseResult<User> GetUser()
         {
-            return ServiceResult<User>.CreateValidResult(new User()
+            return BaseResult<User>.CreateValidResult(new User()
             {
                 Id = Guid.NewGuid(),
                 Name = "Admin",

@@ -1,45 +1,46 @@
 ﻿using BeireMKit.Authetication.Interfaces.Jwt;
+using BeireMKit.Data.Interfaces.MongoDB;
+using BeireMKit.Domain.BaseModels;
 using ExpenseApi.Domain.Entities;
 using ExpenseApi.Domain.Interfaces;
-using ExpenseApi.Domain.Patterns;
 using System.Linq.Expressions;
 
 namespace ExpenseApi.Service.Service
 {
     public class UserService : IUserService
     {
-        private readonly IBaseRepository<User> _repository;
+        private readonly IMongoRepository<User> _repository;
         private readonly IPasswordHasherService _passwordHasher;
 
-        public UserService(IBaseRepository<User> repository, IPasswordHasherService passwordHasher)
+        public UserService(IMongoRepository<User> repository, IPasswordHasherService passwordHasher)
         {
             _repository = repository;
             _passwordHasher = passwordHasher;
         }
 
-        public async Task<ServiceResult<User>> CreateAsync(User user)
+        public async Task<BaseResult<User>> CreateAsync(User user)
         {
             user.Email = user.Email.Trim().ToLower();
 
             var userExists = (await _repository.FindAsync(x => x.Email.ToLower() == user.Email))?.FirstOrDefault();
 
             if (userExists != null)
-                return ServiceResult<User>.CreateInvalidResult($"Já existe um usuário cadastrado com este email: {user.Email}");
+                return BaseResult<User>.CreateInvalidResult(message: $"Já existe um usuário cadastrado com este email: {user.Email}");
 
             user.Id = Guid.NewGuid();
             user.Password = _passwordHasher.HashPassword(user.Password);
 
             var entity = await _repository.CreateAsync(user);
             entity.ClearPassword();
-            return ServiceResult<User>.CreateValidResult(entity);
+            return BaseResult<User>.CreateValidResult(entity);
         }
 
-        public async Task<ServiceResult<User>> UpdateAsync(User user)
+        public async Task<BaseResult<User>> UpdateAsync(User user)
         {
             var entity = await _repository.GetByIdAsync(user.Id);
 
             if (entity == null)
-                return ServiceResult<User>.CreateInvalidResult("Registro não encontrado.");
+                return BaseResult<User>.CreateInvalidResult(message: "Registro não encontrado.");
 
             entity.Name = user.Name;
             entity.Address = user.Address;
@@ -47,17 +48,17 @@ namespace ExpenseApi.Service.Service
 
             var result = await _repository.UpdateAsync(entity);
             result.ClearPassword();
-            return ServiceResult<User>.CreateValidResult(result);
+            return BaseResult<User>.CreateValidResult(result);
         }
 
-        public async Task<ServiceResult<User>> UpdatePasswordAsync(Guid userId, string oldPassword, string newPassword)
+        public async Task<BaseResult<User>> UpdatePasswordAsync(Guid userId, string oldPassword, string newPassword)
         {
             var entity = await _repository.GetByIdAsync(userId);
             if (entity == null)
-                return ServiceResult<User>.CreateInvalidResult("Registro não encontrado.");
+                return BaseResult<User>.CreateInvalidResult(message: "Registro não encontrado.");
 
             if (!_passwordHasher.VerifyPassword(entity.Password, oldPassword))
-                return ServiceResult<User>.CreateInvalidResult("A senha anterior está incorreta.");
+                return BaseResult<User>.CreateInvalidResult(message: "A senha anterior está incorreta.");
 
             entity.Password = _passwordHasher.HashPassword(newPassword);
 
@@ -65,50 +66,50 @@ namespace ExpenseApi.Service.Service
 
             result.ClearPassword();
 
-            return ServiceResult<User>.CreateValidResult(result);
+            return BaseResult<User>.CreateValidResult(result);
         }
 
-        public async Task<ServiceResult<bool>> DeleteAsync(Guid id)
+        public async Task<BaseResult<bool>> DeleteAsync(Guid id)
         {
             var entity = await _repository.GetByIdAsync(id);
 
             if (entity == null)
-                return ServiceResult<bool>.CreateInvalidResult("Registro não encontrado.");
+                return BaseResult<bool>.CreateInvalidResult(message: "Registro não encontrado.");
 
             await _repository.DeleteAsync(id);
-            return ServiceResult<bool>.CreateValidResult(true);
+            return BaseResult<bool>.CreateValidResult(true);
         }
 
-        public async Task<ServiceResult<List<User>>> FindAsync(Expression<Func<User, bool>> filterExpression, bool clearPassword = true)
+        public async Task<BaseResult<List<User>>> FindAsync(Expression<Func<User, bool>> filterExpression, bool clearPassword = true)
         {
             var result = await _repository.FindAsync(filterExpression);
 
             if(result != null && clearPassword)
                 result.ForEach(user => { user.ClearPassword(); });
 
-            return ServiceResult<List<User>>.CreateValidResult(result);
+            return BaseResult<List<User>>.CreateValidResult(result);
         }
 
-        public async Task<ServiceResult<List<User>>> GetAllAsync(bool clearPassword = true)
+        public async Task<BaseResult<List<User>>> GetAllAsync(bool clearPassword = true)
         {
             var result = await _repository.FindAsync(_ => true);
             
             if (result != null && clearPassword)
                 result.ForEach(user => { user.ClearPassword(); });
 
-            return ServiceResult<List<User>>.CreateValidResult(result);
+            return BaseResult<List<User>>.CreateValidResult(result);
         }
 
-        public async Task<ServiceResult<User>> GetByIdAsync(Guid id, bool clearPassword = true)
+        public async Task<BaseResult<User>> GetByIdAsync(Guid id, bool clearPassword = true)
         {
             var entity = await _repository.GetByIdAsync(id);
             if (entity == null)
-                return ServiceResult<User>.CreateInvalidResult("Registro não encontrado.");
+                return BaseResult<User>.CreateInvalidResult(message: "Registro não encontrado.");
 
             if (clearPassword)
                 entity.ClearPassword();
 
-            return ServiceResult<User>.CreateValidResult(entity);
+            return BaseResult<User>.CreateValidResult(entity);
         }
 
 

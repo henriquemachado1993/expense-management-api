@@ -1,28 +1,27 @@
-﻿using MongoDB.Bson;
+﻿using BeireMKit.Data.Interfaces.MongoDB;
+using BeireMKit.Domain.BaseModels;
 using ExpenseApi.Domain.Entities;
+using ExpenseApi.Domain.Enums;
 using ExpenseApi.Domain.Interfaces;
-using ExpenseApi.Domain.Patterns;
 using ExpenseApi.Service.Commands;
 using ExpenseApi.Service.Commands.Manager;
-using ExpenseApi.Domain.Enums;
 using Microsoft.Extensions.DependencyInjection;
-using System.Net.Http;
 
 namespace ExpenseApi.Service
 {
     public class TransactionService : ITransactionService
     {
 
-        private readonly IBaseRepository<Transaction> _repository;
+        private readonly IMongoRepository<Transaction> _repository;
         private readonly IServiceProvider _serviceProvider;
 
-        public TransactionService(IBaseRepository<Transaction> repository, IServiceProvider serviceProvider)
+        public TransactionService(IMongoRepository<Transaction> repository, IServiceProvider serviceProvider)
         {
             _repository = repository;
             _serviceProvider = serviceProvider;
         }
 
-        public async Task<ServiceResult<Transaction>> CreateAsync(Transaction transaction)
+        public async Task<BaseResult<Transaction>> CreateAsync(Transaction transaction)
         {
             transaction.Id = Guid.NewGuid();
 
@@ -41,18 +40,18 @@ namespace ExpenseApi.Service
                 catch (Exception ex)
                 {
                     await transactionManager.UndoLastCommand();
-                    return ServiceResult<Transaction>.CreateInvalidResult(ex, "A transação foi criada, porém houve um problema ao atualizar os valores em suas contas!");
+                    return BaseResult<Transaction>.CreateInvalidResult(exception: ex, message: "A transação foi criada, porém houve um problema ao atualizar os valores em suas contas!");
                 }
             }
 
-            return ServiceResult<Transaction>.CreateValidResult(tranResult ?? transaction);
+            return BaseResult<Transaction>.CreateValidResult(tranResult ?? transaction);
         }
 
-        public async Task<ServiceResult<Transaction>> UpdateAsync(Transaction transaction)
+        public async Task<BaseResult<Transaction>> UpdateAsync(Transaction transaction)
         {
             var entity = await _repository.GetByIdAsync(transaction.Id);
             if(entity == null)
-                return ServiceResult<Transaction>.CreateInvalidResult("Registro não encontrado.");
+                return BaseResult<Transaction>.CreateInvalidResult(message:"Registro não encontrado.");
 
             entity.Description = transaction.Description;
             entity.IsMonthlyRecurrence = transaction.IsMonthlyRecurrence;
@@ -63,10 +62,10 @@ namespace ExpenseApi.Service
 
             var resultUpdate = await _repository.UpdateAsync(entity);
 
-            return ServiceResult<Transaction>.CreateValidResult(resultUpdate);
+            return BaseResult<Transaction>.CreateValidResult(resultUpdate);
         }
 
-        public async Task<ServiceResult<bool>> DeleteAsync(Guid userId, Guid id)
+        public async Task<BaseResult<bool>> DeleteAsync(Guid userId, Guid id)
         {
             var entity = (await _repository.FindAsync(x => x.UserId == userId && x.Id == id))?.FirstOrDefault();
 
@@ -86,20 +85,20 @@ namespace ExpenseApi.Service
                 catch
                 {
                     await transactionManager.UndoLastCommand();
-                    return ServiceResult<bool>.CreateInvalidResult("Não foi possível debitar o valor de alguma conta.");
+                    return BaseResult<bool>.CreateInvalidResult(message: "Não foi possível debitar o valor de alguma conta.");
                 }
 
-                return ServiceResult<bool>.CreateValidResult(true);
+                return BaseResult<bool>.CreateValidResult(true);
             }
             else
             {
-                return ServiceResult<bool>.CreateInvalidResult("Registro não encontrado.");
+                return BaseResult<bool>.CreateInvalidResult(message: "Registro não encontrado.");
             }
         }
 
-        public async Task<ServiceResult<List<Transaction>>> GetAllAsync(Guid userId)
+        public async Task<BaseResult<List<Transaction>>> GetAllAsync(Guid userId)
         {
-            return ServiceResult<List<Transaction>>.CreateValidResult(await _repository.FindAsync(x => x.UserId == userId));
+            return BaseResult<List<Transaction>>.CreateValidResult(await _repository.FindAsync(x => x.UserId == userId));
         }
 
         public async Task<PagingResult<List<Transaction>>> GetPagedAsync(QueryCriteria<Transaction> queryCriteria)
@@ -107,14 +106,14 @@ namespace ExpenseApi.Service
             return await _repository.FindPagedAsync(queryCriteria);
         }
 
-        public async Task<ServiceResult<Transaction>> GetByIdAsync(Guid userId, Guid id)
+        public async Task<BaseResult<Transaction>> GetByIdAsync(Guid userId, Guid id)
         {
             var result = await _repository.FindAsync(x => x.UserId == userId && x.Id == id);
             var entity = result?.FirstOrDefault();
             if(entity == null)
-                return ServiceResult<Transaction>.CreateInvalidResult("Registro não encontrado.");
+                return BaseResult<Transaction>.CreateInvalidResult(message: "Registro não encontrado.");
 
-            return ServiceResult<Transaction>.CreateValidResult(entity);
+            return BaseResult<Transaction>.CreateValidResult(entity);
         }
     }
 }

@@ -1,7 +1,8 @@
 ﻿using BeireMKit.Authetication.Interfaces.Jwt;
+using BeireMKit.Data.Interfaces.MongoDB;
+using BeireMKit.Domain.BaseModels;
 using ExpenseApi.Domain.Entities;
 using ExpenseApi.Domain.Interfaces;
-using ExpenseApi.Domain.Patterns;
 using System.Net;
 using System.Security.Claims;
 
@@ -9,18 +10,18 @@ namespace ExpenseApi.Service.Service
 {
     public class AuthService : IAuthService
     {
-        private readonly IBaseRepository<User> _repository;
+        private readonly IMongoRepository<User> _repository;
         private readonly IPasswordHasherService _passwordHasher;
         private readonly IJwtTokenService _jwtTokenService;
 
-        public AuthService(IBaseRepository<User> repository, IPasswordHasherService passwordHasher, IJwtTokenService jwtTokenService)
+        public AuthService(IMongoRepository<User> repository, IPasswordHasherService passwordHasher, IJwtTokenService jwtTokenService)
         {
             _repository = repository;
             _passwordHasher = passwordHasher;
             _jwtTokenService = jwtTokenService;
         }
 
-        public async Task<ServiceResult<User>> AuthenticateAsync(string email, string password)
+        public async Task<BaseResult<User>> AuthenticateAsync(string email, string password)
         {
             email = email.Trim().ToLower();
 
@@ -38,9 +39,9 @@ namespace ExpenseApi.Service.Service
 
                 var result = await _repository.UpdateAsync(user);
                 result.ClearPassword(clearToken: false);
-                return ServiceResult<User>.CreateValidResult(result);
+                return BaseResult<User>.CreateValidResult(result);
             }
-            return ServiceResult<User>.CreateInvalidResult("Não foi possível se autenticar.", HttpStatusCode.Unauthorized);
+            return BaseResult<User>.CreateInvalidResult(message: $"Não foi possível se autenticar.", statusCode: HttpStatusCode.Unauthorized);
         }
     }
 }

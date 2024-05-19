@@ -1,10 +1,5 @@
-﻿using ExpenseApi.Domain.Interfaces;
-using ExpenseApi.Domain.Patterns;
-using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
+﻿using BeireMKit.Domain.BaseModels;
+using ExpenseApi.Domain.Interfaces;
 
 namespace ExpenseApi.Service.Service
 {
@@ -19,10 +14,10 @@ namespace ExpenseApi.Service.Service
             _httpClient = httpClient;
         }
 
-        public async Task<ServiceResult<object>> GetAsync(int code)
+        public async Task<BaseResult<object>> GetAsync(int code)
         {
             var response = await _httpClient.GetAsync($"http://httpbin.org/status/{code}");
-            return ServiceResult<object>.CreateValidResult(response.Content.ReadAsStringAsync());
+            return BaseResult<object>.CreateValidResult(response.Content.ReadAsStringAsync());
         }
     }
 }

@@ -1,6 +1,4 @@
-﻿using MongoDB.Bson;
-using MongoDB.Bson.Serialization.Attributes;
-using ExpenseApi.Domain.Interfaces;
+﻿using BeireMKit.Data.Interfaces.Entity;
 using ExpenseApi.Domain.Enums;
 
 namespace ExpenseApi.Domain.Entities

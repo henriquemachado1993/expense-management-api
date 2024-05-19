@@ -1,6 +1,6 @@
 ﻿using ExpenseApi.Domain.Entities;
 using ExpenseApi.Domain.Interfaces;
-using ExpenseApi.Domain.Patterns;
+
 using ExpenseApi.Service.Service;
 using Microsoft.IdentityModel.Tokens;
 using Moq;

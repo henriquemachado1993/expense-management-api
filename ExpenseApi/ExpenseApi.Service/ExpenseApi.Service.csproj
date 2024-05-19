@@ -16,4 +16,13 @@
     <ProjectReference Include="..\ExpenseApi.Domain\ExpenseApi.Domain.csproj" />
   </ItemGroup>
 
+  <ItemGroup>
+    <Reference Include="BeireMKit.Data">
+      <HintPath>E:\projects\libs-tests\BeireMKit\BeireMKit.Data.dll</HintPath>
+    </Reference>
+    <Reference Include="BeireMKit.Domain">
+      <HintPath>E:\projects\libs-tests\BeireMKit\BeireMKit.Domain.dll</HintPath>
+    </Reference>
+  </ItemGroup>
+
 </Project>

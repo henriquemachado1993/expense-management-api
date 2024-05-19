@@ -1,22 +1,23 @@
 using AutoMapper;
 using BeireMKit.Authetication.Extensions;
 using BeireMKit.Authetication.Models;
-using ExpenseApi.Domain.Entities;
+using BeireMKit.Data.Extensions;
+using BeireMKit.Data.Interfaces.MongoDB;
+using BeireMKit.Data.Models;
 using ExpenseApi.Domain.Mappings;
+using ExpenseApi.Infra.Context;
 using ExpenseApi.Infra.Dependencies;
 using ExpenseApi.Infra.Middlewares;
-using Microsoft.AspNetCore.Authentication.JwtBearer;
-using Microsoft.AspNetCore.Authorization;
-using Microsoft.IdentityModel.Tokens;
 using Microsoft.OpenApi.Models;
 using System.Reflection;
-using System.Text;
 
 var builder = WebApplication.CreateBuilder(args);
 
 // Config access mongoDB
-var mongoDBConfig = builder.Configuration.GetSection("MongoDBSettings").Get<MongoDBConfig>();
-builder.Services.AddSingleton(mongoDBConfig);
+var mongoDBSettings = builder.Configuration.GetSection("MongoDBSettings").Get<MongoDBSettings>();
+builder.Services.AddSingleton(mongoDBSettings);
+builder.Services.AddScoped<IBaseMongoDbContext, MongoDBContext>();
+builder.Services.ConfigureMongoDbRepository();
 
 // Automapper
 builder.Services.AddSingleton(new MapperConfiguration(cfg =>

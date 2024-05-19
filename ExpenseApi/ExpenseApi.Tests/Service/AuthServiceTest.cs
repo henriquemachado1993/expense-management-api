@@ -1,17 +1,11 @@
 ﻿using BeireMKit.Authetication.Interfaces.Jwt;
+using BeireMKit.Data.Interfaces.MongoDB;
 using ExpenseApi.Domain.Entities;
-using ExpenseApi.Domain.Interfaces;
-using ExpenseApi.Domain.Patterns;
 using ExpenseApi.Service.Service;
 using ExpenseApi.Tests.Helper;
 using Microsoft.IdentityModel.Tokens;
 using Moq;
-using NUnit.Framework;
-using System;
-using System.Collections.Generic;
-using System.Dynamic;
 using System.IdentityModel.Tokens.Jwt;
-using System.Linq;
 using System.Linq.Expressions;
 using System.Security.Claims;
 using System.Text;
@@ -20,7 +14,7 @@ namespace ExpenseApi.Tests.Service
 {
     public class AuthServiceTest
     {
-        private Mock<IBaseRepository<User>> _repository;
+        private Mock<IMongoRepository<User>> _repository;
         private Mock<IPasswordHasherService> _passwordHasher;
         private Mock<IJwtTokenService> _configuration;
         private Mock<JwtSecurityTokenHandler> _jwtSecurityTokenHandler;
@@ -33,7 +27,7 @@ namespace ExpenseApi.Tests.Service
         [SetUp]
         public void Setup()
         {
-            _repository = new Mock<IBaseRepository<User>>();
+            _repository = new Mock<IMongoRepository<User>>();
             _passwordHasher = new Mock<IPasswordHasherService>();
             
             _jwtSecurityTokenHandler = new Mock<JwtSecurityTokenHandler>();

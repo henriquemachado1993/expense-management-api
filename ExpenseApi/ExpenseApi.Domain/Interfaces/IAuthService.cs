@@ -1,15 +1,10 @@
-﻿using ExpenseApi.Domain.Entities;
-using ExpenseApi.Domain.Patterns;
-using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
+﻿using BeireMKit.Domain.BaseModels;
+using ExpenseApi.Domain.Entities;
 
 namespace ExpenseApi.Domain.Interfaces
 {
     public interface IAuthService
     {
-        Task<ServiceResult<User>> AuthenticateAsync(string email, string password);
+        Task<BaseResult<User>> AuthenticateAsync(string email, string password);
     }
 }

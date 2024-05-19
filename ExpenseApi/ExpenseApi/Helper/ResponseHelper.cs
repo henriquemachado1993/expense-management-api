@@ -1,4 +1,4 @@
-﻿using ExpenseApi.Domain.Patterns;
+﻿using BeireMKit.Domain.BaseModels;
 using Microsoft.AspNetCore.Mvc;
 using System.Net;
 
@@ -15,7 +15,7 @@ namespace ExpenseApi.Helper
         /// <typeparam name="T"></typeparam>
         /// <param name="serviceResult"></param>
         /// <returns></returns>
-        public static IActionResult Handle<T>(ServiceResult<T> serviceResult)
+        public static IActionResult Handle<T>(BaseResult<T> serviceResult)
         {
             switch (serviceResult.StatusCode)
             {

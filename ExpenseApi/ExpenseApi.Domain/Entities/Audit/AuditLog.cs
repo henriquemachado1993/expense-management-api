@@ -1,11 +1,6 @@
-﻿using MongoDB.Bson;
+﻿using BeireMKit.Data.Interfaces.Entity;
+using MongoDB.Bson;
 using Newtonsoft.Json;
-using ExpenseApi.Domain.Interfaces;
-using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
 
 namespace ExpenseApi.Domain.Entities.Audit
 {

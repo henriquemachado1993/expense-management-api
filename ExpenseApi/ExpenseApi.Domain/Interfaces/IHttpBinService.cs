@@ -1,9 +1,5 @@
-﻿using ExpenseApi.Domain.Patterns;
-using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
+﻿
+using BeireMKit.Domain.BaseModels;
 
 namespace ExpenseApi.Domain.Interfaces
 {
@@ -12,6 +8,6 @@ namespace ExpenseApi.Domain.Interfaces
     /// </summary>
     public interface IHttpBinService
     {
-        Task<ServiceResult<object>> GetAsync(int code);
+        Task<BaseResult<object>> GetAsync(int code);
     }
 }

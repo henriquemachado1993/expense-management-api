@@ -1,13 +1,10 @@
-﻿using Microsoft.AspNetCore.Http;
-using MongoDB.Bson;
-using MongoDB.Driver;
-using Newtonsoft.Json;
+﻿using BeireMKit.Data.Interfaces.MongoDB;
+using BeireMKit.Domain.BaseModels;
 using ExpenseApi.Domain.Entities.Audit;
-using ExpenseApi.Infra.Context;
-using System;
-using System.Threading.Tasks;
-using ExpenseApi.Domain.Patterns;
 using ExpenseApi.Domain.Enums;
+using ExpenseApi.Infra.Context;
+using Microsoft.AspNetCore.Http;
+using Newtonsoft.Json;
 using System.Net;
 
 namespace ExpenseApi.Infra.Middlewares
@@ -21,7 +18,7 @@ namespace ExpenseApi.Infra.Middlewares
             _next = next;
         }
 
-        public async Task InvokeAsync(HttpContext context, MongoDBContext mongoDBContext)
+        public async Task InvokeAsync(HttpContext context, IBaseMongoDbContext mongoDBContext)
         {
             try
             {
@@ -37,7 +34,7 @@ namespace ExpenseApi.Infra.Middlewares
             }
         }
 
-        private static Task LogExceptionToMongoDB(MongoDBContext mongoDBContext, Exception ex)
+        private static Task LogExceptionToMongoDB(IBaseMongoDbContext mongoDBContext, Exception ex)
         {
             var auditLog = new AuditLog(Guid.NewGuid(), MessageType.Error.ToString(), ex.Message, DateTime.Now, GetDataByException(ex));
             
@@ -51,7 +48,7 @@ namespace ExpenseApi.Infra.Middlewares
             context.Response.ContentType = "application/json";
             context.Response.StatusCode = 500; // Internal Server Error
 
-            var response = ServiceResult<object>.CreateInvalidResult(GetDataByException(ex), ex.Message, HttpStatusCode.InternalServerError);
+            var response = BaseResult<object>.CreateInvalidResult(model: GetDataByException(ex), message: ex.Message, statusCode: HttpStatusCode.InternalServerError);
 
             // Serializa a resposta em JSON
             var jsonResponse = JsonConvert.SerializeObject(response);

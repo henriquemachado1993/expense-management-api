@@ -1,9 +1,9 @@
 ﻿using AutoMapper;
+using BeireMKit.Domain.BaseModels;
 using ExpenseApi.Domain.Entities;
 using ExpenseApi.Domain.Extensions;
 using ExpenseApi.Domain.Interfaces;
 using ExpenseApi.Domain.Models.Transaction;
-using ExpenseApi.Domain.Patterns;
 using ExpenseApi.Helper;
 using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;

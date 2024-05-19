@@ -1,16 +1,19 @@
-﻿using ExpenseApi.Domain.Entities;
+﻿using BeireMKit.Data.Interfaces.MongoDB;
+using BeireMKit.Data.Models;
 using MongoDB.Driver;
 
 namespace ExpenseApi.Infra.Context
 {
-    public class MongoDBContext
+    public class MongoDBContext : IBaseMongoDbContext
     {
-        public readonly IMongoDatabase Database;
+        private readonly IMongoDatabase _database;
 
-        public MongoDBContext(MongoDBConfig config)
+        public MongoDBContext(MongoDBSettings settings)
         {
-            var client = new MongoClient(config.ConnectionString);
-            Database = client.GetDatabase(config.DatabaseName);
+            var client = new MongoClient(settings.ConnectionString);
+            _database = client.GetDatabase(settings.DatabaseName);
         }
+
+        public IMongoDatabase Database => _database;
     }
 }

@@ -1,19 +1,12 @@
 ﻿using AutoMapper;
+using BeireMKit.Domain.BaseModels;
 using ExpenseApi.Controllers;
 using ExpenseApi.Domain.Entities;
 using ExpenseApi.Domain.Interfaces;
-using ExpenseApi.Domain.Models.Auth;
-using ExpenseApi.Domain.Patterns;
-using ExpenseApi.Service.Service;
 using ExpenseApi.Tests.Helper;
 using Microsoft.AspNetCore.Mvc;
 using Moq;
-using System;
-using System.Collections.Generic;
-using System.Linq;
 using System.Linq.Expressions;
-using System.Text;
-using System.Threading.Tasks;
 
 namespace ExpenseApi.Tests.Controller
 {
@@ -35,7 +28,7 @@ namespace ExpenseApi.Tests.Controller
         public async Task GetAllIsValid()
         {
             // Arrange
-            var users = ServiceResult<List<User>>.CreateValidResult(UserModelsHelper.GetListUserAsync());
+            var users = BaseResult<List<User>>.CreateValidResult(UserModelsHelper.GetListUserAsync());
             _userService.Setup(x => x.GetAllAsync(It.IsAny<bool>())).Returns(Task.FromResult(users));
 
             // Act
@@ -49,9 +42,9 @@ namespace ExpenseApi.Tests.Controller
 
             var okResult = result as OkObjectResult;
             Assert.IsNotNull(okResult?.Value);
-            Assert.IsInstanceOf<ServiceResult<List<User>>>(okResult?.Value);
+            Assert.IsInstanceOf<BaseResult<List<User>>>(okResult?.Value);
 
-            var serviceResult = okResult?.Value as ServiceResult<List<User>>;
+            var serviceResult = okResult?.Value as BaseResult<List<User>>;
             Assert.IsTrue(serviceResult?.IsValid);
             Assert.IsNotNull(serviceResult?.Data);
         }
@@ -60,7 +53,7 @@ namespace ExpenseApi.Tests.Controller
         public async Task GetByIdIsValid()
         {
             // Arrange
-            var user = ServiceResult<User>.CreateValidResult(UserModelsHelper.GetUser());
+            var user = BaseResult<User>.CreateValidResult(UserModelsHelper.GetUser());
             _userService.Setup(x => x.GetByIdAsync(It.IsAny<Guid>(), It.IsAny<bool>())).Returns(Task.FromResult(user));
 
             // Act
@@ -74,9 +67,9 @@ namespace ExpenseApi.Tests.Controller
 
             var okResult = result as OkObjectResult;
             Assert.IsNotNull(okResult?.Value);
-            Assert.IsInstanceOf<ServiceResult<User>>(okResult?.Value);
+            Assert.IsInstanceOf<BaseResult<User>>(okResult?.Value);
 
-            var serviceResult = okResult?.Value as ServiceResult<User>;
+            var serviceResult = okResult?.Value as BaseResult<User>;
             Assert.IsTrue(serviceResult?.IsValid);
             Assert.IsNotNull(serviceResult?.Data);
         }
@@ -85,7 +78,7 @@ namespace ExpenseApi.Tests.Controller
         public async Task GetByNameIsValid()
         {
             // Arrange
-            var user = ServiceResult<List<User>>.CreateValidResult(UserModelsHelper.GetListUserAsync());
+            var user = BaseResult<List<User>>.CreateValidResult(UserModelsHelper.GetListUserAsync());
             _userService.Setup(x => x.FindAsync(It.IsAny<Expression<Func<User, bool>>>(), It.IsAny<bool>())).Returns(Task.FromResult(user));
 
             // Act
@@ -99,9 +92,9 @@ namespace ExpenseApi.Tests.Controller
 
             var okResult = result as OkObjectResult;
             Assert.IsNotNull(okResult?.Value);
-            Assert.IsInstanceOf<ServiceResult<List<User>>>(okResult?.Value);
+            Assert.IsInstanceOf<BaseResult<List<User>>>(okResult?.Value);
 
-            var serviceResult = okResult?.Value as ServiceResult<List<User>>;
+            var serviceResult = okResult?.Value as BaseResult<List<User>>;
             Assert.IsTrue(serviceResult?.IsValid);
             Assert.IsNotNull(serviceResult?.Data);
         }

@@ -1,7 +1,7 @@
-﻿using ExpenseApi.Domain.Interfaces;
+﻿using BeireMKit.Data.Interfaces.MongoDB;
+using ExpenseApi.Domain.Interfaces;
 using ExpenseApi.Infra.Context;
 using ExpenseApi.Infra.PollyPolicies;
-using ExpenseApi.Infra.Repositories;
 using ExpenseApi.Service;
 using ExpenseApi.Service.Service;
 using Microsoft.Extensions.DependencyInjection;
@@ -16,12 +16,6 @@ namespace ExpenseApi.Infra.Dependencies
             svcCollection.AddHttpClient<IHttpBinService, HttpBinService>()
                 .AddPolicyHandler(PolicyHandler.GetRetryPolicy(retryCount: 3))
                 .AddPolicyHandler(PolicyHandler.GetCircuitBreakerPolicy(exceptionsAllowedBeforeBreaking: 5, durationOfBreakInSeconds: 30));
-
-            // Context
-            svcCollection.AddScoped<MongoDBContext>();
-            
-            // Repositories
-            svcCollection.AddScoped(typeof(IBaseRepository<>), typeof(BaseRepository<>));
 
             // Services
             svcCollection.AddScoped<ITransactionService, TransactionService>();

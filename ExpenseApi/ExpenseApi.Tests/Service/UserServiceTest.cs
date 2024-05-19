@@ -1,6 +1,6 @@
 ﻿using BeireMKit.Authetication.Interfaces.Jwt;
+using BeireMKit.Data.Interfaces.MongoDB;
 using ExpenseApi.Domain.Entities;
-using ExpenseApi.Domain.Interfaces;
 using ExpenseApi.Service.Service;
 using ExpenseApi.Tests.Helper;
 using Moq;
@@ -10,7 +10,7 @@ namespace ExpenseApi.Tests.Service
 {
     public class UserServiceTest
     {
-        private Mock<IBaseRepository<User>> _repository;
+        private Mock<IMongoRepository<User>> _repository;
         private Mock<IPasswordHasherService> _passwordHasher;
 
         private UserService _service;
@@ -18,7 +18,7 @@ namespace ExpenseApi.Tests.Service
         [SetUp]
         public void Setup()
         {
-            _repository = new Mock<IBaseRepository<User>>();
+            _repository = new Mock<IMongoRepository<User>>();
             _passwordHasher = new Mock<IPasswordHasherService>();
 
             _repository.Setup(x => x.CreateAsync(It.IsAny<User>())).Returns(Task.FromResult(UserModelsHelper.GetUser()));

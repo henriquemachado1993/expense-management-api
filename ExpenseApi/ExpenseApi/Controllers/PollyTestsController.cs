@@ -1,5 +1,6 @@
-﻿using ExpenseApi.Domain.Interfaces;
-using ExpenseApi.Domain.Patterns;
+﻿using BeireMKit.Domain.BaseModels;
+using ExpenseApi.Domain.Interfaces;
+
 using Microsoft.AspNetCore.Mvc;
 
 namespace ExpenseApi.Controllers
@@ -24,7 +25,7 @@ namespace ExpenseApi.Controllers
         /// <param name="code"></param>
         /// <returns></returns>
         [HttpGet("{code:int}")]
-        public async Task<ServiceResult<object>> Get([FromRoute] int code)
+        public async Task<BaseResult<object>> Get([FromRoute] int code)
         {
             return await _service.GetAsync(code);
         }
