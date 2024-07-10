@@ -23,7 +23,7 @@ Docker e Docker-Compose
 * Clone o repositório.
 
 ## Baixar imagem do docker e executar (Mais simples)
-#### Passo 1: Baixar a Imagem da Aplicação
+#### Passo 1: Baixar a Imagem do mongo
 
 Para baixar a imagem do Docker Hub, execute o seguinte comando no prompt command:
 
