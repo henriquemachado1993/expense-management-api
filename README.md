@@ -21,6 +21,23 @@ Docker e Docker-Compose
 
 ## Como Usar
 * Clone o repositório.
+
+## Baixar imagem do docker e executar (Mais simples)
+#### Passo 1: Baixar a Imagem da Aplicação
+
+Para baixar a imagem do Docker Hub, execute o seguinte comando no prompt command:
+
+``` 
+docker pull henriquemachado1993/expense-manager-api:dev 
+```
+
+#### Passo 2: Execute um container do MongoDB para a aplicação se conectar
+Utilize o seguinte comando no prompt command:
+```
+docker run -d -p 27017:27017 --name expense-mongodb mongo
+```
+
+## Criar o banco local (Mais complicado)
 * Execute o MongoDB e o Adminer usando o Docker-Compose:
 * Crie um arquivo docker-compose.yml em alguma pasta e preencha com as informações abaixo:
 ```
