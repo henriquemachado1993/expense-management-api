@@ -28,13 +28,13 @@ Docker e Docker-Compose
 Para baixar a imagem do Docker Hub, execute o seguinte comando no prompt command:
 
 ``` 
-docker pull henriquemachado1993/expense-manager-api:dev 
+docker pull henriquemachado1993/expense-manager-mongo:dev 
 ```
 
 #### Passo 2: Execute um container do MongoDB para a aplicação se conectar
 Utilize o seguinte comando no prompt command:
 ```
-docker run -d -p 27017:27017 --name expense-mongodb mongo
+docker run -d -p 27017:27017 --name expense-mongodb henriquemachado1993/expense-manager-mongo:dev
 ```
 
 ## Criar o banco local (Mais complicado)
